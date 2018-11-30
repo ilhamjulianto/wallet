@@ -1,0 +1,10 @@
+.dashboard-navbar {
+    background-color: #19364c;
+    width: 100%;
+    position: relative;
+    top: 0;
+}
+
+.card {
+    width: 200px !important;
+}

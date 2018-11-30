@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="101.639mm"
+   height="20.079729mm"
+   viewBox="0 0 101.639 20.079729"
+   version="1.1"
+   id="svg2914"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="landing-town.svg">
+  <defs
+     id="defs2908" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.53364465"
+     inkscape:cx="47.103583"
+     inkscape:cy="192.23074"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="718"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata2911">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-25.454583,-166.74473)">
+    <path
+       style="fill:#83c8f1;fill-opacity:1;stroke:none;stroke-width:1.03269601px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 33.433867,166.74473 -3.421045,1.00935 v 1.37426 l -0.59135,0.30606 v 3.4121 h -3.966889 v 13.97796 H 127.09358 v -16.53667 h -11.92094 l -3.86844,2.23352 h -1.34603 v 3.95504 h -5.69431 v -1.57141 h -1.03717 v -2.86033 h -1.23474 v -1.00938 h -5.187879 v 1.17858 h -1.68304 v 4.68336 h -3.11219 v -1.85098 l -9.45191,-3.983 v 6.22684 h -14.35911 -7.9099 v -7.79679 H 49.54675 v 1.40223 h -2.468802 v 2.93684 h -3.974323 l -3.050241,-3.04867 h -4.277095 v -3.28261 l -2.342422,0.98139 z m 17.429849,3.86822 h 1.603741 v 1.60379 h -1.603741 z m 2.180448,0 h 1.603741 v 1.60379 h -1.603741 z m 2.271686,0 h 1.603962 v 1.60379 H 55.31585 Z m 2.180902,0 h 1.60374 v 1.60379 h -1.60374 z m -6.633036,2.14526 h 1.603741 v 1.60379 h -1.603741 z m 2.180448,0 h 1.603741 v 1.60379 h -1.603741 z m 2.271686,0 h 1.603962 V 174.362 H 55.31585 Z m 2.180902,0 h 1.60374 v 1.60379 h -1.60374 z m -6.633036,2.06874 h 1.603741 v 1.60378 h -1.603741 z m 2.180448,0 h 1.603741 v 1.60378 h -1.603741 z m 2.271686,0 h 1.603962 v 1.60378 H 55.31585 Z m 2.180902,0 h 1.60374 v 1.60378 h -1.60374 z"
+       id="path1445"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

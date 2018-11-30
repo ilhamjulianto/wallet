@@ -1,0 +1,13 @@
+#about {
+    background-color: #FFFFFF;
+}
+
+.super-line {
+    border: 1px solid #92d3fb;
+    width: 100px;
+}
+
+#about .img-feature {
+    width: 140px;
+    height: 140px;
+}

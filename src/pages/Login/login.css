@@ -1,0 +1,76 @@
+.login-session {
+    position: relative;
+    height: auto;
+    height: 120vh;
+    width: 100%;
+}
+
+.login-top {
+    width: 100%;
+    position: absolute;
+    top: -50px;
+}
+
+.login-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: -50px;
+}
+
+.login-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.login-form {
+    width: 425px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -200px;
+    border-radius: 40px;
+    box-shadow: 0px 10px 70px 10px rgba(200,200,200,0.5);
+    background: url('../../assets/img/elements/login-form.svg');
+    background-position: top;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: white;
+}
+
+.login-form .login-input {
+    width: 75%;
+}
+
+.login-form .btn-primary-rounded {
+    color: white;
+    background-color: #1eb8fb;
+    border-radius: 50px !important;
+    width: 75%;
+    position: relative;
+    transition: 0.5s ease-out;
+    -webkit-transition: 0.5s ease-out;
+    -moz-transition: 0.5s ease-out;
+    -o-transition: 0.5s ease-out;
+}
+
+.login-form .btn-primary-rounded:hover {
+    box-shadow: 0px 10px 30px 0px rgba(210,210,210,0.7);
+}
+
+.login-form .btn-secondary-rounded {
+    color: white;
+    background-color: #ff5555;
+    border-radius: 50px !important;
+    width: 75%;
+    position: relative;
+    transition: 0.5s ease-out;
+    -webkit-transition: 0.5s ease-out;
+    -moz-transition: 0.5s ease-out;
+    -o-transition: 0.5s ease-out;
+}
+
+.login-form .btn-secondary-rounded:hover {
+    box-shadow: 0px 10px 30px 0px rgba(210,210,210,0.7);
+}

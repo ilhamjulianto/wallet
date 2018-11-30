@@ -1,0 +1,70 @@
+.signup-session {
+    position: relative;
+    height: auto;
+    height: 150vh;
+    width: 100%;
+}
+
+.signup-top {
+    width: 100%;
+    position: absolute;
+    top: -50px;
+}
+
+.signup-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: -50px;
+}
+
+.signup-form {
+    width: 425px;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -200px;
+    border-radius: 40px;
+    box-shadow: 0px 10px 70px 10px rgba(200,200,200,0.5);
+    background: url('../../assets/img/elements/signup-form.svg');
+    background-position: top;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: white;
+}
+
+.signup-form .signup-input {
+    width: 75%;
+}
+
+.signup-form .btn-primary-rounded {
+    color: white;
+    background-color: #1eb8fb;
+    border-radius: 50px !important;
+    width: 75%;
+    position: relative;
+    transition: 0.5s ease-out;
+    -webkit-transition: 0.5s ease-out;
+    -moz-transition: 0.5s ease-out;
+    -o-transition: 0.5s ease-out;
+}
+
+.signup-form .btn-primary-rounded:hover {
+    box-shadow: 0px 10px 30px 0px rgba(210,210,210,0.7);
+}
+
+.signup-form .btn-secondary-rounded {
+    color: white;
+    background-color: #ff5555;
+    border-radius: 50px !important;
+    width: 75%;
+    position: relative;
+    transition: 0.5s ease-out;
+    -webkit-transition: 0.5s ease-out;
+    -moz-transition: 0.5s ease-out;
+    -o-transition: 0.5s ease-out;
+}
+
+.signup-form .btn-secondary-rounded:hover {
+    box-shadow: 0px 10px 30px 0px rgba(210,210,210,0.7);
+}
