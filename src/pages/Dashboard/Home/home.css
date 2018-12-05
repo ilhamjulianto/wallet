@@ -1,0 +1,33 @@
+.dashboard-home {
+    margin-top: 65px;
+    margin-left: 80px;
+}
+
+.dashboard-home .dashboard-header-line {
+    border: 2px solid #1eb8fb;
+    width: 100px;
+}
+
+.dashboard-home .income {
+    background-color: #1eb8fb;
+    box-shadow: 0px 10px 20px 0px rgba(150,150,150,0.3);
+    border-radius: 5px;
+}
+
+.dashboard-home .income .income-value {
+    font-size: 30px;
+}
+
+.dashboard-home .expense {
+    background-color: #FFFFFF;
+    box-shadow: 0px 10px 20px 0px rgba(150,150,150,0.3);
+    border-radius: 5px;
+}
+
+.dashboard-home .expense .expense-value {
+    font-size: 30px;
+}
+
+.text-blue {
+    color: #1eb8fb;
+}

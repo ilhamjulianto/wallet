@@ -1,8 +1,9 @@
 .dashboard-navbar {
     background-color: #19364c;
     width: 100%;
-    position: relative;
+    position: fixed;
     top: 0;
+    z-index: 2;
 }
 
 .card {

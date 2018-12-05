@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import './navbar.css'
 import Modal from 'react-responsive-modal'
-import {MenuList, MenuItem} from '@material-ui/core'
+import {Menu, MenuList, MenuItem, Button, IconButton} from '@material-ui/core'
+import profile from '../../../assets/img/profile/salam.jpg'
+import AddCircleIcon from '@material-ui/icons/AddCircle'
 
 export default class index extends Component {
     state = {
         open: false,
         aku: 'aku',
+        anchorEl: null,
       };
      
       onOpenModal = () => {
@@ -16,13 +19,21 @@ export default class index extends Component {
       onCloseModal = () => {
         this.setState({ open: false });
       };
+
+      handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+      };
+    
+      handleClose = () => {
+        this.setState({ anchorEl: null });
+      };
   render() {
+    console.log(this.state)
     return (
       <div className="dashboard-navbar">
-        <div className="container-fluid row text-light py-2">
-            <div className="col-md-10">
-               <div>
-                    <h4 onClick={this.onOpenModal}>Open modal</h4>
+        <div className="container-fluid  navbar text-light py-2">
+               <Button color="inherit" className="mr-auto">
+                    <font onClick={this.onOpenModal}>Keuangan Pondok</font>
                     <Modal open={this.state.open} onClose={this.onCloseModal} center>
                         <div className="d-flex flex-column mt-5">
                         <MenuList>
@@ -30,14 +41,24 @@ export default class index extends Component {
                         </MenuList>
                         </div>
                     </Modal>
-               </div>
-            </div>
-            <div className="col-md-2">
-                {/* <HorizontalScroll> */}
-                    <div><h4>Test</h4></div>
-                {/* </HorizontalScroll> */}
-            </div>
-        </div> 
+               </Button>
+                
+                <div>
+                    <IconButton color="inherit" className="mx-3 shadow" aria-label="Add Wallet">
+                        <AddCircleIcon/>
+                    </IconButton>
+                    <img src={profile} className="rounded-circle" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : undefined} aria-haspopup="true" onClick={this.handleClick}/>
+                    <Menu
+                      id="menu-profile"
+                      anchorEl={this.state.anchorEl}
+                      open={Boolean(this.state.anchorEl)}
+                      onClose={this.handleClose}
+                    >
+                      <MenuItem onClick={this.handleClose}>Setting</MenuItem>
+                      <MenuItem onClick={this.handleClose}>Log Out</MenuItem>
+                    </Menu>
+                </div>
+        </div>
       </div>
     )
   }

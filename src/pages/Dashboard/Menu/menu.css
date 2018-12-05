@@ -1,0 +1,41 @@
+.dashboard-menu {
+    background-color: #FFFFFF;
+    position: fixed;
+    width: 80px;
+    height: 100%;
+    border-right: 1px solid rgb(200, 200, 200);
+    top: 66px;
+}
+
+.dashboard-menu .menu {
+    background-color: transparent;
+    color: #1eb8fb;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    transition: 0.2s ease-in-out;
+    -webkit-transition: 0.2s ease-in-out;
+    -moz-transition: 0.2s ease-in-out;
+    -o-transition: 0.2s ease-in-out;
+}
+
+.menu-active {
+    background-color: transparent;
+    color: #1eb8fb;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    border-left: 8px solid #1eb8fb;
+    transition: 0.2s ease-in-out;
+    -webkit-transition: 0.2s ease-in-out;
+    -moz-transition: 0.2s ease-in-out;
+    -o-transition: 0.2s ease-in-out;
+}
+
+.dashboard-menu .menu:hover {
+    border-left: 8px solid #1eb8fb;
+}
+
+.dashboard-menu .menu .menu-fonts {
+    font-size: 23px;
+}
