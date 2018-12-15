@@ -13,11 +13,11 @@
     transform: translate(-50%, -50%);
     border-radius: 100px;
     opacity: 0.7;
-    transition: 1s ease-in;
-    -webkit-transition: 1s ease-in;
-    -moz-transition: 1s ease-in;
-    -o-transition: 1s ease-in;
-    animation: bounceCircle 1s ease-in infinite;
+    transition: 0.7s linear;
+    -webkit-transition: 0.7s linear;
+    -moz-transition: 0.7s linear;
+    -o-transition: 0.7s linear;
+    animation: bounceCircle 0.7s linear infinite;
 }
 
 @keyframes bounceCircle {
@@ -41,11 +41,11 @@
     transform: translate(-50%, -50%);
     border-radius: 100px;
     opacity: 0.3;
-    transition: 1s ease-in;
-    -webkit-transition: 1s ease-in;
-    -moz-transition: 1s ease-in;
-    -o-transition: 1s ease-in;
-    animation: bounceCircleSmall 1s ease-in infinite;
+    transition: 0.7s linear;
+    -webkit-transition: 0.7s linear;
+    -moz-transition: 0.7s linear;
+    -o-transition: 0.7s linear;
+    animation: bounceCircleSmall 0.7s linear infinite;
 }
 
 @keyframes bounceCircleSmall {
