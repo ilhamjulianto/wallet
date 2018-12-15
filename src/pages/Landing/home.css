@@ -8,21 +8,21 @@
 
 .town {
     position: absolute;
-    bottom: -50px;
+    bottom: -0px;
     left: 0;
     width: 100%;
 }
 
 .cloud-trans {
     position: absolute;
-    bottom: -50px;
+    bottom: -0px;
     left: 0;
     width: 100%;
 }
 
 .cloud {
     position: absolute;
-    bottom: -50px;
+    bottom: -0px;
     left: 0;
     width: 100%;
 }
