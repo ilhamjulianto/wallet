@@ -10,19 +10,23 @@ export default class index extends Component {
   render() {
     return (
       <div className="dashboard-menu">
-        <NavLink to="/dashboard" activeClassName="menu-active">
           <div className="menu py-3">
-              <Dashboard className="menu-fonts"/>
-              <Ink/>
+            <NavLink to="/dashboard/home" activeClassName="menu-active">
+                <Dashboard className="menu-fonts"/>
+                <Ink/>
+            </NavLink>
           </div>
-        </NavLink>
         <div className="menu py-3">
-            <AttachMoney className="menu-fonts"/>
-            <Ink/>
+            <NavLink to='/dashboard/transaction' activeClassName="menu-active">
+              <AttachMoney className="menu-fonts"/>
+              <Ink/>
+            </NavLink>
         </div>
         <div className="menu py-3">
-            <MultilineChart className="menu-fonts"/>
-            <Ink/>
+            <NavLink to='/dashboard/report' activeClassName="menu-active">
+              <MultilineChart className="menu-fonts"/>
+              <Ink/>
+            </NavLink>
         </div>
       </div>
     )

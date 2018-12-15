@@ -6,10 +6,8 @@ html, body {
 }
 
 #root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
   height: 100%;
+  background-color: #ebf3f9 !important;
 }
 
 @font-face {
@@ -61,6 +59,10 @@ html, body {
   color: rgb(100, 100, 100) !important;
 }
 
+.text-blue {
+  color: #1eb8fb !important;
+}
+
 .App {
   text-align: center;
 }
@@ -92,4 +94,9 @@ html, body {
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.relative {
+  position: relative !important;
 }

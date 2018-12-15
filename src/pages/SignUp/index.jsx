@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import './signUp.css'
 import signupTop from '../../assets/img/elements/signup-top.svg'
 import signupBottom from '../../assets/img/elements/signup-bottom.svg'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { FormControl, InputLabel, Input, InputAdornment, IconButton  } from '@material-ui/core/'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Lock from '@material-ui/icons/Lock'
 import Mail from '@material-ui/icons/Mail'
-import AccountCircle from '@material-ui/icons/AccountCircle'
 import Ink from 'react-ink'
 import WOW from 'wowjs'
 import axios from 'axios'
-import { Slide, Dialog, DialogActions, DialogContent, DialogTitle, Button, Tooltip } from '@material-ui/core'
+import { Slide, Dialog, DialogActions, DialogContent, DialogTitle, Button, Tooltip, Snackbar,  } from '@material-ui/core'
 import Done from '@material-ui/icons/Done'
+import CloseIcon from '@material-ui/icons/Close'
+import PersonPin from '@material-ui/icons/PersonPin'
 import { css } from 'react-emotion'
 import { HashLoader } from 'react-spinners'
 
@@ -33,7 +34,7 @@ export default class index extends Component {
         data: undefined,
         amount: '',
         showPassword: false,
-        username: '',
+        name: '',
         email: '',
         password: '',
         open: false,
@@ -42,15 +43,12 @@ export default class index extends Component {
         loading: true,
         disabled: true,
         passwordAlert: 'Password at least must be 6 characters',
+        openSnackErr: false,
       };
 
       componentDidMount() {
         new WOW.WOW().init()
       }
-
-      handleChange = prop => event => {
-        this.setState({ [prop]: event.target.value });
-      };
 
       handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }));
@@ -61,52 +59,42 @@ export default class index extends Component {
               [e.target.id] : e.target.value
           })
 
-          var {username, email, password} = this.state
+          var {name, email, password} = this.state
 
-          if(username !== '') {
-              if(email !== '') {
-                  if(password.length >= 6) {
-                      this.setState({
-                          disabled: false
-                      })
-                  } else {
+          if(name !== '') {
+                if(!email.match(/^[A-Z]/) || !email.match(/\s/g) || email.length < 6) {
+                    if(password.length >= 5 || !password.match(/\s/g)) {
+                        this.setState({
+                            disabled: false
+                        })
+                    } else {
+                        this.setState({
+                            disabled: true
+                        })
+                    }
+                } else {
                     this.setState({
                         disabled: true
                     })
                 }
-              } else {
-                this.setState({
-                    disabled: true
-                })
-            }
-          } else {
-              this.setState({
-                  disabled: true
-              })
-          }
+        }
       }
-
-    //   avoidSpace = (e) => {
-    //     var k = e ? e.which : window.e.keyCode;
-    //     if (k === '32') return false;
-    //   }
 
       handleSubmit = (i) => {
         i.preventDefault()
 
         const register = {
-            username: this.state.username,
             email: this.state.email,
             password: this.state.password,
         }
         console.log(register)
 
         const data = new FormData()
-        data.append('username', this.state.username)
+        data.append('name', this.state.name)
         data.append('email', this.state.email)
         data.append('password', this.state.password)
 
-        axios.post('https://fast-brushlands-51779.herokuapp.com/api/v1/user/register', data).then((res) => {
+        axios.post('https://api-v1-superwallet.herokuapp.com/api/v1/user/register', data).then((res) => {
             this.setState({
                 openSuc: true,
                 openFail: false,
@@ -114,6 +102,7 @@ export default class index extends Component {
             })
             console.log(res)
         }).catch((err) => {
+            console.log(err)
             this.setState({
                 openSuc: false,
                 openFail: true,
@@ -145,8 +134,15 @@ export default class index extends Component {
               open: true
           })
       }
+
+      handleCloseSnackErr = () => {
+          this.setState({
+              openSnackErr: false
+          })
+      }
   render() {
       console.log(this.state)
+    if(localStorage.getItem('token') === null){
     return (
       <div className="signup-session">
         <img src={signupTop} className="wow slideInDown signup-top" alt="signup-top"/>
@@ -159,23 +155,24 @@ export default class index extends Component {
 
             {/* Form */}
             <form className="mt-5 mb-4" onSubmit={this.handleSubmit}>
-                <FormControl className="wow fadeInUp w-75 mt-5" data-wow-delay="1.8s">
-                            <InputLabel htmlFor="username">Username</InputLabel>
-                            <Input
-                            id="username"
-                            required={true}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                <AccountCircle color="disabled" />
-                                </InputAdornment>
-                            }
-                            onChange={this.handleOnChangeRegister}
-                            onKeyPress={this.avoidSpace}
-                            />
+                <FormControl className="wow fadeInUp w-75 mt-5" data-wow-delay="0s">
+                        <InputLabel htmlFor="name">Full Name</InputLabel>
+                        <Input
+                        value={this.state.name}
+                        id="name"
+                        required={true}
+                        startAdornment={
+                            <InputAdornment position="start">
+                            <PersonPin color="disabled" />
+                            </InputAdornment>
+                        }
+                        onChange={this.handleOnChangeRegister}
+                        />
                 </FormControl>
                 <FormControl className="wow fadeInUp w-75 mt-4" data-wow-delay="2.1s">
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
+                        value={this.state.email}
                         id="email"
                         required={true}
                         startAdornment={
@@ -190,6 +187,7 @@ export default class index extends Component {
                 <FormControl className="wow fadeInUp w-75 mt-4" data-wow-delay="2.4s">
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
+                            value={this.state.password}
                             id="password"
                             type={this.state.showPassword ? 'text' : 'password'}
                             required={true}
@@ -238,7 +236,7 @@ export default class index extends Component {
             aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
-                {"Please wait, your account is in process"}
+                Please wait<br/>your account is in process
             </DialogTitle>
             <DialogContent>
                 <div className="sweet-loading">
@@ -266,9 +264,9 @@ export default class index extends Component {
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
                 {"Your account has been created!"}
             </DialogTitle>
-            <DialogContent>
-                <div className="success-icon">
-                    <Done/>
+            <DialogContent className="mx-auto mt-2">
+                <div className="mx-auto">
+                    <Done className="wow flipInX" style={{fontSize: '100px', color:'#1eb8fb'}}/>
                 </div>
             </DialogContent>
             <DialogActions className="mx-auto">
@@ -291,7 +289,7 @@ export default class index extends Component {
             aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
-                {"Error!"}
+                Error!<br/>Your email has been taken or check your connections
             </DialogTitle>
             <DialogContent>
                 <div className="sweet-loading">
@@ -312,7 +310,39 @@ export default class index extends Component {
             </Dialog>
         {/* /If Failed */}
 
+        {/* Snackbar Erro Notif */}
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.openSnackErr}
+          onClose={this.handleCloseSnackErr}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Space and Uppercase words not allowed</span>}
+          action={[
+            <Button key="undo" color="secondary" size="small" onClick={this.handleCloseSnackErr}>
+              Close
+            </Button>,
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleCloseSnackErr}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
+        {/* /Snackbar Error Notif */}
+
       </div>
-    )
+    )} else if(localStorage.getItem('token') !== null) {
+        return(
+            <Redirect to='/dashboard/home'/>
+        )
+    }
   }
 }

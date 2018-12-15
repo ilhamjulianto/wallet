@@ -32,6 +32,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    z-index: 1000;
 }
 
 .logos {
@@ -45,7 +47,6 @@
     background: none;
     color: #FFFFFF;
     font-family: 'Roboto-Bold';
-    font-size: 30px !important;
     border-radius: 50px !important;
 }
 
@@ -60,7 +61,6 @@
     background: #FFFFFF;
     color: #92d3fb !important;
     font-family: 'Roboto-Bold';
-    font-size: 30px !important;
     border-radius: 50px !important;
 }
 
@@ -103,4 +103,11 @@
     } 100% {
         opacity: 0;
     }
+}
+
+.center-of-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

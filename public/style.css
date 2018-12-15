@@ -1,0 +1,62 @@
+#load {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.large {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #1eb8fb;
+    transform: translate(-50%, -50%);
+    border-radius: 100px;
+    opacity: 0.7;
+    transition: 1s ease-in-out;
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    animation: bounceCircle 1s ease-in-out infinite;
+}
+
+@keyframes bounceCircle {
+    0% {
+        width: 0px;
+        height: 0px;
+    } 50% {
+        width: 70px;
+        height: 70px;
+    } 100% {
+        width: 0px;
+        height: 0px;
+    }
+}
+
+.small {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: #1eb8fb;
+    transform: translate(-50%, -50%);
+    border-radius: 100px;
+    opacity: 0.3;
+    transition: 1s ease-in-out;
+    -webkit-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -o-transition: 1s ease-in-out;
+    animation: bounceCircleSmall 1s ease-in-out infinite;
+}
+
+@keyframes bounceCircleSmall {
+    0% {
+        width: 150px;
+        height: 150px;
+    } 50% {
+        width: 70px;
+        height: 70px;
+    } 100% {
+        width: 150px;
+        height: 150px;
+    }
+}

@@ -20,19 +20,25 @@ export default class Home extends Component {
         <img src={town} alt="town" className="wow slideInUp slow town" data-wow-delay="0s"/>
         <img src={cloudTrans} alt="cloudTrans" className="wow slideInUp slow cloud-trans" data-wow-delay="0.3s"/>
         <img src={cloud} alt="cloud" className="wow slideInUp slow cloud" data-wow-delay="0.6s"/>
-        <div className="mx-auto text-center mt-5 pt-5">
-            <img src={logos} alt="logos" className="wow bounceIn logos" data-wow-delay="0.6s"/>
-            <div className="d-flex justify-content-center mt-4">
-                <a href="/login"><button className="wow bounceIn btn btn-outline-rounded-light mx-3" data-wow-delay="0.9s">
+
+        <div className="center-of-screen mx-auto text-center">
+            <img src={logos} alt="logos" className="wow bounceIn img-fluid col-md-6 col-sm-10" data-wow-delay="0.6s"/>
+            <div className="row mt-4">
+                <div className="col-md-6 col-sm-12">
+                    <a href="/login"><button className="wow bounceIn btn btn-outline-rounded-light" data-wow-delay="0.9s">
                     LOGIN
                     <Ink/>
                 </button></a>
-                <a href="/signup"><button className="wow bounceIn btn btn-rounded-light mx-3" data-wow-delay="1.2s">
+                </div>
+                <div className="col-md-6 col-sm-12">
+                    <a href="/signup"><button className="wow bounceIn btn btn-rounded-light" data-wow-delay="1.2s">
                     SIGN UP
                     <Ink/>
                 </button></a>
+                </div>
             </div>
         </div>
+        
         <a className="wow fadeInUp slow" href="#about" data-wow-delay="1.5s">
         <KeyboardArrowDown className="arrow-down2"/>
         <KeyboardArrowDown className="arrow-down"/>

@@ -1,0 +1,130 @@
+.dashboard-transaction {
+    height: 100%;
+    position: relative;
+    padding-bottom: 60px;
+}
+
+.dashboard-transaction .dashboard-header-line {
+    border: 2px solid #1eb8fb;
+    width: 100px;
+}
+
+.dashboard-transaction .rounded-md {
+    border-radius: 5px !important;
+}
+
+.dashboard-transaction .text-disable {
+    color: rgb(184, 184, 184);
+}
+
+.dashboard-transaction .card {
+    position: relative;
+    transition: 0.4s ease-in-out;
+    -webkit-transition: 0.4s ease-in-out;
+    -moz-transition: 0.4s ease-in-out;
+    -o-transition: 0.4s ease-in-out;
+}
+
+.dashboard-transaction .card:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 30px 0px rgb(184, 184, 184, 0.3);
+    transform: translateY(-5%);
+}
+
+.dashboard-transaction .btn-add {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    box-shadow: 0px 10px 20px 0px rgba(130, 130, 130, 0.5);
+    background-color: #1eb8fb;
+    color: #FFFFFF !important;
+    font-size: 15px;
+    padding: 5px 15px;
+    border: none;
+    transition: 0.3s ease-in-out;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    -o-transition: 0.3s ease-in-out;
+}
+
+.dashboard-transaction .btn-add:hover {
+    cursor: pointer;
+    background-color: #11adbe;
+    transform: translateY(-3%);
+    box-shadow: 0px 10px 30px 0px rgba(130, 130, 130, 0.5);
+}
+
+.btn-rounded {
+    border-radius: 70px;
+}
+
+.btn-send {
+    box-shadow: 0px 10px 20px 0px rgba(130, 130, 130, 0.5);
+    background-color: #1eb8fb;
+    color: #FFFFFF !important;
+    font-size: 15px;
+    padding: 5px 15px;
+    border: none;
+    transition: 0.3s ease-in-out;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    -o-transition: 0.3s ease-in-out;
+}
+
+.btn-send:hover {
+    cursor: pointer;
+    background-color: #11adbe;
+    transform: translateY(-3%);
+    box-shadow: 0px 10px 30px 0px rgba(130, 130, 130, 0.5);
+}
+
+.btn-cancel {
+    box-shadow: 0px 10px 20px 0px rgba(130, 130, 130, 0.5);
+    background-color: #ff4040;
+    color: #FFFFFF !important;
+    font-size: 15px;
+    padding: 5px 15px;
+    border: none;
+    transition: 0.3s ease-in-out;
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    -o-transition: 0.3s ease-in-out;
+}
+
+.btn-cancel:hover {
+    cursor: pointer;
+    background-color: #fb2626;
+    transform: translateY(-3%);
+    box-shadow: 0px 10px 30px 0px rgba(130, 130, 130, 0.5);
+}
+
+@media(max-width: 768px) {
+    .dashboard-transaction {
+        height: 100%;
+        position: relative;
+        padding-top: 66px;
+    }
+
+    .dashboard-transaction .btn-add {
+        position: fixed;
+        bottom: 80px;
+        right: 30px;
+        box-shadow: 0px 10px 20px 0px rgba(130, 130, 130, 0.5);
+        background-color: #1eb8fb;
+        color: #FFFFFF !important;
+        font-size: 15px;
+        padding: 5px 15px;
+        border: none;
+        transition: 0.3s ease-in-out;
+        -webkit-transition: 0.3s ease-in-out;
+        -moz-transition: 0.3s ease-in-out;
+        -o-transition: 0.3s ease-in-out;
+    }
+    
+    .dashboard-transaction .btn-add:hover {
+        cursor: pointer;
+        background-color: #11adbe;
+        transform: translateY(-3%);
+        box-shadow: 0px 10px 30px 0px rgba(130, 130, 130, 0.5);
+    }
+}

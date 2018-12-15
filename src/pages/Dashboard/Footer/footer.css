@@ -1,0 +1,17 @@
+.footer {
+    border-top: 1px solid rgb(220, 220, 220);
+    position: absolute;
+    font-size: 15px;
+    bottom: 0px;
+    width: 100%;
+}
+
+@media(max-width: 768px) {
+    .footer {
+        border-top: 1px solid rgb(220, 220, 220);
+        position: absolute;
+        font-size: 15px;
+        bottom: 0px;
+        width: 100%;
+    }    
+}

@@ -1,0 +1,17 @@
+.dashboard-report {
+    height: 100%;
+    position: relative;
+}
+
+.dashboard-report .dashboard-header-line {
+    border: 2px solid #1eb8fb;
+    width: 100px;
+}
+
+@media(max-width:768px) {
+    .dashboard-report {
+        height: 100%;
+        position: relative;
+        padding-top: 66px;
+    }   
+}

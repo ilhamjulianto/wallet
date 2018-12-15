@@ -3,39 +3,148 @@
     position: fixed;
     width: 80px;
     height: 100%;
-    border-right: 1px solid rgb(200, 200, 200);
+    border-right: 1px solid rgb(220, 220, 220);
     top: 66px;
+    left: 0;
 }
 
 .dashboard-menu .menu {
     background-color: transparent;
     color: #1eb8fb;
     width: 100%;
-    position: relative;
+    display: block;
+    position: sticky;
     text-align: center;
     transition: 0.2s ease-in-out;
     -webkit-transition: 0.2s ease-in-out;
     -moz-transition: 0.2s ease-in-out;
     -o-transition: 0.2s ease-in-out;
+    overflow: hidden;
 }
 
-.menu-active {
-    background-color: transparent;
+/* width: 100%;
+    display: block;
+    transition: 0.3s;
+    border: none;
+    position: sticky;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s; */
+
+.dashboard-menu .menu .menu-active:before {
+    content: "";
+    background-color: #1eb8fb;
     color: #1eb8fb;
-    width: 100%;
-    position: relative;
+    width: 3px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
     text-align: center;
     border-left: 8px solid #1eb8fb;
     transition: 0.2s ease-in-out;
     -webkit-transition: 0.2s ease-in-out;
     -moz-transition: 0.2s ease-in-out;
     -o-transition: 0.2s ease-in-out;
+}
+
+.dashboard-menu .menu .menu-active {
+    color: #1eb8fb;
+}
+
+.dashboard-menu .menu .menu-active:hover {
+    color: #FFFFFF;
 }
 
 .dashboard-menu .menu:hover {
-    border-left: 8px solid #1eb8fb;
+    cursor: pointer;
+    /* background-color: #1eb8fb; */
+    color: #FFFFFF;
+}
+
+.dashboard-menu .menu:hover:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background-color: #1eb8fb;
+    opacity: 0.2;
+    color: #FFFFFF;
+    transform: translate(-50%, -50%);
+    z-index: -5;
+    animation: radialOut 0.3s ease-in-out;
+}
+
+@keyframes radialOut {
+    0% {
+        border-radius: 50px;
+        width: 0%;
+        height: 0%;
+    } 100% {
+        border-radius: 50px;
+        width: 150%;
+        height: 150%;
+    }
 }
 
 .dashboard-menu .menu .menu-fonts {
     font-size: 23px;
+    color: #1eb8fb;
+}
+
+@media(max-width: 768px) {
+    .dashboard-menu {
+        background-color: #FFFFFF;
+        position: fixed;
+        width: 100%;
+        height: 60px;
+        border: none;
+        bottom: 0;
+        top: auto;
+        z-index: 100;
+    }
+
+    .dashboard-menu .menu {
+        background-color: transparent;
+        color: #1eb8fb;
+        width: 33.3333334%;
+        display: inline-block;
+        position: sticky;
+        height: 100%;
+        text-align: center;
+        margin: 0px !important;
+        transition: 0.2s ease-in-out;
+        -webkit-transition: 0.2s ease-in-out;
+        -moz-transition: 0.2s ease-in-out;
+        -o-transition: 0.2s ease-in-out;
+        overflow: hidden;
+    }
+
+    .dashboard-menu .menu .menu-active:before {
+        content: "";
+        background-color: #1eb8fb;
+        color: #1eb8fb;
+        height: 1px;
+        width: 100%;
+        left: 0;
+        top: auto;
+        bottom: 0;
+        position: absolute;
+        text-align: center;
+        border-bottom: 5px solid #1eb8fb;
+        transition: 0.2s ease-in-out;
+        -webkit-transition: 0.2s ease-in-out;
+        -moz-transition: 0.2s ease-in-out;
+        -o-transition: 0.2s ease-in-out;
+    }
+    
+    .dashboard-menu .menu .menu-active {
+        color: #1eb8fb;
+    }
+    
+    .dashboard-menu .menu .menu-active:hover {
+        color: #FFFFFF;
+    }
 }

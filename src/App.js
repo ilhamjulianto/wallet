@@ -7,6 +7,14 @@ import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 
 class App extends Component {
+  componentDidMount = () => {
+    var load = document.getElementById('load')
+    window.onload = () => {
+      if(load) {
+        load.remove()
+      }
+    }
+  }
   render() {
     return (
       <BrowserRouter>
@@ -15,7 +23,7 @@ class App extends Component {
           <Route path="/" component={Landing} exact />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard/" component={Dashboard} />
         </Switch>
       
       </BrowserRouter>

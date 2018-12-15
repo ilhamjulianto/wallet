@@ -1,6 +1,7 @@
 .dashboard-home {
-    margin-top: 65px;
-    margin-left: 80px;
+    height: 100%;
+    width: 100%;
+    position: relative;
 }
 
 .dashboard-home .dashboard-header-line {
@@ -30,4 +31,32 @@
 
 .text-blue {
     color: #1eb8fb;
+}
+
+.dashboard-home .footer-session {
+    width: 100%;
+    position: relative;
+}
+
+@media(max-width: 968px) {
+    .dashboard-home {
+        padding-top: 65px;
+        margin-left: 80px;
+        height: auto;
+        position: relative;
+    }
+}
+
+@media(max-width: 768px) {
+    .dashboard-home {
+        padding-top: 65px;
+        margin-left: 0px;
+        margin-bottom: 60px;
+        height: auto;
+        position: relative;
+    }
+
+    .mt-sm-3 {
+        margin-top: 30px !important;
+    }
 }
