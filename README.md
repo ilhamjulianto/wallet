@@ -1,44 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Front End Documentation Example
+This is the example repository for the talk "Getting Started with Sassdoc and Styledown" for the PDX Sass meetup.
 
-## Available Scripts
+http://www.meetup.com/pdxSass/events/219617864/
 
-In the project directory, you can run:
+# Instructions
+To get the build scripts running, you'll need to do the following:
 
-### `npm start`
+1. [Install NodeJS](https://nodejs.org/)
+2. Run a few commands in the root to install Gulp and Grunt globally:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    ```
+    $ [sudo] npm install -g gulp
+    $ [sudo] npm install -g grunt
+    ```
+3. Install the Sassdoc theme dependencies:
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+    ```
+    $ cd sassdoc-theme-example
+    $ npm install
+    ```
+4. Execute either the Gulp or Grunt build:
 
-### `npm test`
+    ```
+    $ cd ../
+    $ gulp
+    ```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    ```
+    $ cd ../
+    $ grunt
+    ```
+    
+# Editing the Sassdoc Theme
+To edit the Sassdoc theme, you'll need to:
 
-### `npm run build`
+1. Install some more packages globally:
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```
+    $ [sudo] npm install -g jshint babel@4.7.16
+    $ [sudo] gem install sass
+    ```
+    
+    **NOTE**: As of this writing, the Sassdoc default theme, from which we forked our example, does not work with Babel 5.0.0 or later.  As such we specify Babel 4.7.16 for installation.
+2. In the `sassdoc-theme-example` directory, edit the markup (`views`), CSS (`scss`), and assets (`assets`) as desired.
+3. From the `sassdoc-theme-example` directory execute:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```
+    make
+    ```
+    
+    This compiles the Sassdoc theme.
+4. Execute either the Gulp or Grunt build to build the new documentation with the updated theme.
