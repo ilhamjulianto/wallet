@@ -31,6 +31,7 @@ class index extends Component {
     loading: false,
     success: false,
     fail: false,
+    large: false,
     disabled: false,
   }
 
@@ -79,7 +80,9 @@ class index extends Component {
     })
 
     if(e.target.files[0].size > 204800) {
-      alert('File is to large! max 200 Mb')
+      this.setState({
+        large: true,
+      })
       e.target.value = ''
     }
 
@@ -175,8 +178,14 @@ class index extends Component {
     })
   }
 
+  handleCloseLarge = () => {
+    this.setState({
+      large: false,
+    })
+  }
+
   render() {
-    const { id, image, name, email, phone_number, loading, success, fail, disabled } = this.state
+    const { id, image, name, email, phone_number, loading, success, fail, large, disabled } = this.state
     console.log(this.state)
     if(id === '') {
       return(
@@ -310,6 +319,34 @@ class index extends Component {
           />
         </div>
         {/* onFail */}
+
+        {/* OnImageLarge */}
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={large}
+            autoHideDuration={6000}
+            onClose={this.handleCloseLarge}
+            ContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">Image is to Large, Maximum 200 Mb</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={this.handleCloseLarge}
+              >
+                <CloseIcon />
+              </IconButton>,
+            ]}
+          />
+        </div>
+        {/* onImageLarge */}
 
       </div>
     )
