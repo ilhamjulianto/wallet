@@ -32,6 +32,7 @@ class index extends Component {
     success: false,
     fail: false,
     large: false,
+    format: false,
     disabled: false,
   }
 
@@ -75,23 +76,31 @@ class index extends Component {
     
 
   handleImage = (e) => {
+    const file = e.target.files
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i
+    var filePath = e.target.value
+
     this.setState({
-      avatar: e.target.files[0]
+      avatar: file[0]
     })
 
-    if(e.target.files[0].size > 2048) {
+    if(!allowedExtensions.exec(filePath)) {
       this.setState({
-        large: true,
+        format: true,
       })
-      e.target.value = ''
+    } else if(file[0].size > 204800) {
+        this.setState({
+          large: true,
+        })
+        e.target.value = ''
     }
 
-    if (e.target.files && e.target.files[0]) {
+    if (file && file[0]) {
       let reader = new FileReader();
       reader.onload = (e) => {
           this.setState({image: e.target.result});
       };
-      reader.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(file[0]);
   }
   }
 
@@ -184,8 +193,14 @@ class index extends Component {
     })
   }
 
+  handleCloseFormat = () => {
+    this.setState({
+      format: false,
+    })
+  }
+
   render() {
-    const { id, image, name, email, phone_number, loading, success, fail, large, disabled } = this.state
+    const { id, image, name, email, phone_number, loading, success, fail, large, format, disabled } = this.state
     console.log(this.state)
     if(id === '') {
       return(
@@ -347,6 +362,34 @@ class index extends Component {
           />
         </div>
         {/* onImageLarge */}
+
+        {/* OnImageFormat */}
+        <div>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={format}
+            autoHideDuration={6000}
+            onClose={this.handleCloseFormat}
+            ContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">Please upload file having extensions .jpeg/.jpg/.png/.gif only</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                onClick={this.handleCloseFormat}
+              >
+                <CloseIcon />
+              </IconButton>,
+            ]}
+          />
+        </div>
+        {/* OnImageFormat */}
 
       </div>
     )
