@@ -112,6 +112,7 @@ class index extends Component {
       this.setState({
         loading: false,
         success: true,
+        fail: false,
       })
       window.location.reload()
     }).catch(err => {

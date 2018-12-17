@@ -36,7 +36,7 @@ class index extends Component {
 
 
       getData = () => {
-        const token  = this.props.data.token
+        const token  = localStorage.getItem('token')
         axios.get(`https://api-v1-superwallet.herokuapp.com/api/v1/users?token=${token}`).then(res => {
           console.log(res)
           this.setState({
@@ -165,8 +165,6 @@ class index extends Component {
                         <h5 className="text-dark-smooth roboto-semibold mt-5 ">{data === undefined ? data : data.name}</h5>
                         <h6 className="text-dark-smooth roboto-medium mt-3 ">Email</h6>
                         <p className="primary-text roboto-medium small">{data === undefined ? data : data.email}</p>
-                        <h6 className="text-dark-smooth roboto-medium mt-3 ">Phone</h6>
-                        <p className="primary-text roboto-medium small">{data === undefined ? data :  data.phone_number}</p>
                       </div>
                       </div>
                     {/* Social */}
