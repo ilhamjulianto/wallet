@@ -79,7 +79,7 @@ class index extends Component {
       avatar: e.target.files[0]
     })
 
-    if(e.target.files[0].size > 204800) {
+    if(e.target.files[0].size > 2048) {
       this.setState({
         large: true,
       })
@@ -333,7 +333,7 @@ class index extends Component {
             ContentProps={{
               'aria-describedby': 'message-id',
             }}
-            message={<span id="message-id">Image is to Large, Maximum 200 Mb</span>}
+            message={<span id="message-id">Image is to Large, Maximum 2 MB</span>}
             action={[
               <IconButton
                 key="close"
