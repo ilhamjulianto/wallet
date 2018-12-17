@@ -17,7 +17,7 @@ function Transition(props) {
 
 class index extends Component {
     state = {
-        data: undefined,
+        data: null,
         open: false,
         walletList: [
           {
@@ -145,7 +145,7 @@ class index extends Component {
                     <IconButton color="inherit" className="mx-3 shadow" aria-label="Add Wallet" onClick={this.handleOpenNew}>
                         <AddCircleIcon/>
                     </IconButton>
-                    <img src={data === undefined ? data : data.avatar} className="rounded-circle cursor-pointer" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : undefined} aria-haspopup="true" onClick={this.handleClick}/>
+                    <img src={data === null ? data : data.avatar} className="rounded-circle cursor-pointer" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : null} aria-haspopup="true" onClick={this.handleClick}/>
                     <Menu
                       className="p-0 mr-2"
                       id="menu-profile"
@@ -157,14 +157,14 @@ class index extends Component {
                       <div className="col-12">
                       <div className="p-4 profile-card text-center">
                         <div className="img-profile text-center">
-                          <img className="rounded-circle" width="110px" height="110px" src={data === undefined ? data : data.avatar} alt=""/>
+                          <img className="rounded-circle" width="110px" height="110px" src={data === null ? data : data.avatar} alt=""/>
                           <Link to="/dashboard/profile">
                             <label for="file" className="edit-profile" onClick={this.handleClose}><Create className="create"/></label>
                           </Link>
                         </div>
-                        <h5 className="text-dark-smooth roboto-semibold mt-5 ">{data === undefined ? data : data.name}</h5>
+                        <h5 className="text-dark-smooth roboto-semibold mt-5 ">{data === null ? data : data.name}</h5>
                         <h6 className="text-dark-smooth roboto-medium mt-3 ">Email</h6>
-                        <p className="primary-text roboto-medium small">{data === undefined ? data : data.email}</p>
+                        <p className="primary-text roboto-medium small">{data === null ? data : data.email}</p>
                       </div>
                       </div>
                     {/* Social */}
