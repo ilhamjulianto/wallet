@@ -6,6 +6,16 @@ export default class index extends Component {
 
     componentDidMount = () => {
         var myChart = document.getElementById('myChart').getContext('2d')
+        var gradient = myChart.createLinearGradient(0,0,0,450)
+            gradient.addColorStop(0, 'rgba(30, 184, 251, 1)')
+            gradient.addColorStop(0.7, 'rgba(30, 184, 251, 0.4)')
+            gradient.addColorStop(1, 'rgba(30, 184, 251, 0.1)')
+
+        var gradientTwo = myChart.createLinearGradient(0,0,0,450)
+            gradientTwo.addColorStop(0, 'rgba(255, 206, 116, 1)')
+            gradientTwo.addColorStop(0.7, 'rgba(255, 206,116, 0.4)')
+            gradientTwo.addColorStop(1, 'rgba(255, 206, 116, 0.1)')
+
         var chart = new Chart(myChart, {
             type: 'line',
             data: {
@@ -26,13 +36,12 @@ export default class index extends Component {
                         30000000,
                         72000000,
                     ],
-                    backgroundColor:[
-                        'rgba(255, 99, 132, 0.3)',
-                    ],
-                    borderWidth: 1,
+                    backgroundColor: gradient,
+                    borderWidth: 2,
                     borderColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                    ]
+                        'rgba(30, 154, 255, 1)',
+                    ],
+                    pointBackgroundColor: 'white',
                 },
                 {
                     label: 'Income',
@@ -50,13 +59,12 @@ export default class index extends Component {
                         20000000,
                         52000000,
                     ],
-                    backgroundColor:[
-                        'rgba(255, 206, 86, 0.3)',
-                    ],
-                    borderWidth: 1,
+                    backgroundColor: gradientTwo,
+                    borderWidth: 2,
                     borderColor: [
-                        'rgba(255, 206, 86, 0.6)',
-                    ]
+                        'rgba(255, 206, 86, 1)',
+                    ],
+                    pointBackgroundColor: 'white',
                 }] 
             },
             options: {

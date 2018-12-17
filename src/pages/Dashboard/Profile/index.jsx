@@ -57,6 +57,9 @@ class index extends Component {
   }
 
   handleChange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value,
+    })
 
     if(toString(this.state.phone_number).length <= 8) {
       this.setState({
@@ -67,10 +70,6 @@ class index extends Component {
         disabled: false,
       })
     }
-
-    this.setState({
-      [e.target.id]: e.target.value,
-    })
   }
     
 
@@ -78,6 +77,12 @@ class index extends Component {
     this.setState({
       avatar: e.target.files[0]
     })
+
+    if(e.target.files[0].size > 204800) {
+      alert('File is to large! max 200 Mb')
+      e.target.value = ''
+    }
+
     if (e.target.files && e.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e) => {
@@ -87,13 +92,13 @@ class index extends Component {
   }
   }
 
-  onImageChange(event) {
-      if (event.target.files && event.target.files[0]) {
+  onImageChange(e) {
+      if (e.target.files && e.target.files[0]) {
           let reader = new FileReader();
           reader.onload = (e) => {
               this.setState({avatar: e.target.result});
           };
-          reader.readAsDataURL(event.target.files[0]);
+          reader.readAsDataURL(e.target.files[0]);
       }
   }
 
