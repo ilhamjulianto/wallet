@@ -1,9 +1,54 @@
+body {
+    width: 100%;
+    height: auto;
+    background: #0000;
+}
+
 #load {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
 }
+
+#load .logo {
+    width: 150px;
+    height: 150px;
+    animation: blubub 2s ease-in-out infinite;
+    transform: rotate(0deg) scale(1) translateZ(0);
+    transition: all 1s cubic-bezier(.8,1.8,.75,.75);
+}
+
+@keyframes blubub {
+    0% {
+      opacity: 1;
+      transform: scale(.8);
+    } 
+  
+    20% {
+      opacity: 1;
+      transform: scale(1.2);
+    } 
+  
+    40% {
+      opacity: 1;
+      transform: scale(.9);
+    }
+  
+    60% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(.8)
+    }
+    100% {
+        opacity: 1;
+        transform: scale(.8)
+    }
+  }
 
 .loader {
     height: 4px;
@@ -19,7 +64,7 @@
     left: -200px;
     width: 200px;
     height: 4px;
-    background-color: #2980b9;
+    background-color: #1eb8fb;
     animation: loading 2s linear infinite;
   }
   
