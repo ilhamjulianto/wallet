@@ -7,7 +7,7 @@ import { Dialog, DialogTitle, DialogContent, Slide, InputAdornment, MenuItem, Te
 import 'react-infinite-calendar/styles.css'
 import TypeIcon from '@material-ui/icons/MonetizationOn'
 import CategoryIcon from '@material-ui/icons/Apps'
-import PriceIcon from '@material-ui/icons/AttachMoney'
+import AmountIcon from '@material-ui/icons/AttachMoney'
 import NoteIcon from '@material-ui/icons/Create'
 import DateIcon from '@material-ui/icons/DateRange'
 import Account from '@material-ui/icons/AccountCircle'
@@ -23,47 +23,51 @@ export default class index extends Component {
             {
                 type: 'Expense',
                 category: 'Family',
-                price: 50000,
+                amount: 50000,
                 note: 'Mineral Water',
-                date: 'December 14, 2018',
+                date: '2018-18-12',
                 user: 'John',
             },
             {
                 type: 'Income',
                 category: 'Gift',
-                price: 80000,
+                amount: 80000,
                 note: 'Gift',
-                date: 'December 14, 2018',
+                date: '2018-18-12',
                 user: 'Mareth',
             },
             {
                 type: 'Expense',
                 category: 'Sport',
-                price: 400000,
+                amount: 400000,
                 note: 'Basketball',
-                date: 'December 14, 2018',
+                date: '2018-18-12',
                 user: 'Dhine',
             },
         ],
         open: false,
         type: '',
         category: '',
-        price: '',
+        amount: '',
         note: '',
         date: '',
         user: '',
         typeUpdate: '',
         categoryUpdate: '',
-        priceUpdate: '',
+        amountUpdate: '',
         noteUpdate: '',
         dateUpdate: '',
         userUpdate: '',
         openDetail: false,
         index: '',
+        token: '',
     }
 
     componentDidMount() {
         new WOW.WOW().init()
+        this.setState({
+            token: localStorage.getItem('token')
+        })
     }
 
     today = () => {
@@ -109,7 +113,7 @@ export default class index extends Component {
             openDetail: true,
             typeUpdate: datas[i].type,
             categoryUpdate: datas[i].category,
-            priceUpdate: datas[i].price,
+            amountUpdate: datas[i].amount,
             noteUpdate: datas[i].note,
             dateUpdate: datas[i].date,
             userUpdate: datas[i].user,
@@ -119,26 +123,27 @@ export default class index extends Component {
     handleAddTrans = (e) => {
         e.preventDefault()
 
-        const { data, type, category, price, note, date, user } = this.state
-        var token = localStorage.getItem('token')
+        const { type, category, amount, note, date, user, token } = this.state
         var datas = {
             'type': type,
             'category': category,
-            'price': price,
+            'amount': type === 'Expense' ? '-' + amount : '+' + amount,
             'note': note,
             'date': date,
             'user': user,
         }
 
-        axios.push(`https://api-v1-superwallet.herokuapp.com/api/v1/transactions?${token}`, datas)
-        this.setState({
-            data,
-            open: false,
+        axios.post(`https://api-v1-superwallet.herokuapp.com/api/v1/transactions?token=${token}`, datas).then(res => {
+            console.log(res)
+            this.setState({
+                // data,
+                open: false,
+            })
         })
     }
 
   render() {
-      const { data, open, type, category, price, note, date, user, typeUpdate, categoryUpdate, priceUpdate, noteUpdate, dateUpdate, userUpdate, openDetail, index } = this.state
+      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, openDetail, index } = this.state
       console.log(this.state)
     return (
       <div className="dashboard-transaction text-center">
@@ -149,7 +154,7 @@ export default class index extends Component {
                 <h6 className="text-left text-dark-smooth roboto-medium">{this.today()}</h6>
 
                 {data.map((datas, i) => {
-                        var bilangan = datas.price;
+                        var bilangan = datas.amount;
                     
                         var	number_string = bilangan.toString()
                         var sisa 	= number_string.length % 3
@@ -247,11 +252,11 @@ export default class index extends Component {
                             number
                             className="w-100 mt-2"
                             label="How Much?"
-                            value={price}
-                            onChange={this.handleChange('price')}
-                            id="price"
+                            value={amount}
+                            onChange={this.handleChange('amount')}
+                            id="amount"
                             InputProps={{
-                            startAdornment: <InputAdornment position="start"><PriceIcon className="text-blue"/></InputAdornment>
+                            startAdornment: <InputAdornment position="start"><AmountIcon className="text-blue"/></InputAdornment>
                             }}
                         >
                         </TextField>
@@ -367,11 +372,11 @@ export default class index extends Component {
                             number
                             className="w-100 mt-2"
                             label="How Much?"
-                            value={index === '' ? type : priceUpdate}
-                            onChange={this.handleChange('priceUpdate')}
-                            id="priceUpdate"
+                            value={index === '' ? type : amountUpdate}
+                            onChange={this.handleChange('amountUpdate')}
+                            id="amountUpdate"
                             InputProps={{
-                            startAdornment: <InputAdornment position="start"><PriceIcon className="text-blue"/></InputAdornment>
+                            startAdornment: <InputAdornment position="start"><amountIcon className="text-blue"/></InputAdornment>
                             }}
                         >
                         </TextField>
