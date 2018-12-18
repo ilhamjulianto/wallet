@@ -33,9 +33,7 @@ class index extends Component {
         data: undefined,
         amount: '',
         email: '',
-        password: '',
-        weight: '',
-        weightRange: '',
+        password: '', 
         showPassword: false,
         open: false,
         openFail: false,
@@ -47,8 +45,8 @@ class index extends Component {
         new WOW.WOW().init();
       }
 
-      handleLogin = (i) => {
-          i.preventDefault()
+      handleLogin = (e) => {
+          e.preventDefault()
 
           const data = new FormData()
           data.append('email', this.state.email)

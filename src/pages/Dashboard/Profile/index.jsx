@@ -88,7 +88,7 @@ class index extends Component {
       this.setState({
         format: true,
       })
-    } else if(file[0].size > 204800) {
+    } else if(file[0].size > 2048000) {
         this.setState({
           large: true,
         })
@@ -159,6 +159,7 @@ class index extends Component {
         loading: false,
         success: true,
       })
+      window.location.reload()
     }).catch(err => {
       console.log(err)
       this.setState({

@@ -11,6 +11,7 @@ import PriceIcon from '@material-ui/icons/AttachMoney'
 import NoteIcon from '@material-ui/icons/Create'
 import DateIcon from '@material-ui/icons/DateRange'
 import Account from '@material-ui/icons/AccountCircle'
+import axios from 'axios'
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
@@ -119,6 +120,7 @@ export default class index extends Component {
         e.preventDefault()
 
         const { data, type, category, price, note, date, user } = this.state
+        var token = localStorage.getItem('token')
         var datas = {
             'type': type,
             'category': category,
@@ -128,7 +130,7 @@ export default class index extends Component {
             'user': user,
         }
 
-        data.push(datas)
+        axios.push(`https://api-v1-superwallet.herokuapp.com/api/v1/transactions?${token}`, datas)
         this.setState({
             data,
             open: false,

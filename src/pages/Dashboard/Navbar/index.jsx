@@ -110,7 +110,7 @@ class index extends Component {
         })
       }
   render() {
-    console.log(this.state)
+    // console.log(this.state)
     const { data } = this.state
     return (
       <div className="dashboard-navbar">
@@ -159,7 +159,7 @@ class index extends Component {
                         <div className="img-profile text-center">
                           <img className="rounded-circle" width="110px" height="110px" src={data === null ? data : data.avatar} alt=""/>
                           <Link to="/dashboard/profile">
-                            <label for="file" className="edit-profile" onClick={this.handleClose}><Create className="create"/></label>
+                            <label htmlFor="file" className="edit-profile" onClick={this.handleClose}><Create className="create"/></label>
                           </Link>
                         </div>
                         <h5 className="text-dark-smooth roboto-semibold mt-5 ">{data === null ? data : data.name}</h5>
