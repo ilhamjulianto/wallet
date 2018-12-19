@@ -80,8 +80,8 @@ export default class index extends Component {
         }
       }
 
-      handleSubmit = (i) => {
-        i.preventDefault()
+      handleSubmit = (e) => {
+        e.preventDefault()
 
         const register = {
             email: this.state.email,
@@ -94,7 +94,7 @@ export default class index extends Component {
         data.append('email', this.state.email)
         data.append('password', this.state.password)
 
-        axios.post('https://api-v1-superwallet.herokuapp.com/api/v1/user/register', data).then((res) => {
+        axios.post('https://api-simplewallet-v1.herokuapp.com/api/v1/auth/register', data).then((res) => {
             this.setState({
                 openSuc: true,
                 openFail: false,

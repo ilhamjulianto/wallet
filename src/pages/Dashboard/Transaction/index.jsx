@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import './transaction.css'
 import WOW from 'wowjs'
 import Ink from 'react-ink'
-import { Dialog, DialogTitle, DialogContent, Slide, InputAdornment, MenuItem, TextField } from '@material-ui/core'
-// import InfiniteCalendar from 'react-infinite-calendar';
+import { Dialog, DialogTitle, DialogContent, Slide, InputAdornment, MenuItem, TextField, Snackbar } from '@material-ui/core'
 import 'react-infinite-calendar/styles.css'
 import TypeIcon from '@material-ui/icons/MonetizationOn'
 import CategoryIcon from '@material-ui/icons/Apps'
@@ -45,7 +44,6 @@ export default class index extends Component {
                 user: 'Dhine',
             },
         ],
-        open: false,
         type: '',
         category: '',
         amount: '',
@@ -58,7 +56,9 @@ export default class index extends Component {
         noteUpdate: '',
         dateUpdate: '',
         userUpdate: '',
+        open: false,
         openDetail: false,
+        openSuc: false,
         index: '',
         token: '',
     }
@@ -106,6 +106,10 @@ export default class index extends Component {
         })
     }
 
+    handleCloseSuc = () => {
+        this.setState({ openSuc : false })
+    }
+
     handleOpenDetail = (i) => {
         var datas = this.state.data
         this.setState({
@@ -138,12 +142,13 @@ export default class index extends Component {
             this.setState({
                 // data,
                 open: false,
+                openSuc: true,
             })
         })
     }
 
   render() {
-      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, openDetail, index } = this.state
+      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, openDetail, openSuc, index } = this.state
       console.log(this.state)
     return (
       <div className="dashboard-transaction text-center">
@@ -376,7 +381,7 @@ export default class index extends Component {
                             onChange={this.handleChange('amountUpdate')}
                             id="amountUpdate"
                             InputProps={{
-                            startAdornment: <InputAdornment position="start"><amountIcon className="text-blue"/></InputAdornment>
+                            startAdornment: <InputAdornment position="start"><AmountIcon className="text-blue"/></InputAdornment>
                             }}
                         >
                         </TextField>
@@ -432,6 +437,17 @@ export default class index extends Component {
             </DialogContent>
         </Dialog>
         {/* Detail Transaction */}
+
+        {/* OnSuccess Push */}
+        <Snackbar
+            anchorOrigin={{vertical:'bottom', horizontal:'center'}}
+            open={openSuc}
+            onClose={this.handleCloseSuc}
+            ContentProps={{
+                'aria-describedby': 'message-id',
+            }}
+            message={ <p id='message-id'>Transaction Added</p> }
+        />
       </div>
     )
   }

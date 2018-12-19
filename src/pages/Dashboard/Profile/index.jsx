@@ -10,7 +10,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { getData } from '../../_actions'
 import { css } from 'react-emotion'
-import { GridLoader } from 'react-spinners'
+import { HashLoader } from 'react-spinners'
 
 
 const override = css`
@@ -38,15 +38,15 @@ class index extends Component {
 
   getData = () => {
     const token  = localStorage.getItem('token')
-    axios.get(`https://api-v1-superwallet.herokuapp.com/api/v1/users?token=${token}`).then(res => {
+    axios.get(`https://api-simplewallet-v1.herokuapp.com/api/v1/user?token=${token}`).then(res => {
       console.log(res)
       this.setState({
-        id: res.data.user.id,
-        avatar: res.data.user.avatar,
-        image: res.data.user.avatar,
-        name: res.data.user.name,
-        email: res.data.user.email,
-        phone_number: res.data.user.phone_number,
+        id: res.data.data.id,
+        avatar: res.data.data.avatar,
+        image: res.data.data.avatar,
+        name: res.data.data.name,
+        email: res.data.data.email,
+        phone_number: res.data.data.phone_number,
       })
     })
   }
@@ -124,7 +124,7 @@ class index extends Component {
     const data = new FormData()
     data.append('avatar', this.state.avatar)
 
-    axios.post(`https://api-v1-superwallet.herokuapp.com/api/v1/user/upload?token=${token}`, data).then(res => {
+    axios.post(`https://api-simplewallet-v1.herokuapp.com/api/v1/user/upload?token=${token}`, data).then(res => {
       console.log(res)
       this.setState({
         loading: false,
@@ -145,11 +145,11 @@ class index extends Component {
   handleUpdateProfile = (e) => {
     e.preventDefault()
     
-    const { id, name, email, phone_number } = this.state
+    const { name, email, phone_number } = this.state
 
-    const url = 'https://api-v1-superwallet.herokuapp.com/api/v1/user/update/'
+    // const url = 'http://192.168.1.21:8000/api/v1/update'
 
-    axios.put(`${url}${id}?token=${localStorage.getItem('token')}`, {
+    axios.put(`https://api-simplewallet-v1.herokuapp.com/api/v1/user/update?token=${localStorage.getItem('token')}`, {
       name: name,
       email: email,
       phone_number: phone_number,
@@ -207,10 +207,10 @@ class index extends Component {
       return(
         <div className="preload">
             <div className="sweet-loading mx-auto">
-                  <GridLoader
+                  <HashLoader
                       className={override}
                       sizeUnit={"px"}
-                      size={25}
+                      size={75}
                       color={"#1eb8fb"}
                       loading={true}
                   />

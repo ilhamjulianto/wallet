@@ -52,7 +52,7 @@ class index extends Component {
           data.append('email', this.state.email)
           data.append('password', this.state.password)
 
-          axios.post('https://api-v1-superwallet.herokuapp.com/api/v1/user/login', data).then(res => {
+          axios.post('https://api-simplewallet-v1.herokuapp.com/api/v1/auth/login', data).then(res => {
               console.log(res.data)
               localStorage.setItem('token', res.data.token)
               this.setState({

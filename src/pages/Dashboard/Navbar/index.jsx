@@ -37,10 +37,10 @@ class index extends Component {
 
       getData = () => {
         const token  = localStorage.getItem('token')
-        axios.get(`https://api-v1-superwallet.herokuapp.com/api/v1/users?token=${token}`).then(res => {
+        axios.get(`https://api-simplewallet-v1.herokuapp.com/api/v1/user?token=${token}`).then(res => {
           console.log(res)
           this.setState({
-            data: res.data.user
+            data: res.data.data
           })
         })
       }
@@ -110,7 +110,7 @@ class index extends Component {
         })
       }
   render() {
-    // console.log(this.state)
+    console.log(this.state)
     const { data } = this.state
     return (
       <div className="dashboard-navbar">

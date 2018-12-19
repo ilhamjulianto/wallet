@@ -20,7 +20,7 @@ export default class index extends Component {
               <div className="col-md-4 col-sm-12 text-center">
                 <img src={platform} alt="platform" className="wow fadeInUp slow img-feature" data-wow-delay="0.9s"/>
                 <p className="wow fadeInUp slow mt-2 roboto-light mx-5" data-wow-delay="1.8s">
-                Safely synchronize across devices with Bank standard security.
+                Safely synchronize across devices.
                 </p>
               </div>
             {/* /Platform */}
