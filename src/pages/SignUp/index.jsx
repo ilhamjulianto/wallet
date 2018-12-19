@@ -147,15 +147,15 @@ export default class index extends Component {
       <div className="signup-session">
         <img src={signupTop} className="wow slideInDown signup-top" alt="signup-top"/>
         <img src={signupBottom} className="wow slideInUp signup-bottom" alt="signup-bottom" data-wow-delay="0.3s"/>
-        <div className="wow fadeInUp signup-form text-center p-5" data-wow-delay="0.9s">
-            <h2 className="wow fadeInUp roboto-bold text-light" data-wow-delay="1.2s">Sign Up</h2>
-            <p className="wow slideInUp roboto-light text-light mt-4 mx-3" data-wow-delay="1.5s">Here you can fill the form and create your own
+        <div className="wow fadeInUp signup-form text-center p-5">
+            <h2 className="roboto-bold text-light">Sign Up</h2>
+            <p className="roboto-light text-light mt-4 mx-3">Here you can fill the form and create your own
             account. If you have account, Click the
             Sign In button.</p>
 
             {/* Form */}
             <form className="mt-5 mb-4" onSubmit={this.handleSubmit}>
-                <FormControl className="wow fadeInUp w-75 mt-5" data-wow-delay="0s">
+                <FormControl className="w-75 mt-5">
                         <InputLabel htmlFor="name">Full Name</InputLabel>
                         <Input
                         value={this.state.name}
@@ -169,7 +169,7 @@ export default class index extends Component {
                         onChange={this.handleOnChangeRegister}
                         />
                 </FormControl>
-                <FormControl className="wow fadeInUp w-75 mt-4" data-wow-delay="2.1s">
+                <FormControl className="w-75 mt-4">
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
                         value={this.state.email}
@@ -184,7 +184,7 @@ export default class index extends Component {
                         />
                 </FormControl>
                 <Tooltip title={this.state.passwordAlert}>
-                <FormControl className="wow fadeInUp w-75 mt-4" data-wow-delay="2.4s">
+                <FormControl className="w-75 mt-4">
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
                             value={this.state.password}
@@ -212,12 +212,12 @@ export default class index extends Component {
                 </Tooltip>
                 <br/>
                 <Tooltip title={ this.state.disabled === true ? "You must fill all Form first" : ''}>
-                    <button id="btn-signup" disabled={this.state.disabled} type="submit" className="wow fadeInUp btn btn-primary-rounded mt-5" data-wow-delay="0.3s" onClick={this.open}>
+                    <button id="btn-signup" disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-5" onClick={this.open}>
                         Sign Up
                         <Ink/>
                     </button>
                 </Tooltip>
-                <Link to="/login"><button className="wow fadeInUp btn btn-secondary-rounded mt-3" data-wow-delay="0.6s">
+                <Link to="/login"><button className="btn btn-secondary-rounded mt-3">
                     Login
                     <Ink/>
                 </button></Link>

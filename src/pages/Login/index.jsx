@@ -116,13 +116,13 @@ class index extends Component {
     return (
       <div className="login-session">
         <img src={loginTop} className="wow slideInDown login-top" alt="login-top"/>
-        <img src={loginBottom} className="wow slideInUp login-bottom" alt="login-top" data-wow-delay="0.3s"/>
+        <img src={loginBottom} className="wow slideInUp login-bottom" alt="login-top"/>
         <div className="wow slideInUp login-form text-center p-md-5 p-xs-3">
-            <h2 className="wow fadeInUp roboto-bold text-light" data-wow-delay="0.9s">Login</h2>
-            <p className="wow fadeInUp roboto-light text-light mt-4 mx-3" data-wow-delay="1.2s">Sign In with your account, if you don't have account,
+            <h2 className="roboto-bold text-light">Login</h2>
+            <p className="roboto-light text-light mt-4 mx-3">Sign In with your account, if you don't have account,
             please Sign Up first.</p>
             <form className="mt-5 mb-4" onSubmit={this.handleLogin}>
-                <FormControl className="wow fadeInUp w-75 mt-5" data-wow-delay="1.5s">
+                <FormControl className="w-75 mt-5">
                     <InputLabel htmlFor="email">Email</InputLabel>
                     <Input
                     id="email"
@@ -135,7 +135,7 @@ class index extends Component {
                     }
                     />
                 </FormControl>
-                <FormControl className="wow fadeInUp w-75 mt-4" data-wow-delay="1.8s">
+                <FormControl className="w-75 mt-4">
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
                             id="password"
@@ -160,15 +160,16 @@ class index extends Component {
                             }
                         />
                 </FormControl>
+                <div className="roboto-regular text-blue small mt-2 mr-5 text-right"><Link to="/forgot">Forgot your Password?</Link></div>
                 
                 <br/>
                 {/* <Link to="/dashboard"> */}
-                <button disabled={this.state.disabled} type="submit" className="wow fadeInUp btn btn-primary-rounded mt-5" data-wow-delay="2.1s" onClick={this.open}>
+                <button disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-1" onClick={this.open}>
                     Login
                     <Ink/>
                 </button>
                 {/* </Link> */}
-                <Link to="/signup"><button className="wow fadeInUp btn btn-secondary-rounded mt-3" data-wow-delay="2.4s">
+                <Link to="/signup"><button className="btn btn-secondary-rounded mt-3">
                     Sign Up
                     <Ink/>
                 </button></Link>
