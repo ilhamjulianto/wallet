@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import Forgot from './pages/Forgot'
+import NewPass from './pages/NewPass'
 
 class App extends Component {
   componentDidMount = () => {
@@ -26,6 +27,7 @@ class App extends Component {
           <Route path="/signup" component={SignUp} />
           <Route path="/dashboard/" component={Dashboard} />
           <Route path="/forgot" component={Forgot} />
+          <Route path="/newpassword" component={NewPass} />
         </Switch>
       
       </BrowserRouter>

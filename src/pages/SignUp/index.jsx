@@ -34,9 +34,11 @@ export default class index extends Component {
         data: undefined,
         amount: '',
         showPassword: false,
+        showPasswordTwo: false,
         name: '',
         email: '',
         password: '',
+        password_confirmation: '',
         open: false,
         openSuc: false,
         openFail: false,
@@ -44,6 +46,7 @@ export default class index extends Component {
         disabled: true,
         passwordAlert: 'Password at least must be 6 characters',
         openSnackErr: false,
+        confirmPass: '',
       };
 
       componentDidMount() {
@@ -54,16 +57,36 @@ export default class index extends Component {
         this.setState(state => ({ showPassword: !state.showPassword }));
       };
 
-      handleOnChangeRegister = (e) => {        
+      handleClickShowPasswordTwo = () => {
+        this.setState(state => ({ showPasswordTwo: !state.showPasswordTwo }));
+      };
+
+      handleOnChangeRegister = (e) => {    
           this.setState({
               [e.target.id] : e.target.value
           })
 
-          var {name, email, password} = this.state
+          var form = document.forms['myForm']
+          var password = form['password']
+          var password_confirmation = form['password_confirmation']
+          var email = form['email']
+          var name = form['name']
 
-          if(name !== '') {
-                if(!email.match(/^[A-Z]/) || !email.match(/\s/g) || email.length < 6) {
-                    if(password.length >= 5 || !password.match(/\s/g)) {
+          if(password.value !== password_confirmation.value) {
+                this.setState({
+                    confirmPass: 'Check your password again',
+                    disabled: true,
+                })
+            } else {
+                this.setState({
+                    confirmPass: '',
+                    disabled: false,
+                })
+            }
+
+          if(name.value !== '') {
+                if(!email.value.match(/^[A-Z]/) || !email.value.match(/\s/g) || email.value.length < 6) {
+                    if(password.value.length >= 5 || !password.value.match(/\s/g)) {
                         this.setState({
                             disabled: false
                         })
@@ -83,16 +106,11 @@ export default class index extends Component {
       handleSubmit = (e) => {
         e.preventDefault()
 
-        const register = {
-            email: this.state.email,
-            password: this.state.password,
-        }
-        console.log(register)
-
         const data = new FormData()
         data.append('name', this.state.name)
         data.append('email', this.state.email)
         data.append('password', this.state.password)
+        data.append('password_confirmation', this.state.password_confirmation)
 
         axios.post('https://api-simplewallet-v1.herokuapp.com/api/v1/auth/register', data).then((res) => {
             this.setState({
@@ -154,7 +172,7 @@ export default class index extends Component {
             Sign In button.</p>
 
             {/* Form */}
-            <form className="mt-5 mb-4" onSubmit={this.handleSubmit}>
+            <form id="myForm" className="mt-5 mb-4" onSubmit={this.handleSubmit}>
                 <FormControl className="w-75 mt-5">
                         <InputLabel htmlFor="name">Full Name</InputLabel>
                         <Input
@@ -210,6 +228,35 @@ export default class index extends Component {
                         />
                 </FormControl>
                 </Tooltip>
+                <br/>
+                <Tooltip title={this.state.passwordAlert}>
+                <FormControl className="w-75 mt-4">
+                        <InputLabel htmlFor="password_confirmation">Confirm Password</InputLabel>
+                        <Input
+                            value={this.state.password_confirmation}
+                            id="password_confirmation"
+                            type={this.state.showPasswordTwo ? 'text' : 'password'}
+                            required={true}
+                            onChange={this.handleOnChangeRegister}
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <Lock color="disabled" />
+                                </InputAdornment>
+                            }
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="Toggle password visibility"
+                                onClick={this.handleClickShowPasswordTwo}
+                                >
+                                {this.state.showPasswordTwo ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                        />
+                </FormControl>
+                </Tooltip>
+                <label className="text-danger">{this.state.confirmPass}</label>
                 <br/>
                 <Tooltip title={ this.state.disabled === true ? "You must fill all Form first" : ''}>
                     <button id="btn-signup" disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-5" onClick={this.open}>
