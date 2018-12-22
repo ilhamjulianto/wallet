@@ -82,7 +82,7 @@ export default class index extends Component {
   render() {
     return (
       <div className="dashboard-report text-center">
-        <div className="pt-3">
+        <div className="py-3">
             <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold">Report</h2>
             <hr className="wow zoomIn slow dashboard-header-line"/>
             <div className="container mx-auto mt-4">

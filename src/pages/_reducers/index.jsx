@@ -7,15 +7,11 @@ const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'GET_DATA':
         return(
-                {
-                    data: action.data,
-                }
+                { data: action.data, }
         )
         case 'LOGIN':
         return(
-            {
-                token: action.token,
-            }
+            { token: action.token, }
         )
         default:
         return(

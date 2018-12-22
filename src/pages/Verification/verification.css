@@ -1,0 +1,60 @@
+.verification-session {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.verification-session .logo {
+    width: 150px;
+    height: 150px;
+}
+
+@keyframes blubub {
+    0% {
+      opacity: 1;
+      transform: scale(.8);
+    } 
+  
+    20% {
+      opacity: 1;
+      transform: scale(1);
+    } 
+  
+    40% {
+      opacity: 1;
+      transform: scale(.9);
+    }
+  
+    60% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(.8)
+    }
+    100% {
+        opacity: 1;
+        transform: scale(.8)
+    }
+  }
+
+  .verification-session .btn-primary-rounded {
+    color: #1eb8fb;
+    background-color: transparent;
+    border-radius: 50px !important;
+    width: 50%;
+    border: none;
+    transition: 0.5s ease-out;
+    -webkit-transition: 0.5s ease-out;
+    -moz-transition: 0.5s ease-out;
+    -o-transition: 0.5s ease-out;
+}
+
+.verification-session .btn-primary-rounded:hover {
+    transform: translateY(-5%);
+    background-color: rgba(30, 184, 251, 0.1);
+    box-shadow: 0px 10px 50px 0px rgba(30,184,251,0.3);
+}

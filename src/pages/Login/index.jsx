@@ -39,6 +39,7 @@ class index extends Component {
         openFail: false,
         loading: true,
         disabled: true,
+        url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
       };
 
       componentDidMount() {
@@ -48,11 +49,13 @@ class index extends Component {
       handleLogin = (e) => {
           e.preventDefault()
 
+          const { email, password, url } = this.state
           const data = new FormData()
-          data.append('email', this.state.email)
-          data.append('password', this.state.password)
+          data.append('email', email)
+          data.append('password', password)
 
-          axios.post('https://api-simplewallet-v1.herokuapp.com/api/v1/auth/login', data).then(res => {
+          axios.post(`${url}/auth/login`, data)
+          .then(res => {
               console.log(res.data)
               localStorage.setItem('token', res.data.token)
               this.setState({
@@ -60,7 +63,8 @@ class index extends Component {
                   openFail: false,
               })
               this.props.logIn(res.data.token)
-          }).catch((err) => {
+          })
+          .catch((err) => {
               this.setState({
                   openFail: true,
                   open: false,
@@ -77,41 +81,31 @@ class index extends Component {
       };
 
       handleChangeLogin = (e) => {
-          const {password} = this.state
-          this.setState({
-              [e.target.id] : e.target.value
-          })
+          this.setState({ [e.target.id] : e.target.value })
+          let form = document.forms['myForm']
+          let password = form['password']
 
-              if(password.length < 5) {
-                this.setState({
-                    disabled: true,
-                })
+            if(password.value.length <= 6) {
+                this.setState({ disabled: true, })
             } else {
-                this.setState({
-                    disabled: false,
-                })
+                this.setState({ disabled: false, })
             }
           }
 
       closeModal = () => {
-        this.setState({
-            open: false,
-        })
+        this.setState({ open: false, })
       }
 
       open = () => {
-        this.setState({
-            open: true
-        })
+        this.setState({ open: true })
       }
 
       closeFail = () => {
-        this.setState({
-            openFail: false,
-        })
+        this.setState({ openFail: false, })
       }
   render() {
       console.log(this.state)
+      const { email, password, disabled, showPassword, open, openFail, loading } = this.state
     if(localStorage.getItem('token') === null) {
     return (
       <div className="login-session">
@@ -121,11 +115,12 @@ class index extends Component {
             <h2 className="roboto-bold text-light">Login</h2>
             <p className="roboto-light text-light mt-4 mx-3">Sign In with your account, if you don't have account,
             please Sign Up first.</p>
-            <form className="mt-5 mb-4" onSubmit={this.handleLogin}>
+            <form className="mt-5 mb-4" id='myForm' onSubmit={this.handleLogin}>
                 <FormControl className="w-75 mt-5">
                     <InputLabel htmlFor="email">Email</InputLabel>
                     <Input
                     id="email"
+                    value={email}
                     onChange={this.handleChangeLogin}
                     required={true}
                     startAdornment={
@@ -139,8 +134,8 @@ class index extends Component {
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
                             id="password"
-                            type={this.state.showPassword ? 'text' : 'password'}
-                            value={this.state.password}
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
                             onChange={this.handleChangeLogin}
                             required={true}
                             startAdornment={
@@ -154,7 +149,7 @@ class index extends Component {
                                 aria-label="Toggle password visibility"
                                 onClick={this.handleClickShowPassword}
                                 >
-                                {this.state.showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+                                {showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
                                 </IconButton>
                             </InputAdornment>
                             }
@@ -164,7 +159,7 @@ class index extends Component {
                 
                 <br/>
                 {/* <Link to="/dashboard"> */}
-                <button disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-1" onClick={this.open}>
+                <button disabled={disabled} type="submit" className="btn btn-primary-rounded mt-1" onClick={this.open}>
                     Login
                     <Ink/>
                 </button>
@@ -178,7 +173,7 @@ class index extends Component {
 
         {/* On Submit */}
         <Dialog
-            open={this.state.open}
+            open={open}
             TransitionComponent={Transition}
             keepMounted
             onClose={this.handleClose}
@@ -195,7 +190,7 @@ class index extends Component {
                         sizeUnit={"px"}
                         size={100}
                         color={"#1eb8fb"}
-                        loading={this.state.loading}
+                        loading={loading}
                     />
                 </div>
             </DialogContent>
@@ -204,7 +199,7 @@ class index extends Component {
 
         {/* If Failed */}
         <Dialog
-            open={this.state.openFail}
+            open={openFail}
             TransitionComponent={Transition}
             keepMounted
             onClose={this.handleClose}
@@ -221,7 +216,7 @@ class index extends Component {
                         sizeUnit={"px"}
                         size={100}
                         color={"#1eb8fb"}
-                        loading={this.state.loading}
+                        loading={loading}
                     />
                 </div>
             </DialogContent>

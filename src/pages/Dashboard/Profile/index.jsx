@@ -34,11 +34,14 @@ class index extends Component {
     large: false,
     format: false,
     disabled: false,
+    url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
   }
 
   getData = () => {
     const token  = localStorage.getItem('token')
-    axios.get(`https://api-simplewallet-v1.herokuapp.com/api/v1/user?token=${token}`).then(res => {
+    const { url } = this.state
+    axios.get(`${url}/user?token=${token}`)
+    .then(res => {
       console.log(res)
       this.setState({
         id: res.data.data.id,
@@ -52,25 +55,19 @@ class index extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      token: localStorage.getItem('token')
-    })
+    this.setState({ token: localStorage.getItem('token') })
     this.getData()
   }
 
   handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value,
-    })
+    let { phone_number } = this.state
 
-    if(toString(this.state.phone_number).length <= 8) {
-      this.setState({
-        disabled: true,
-      })
-    } else if(toString(this.state.phone_number).length >= 8) {
-      this.setState({
-        disabled: false,
-      })
+    this.setState({ [e.target.id]: e.target.value, })
+
+    if(toString(phone_number).length <= 8) {
+      this.setState({ disabled: true, })
+    } else if(toString(phone_number).length >= 8) {
+      this.setState({ disabled: false, })
     }
   }
     
@@ -80,28 +77,23 @@ class index extends Component {
     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i
     var filePath = e.target.value
 
-    this.setState({
-      avatar: file[0]
-    })
+    this.setState({ avatar: file[0] })
 
     if(!allowedExtensions.exec(filePath)) {
-      this.setState({
-        format: true,
-      })
+      this.setState({ format: true, })
     } else if(file[0].size > 2048000) {
-        this.setState({
-          large: true,
-        })
+        this.setState({ large: true, })
         e.target.value = ''
     }
 
     if (file && file[0]) {
       let reader = new FileReader();
+      
       reader.onload = (e) => {
           this.setState({image: e.target.result});
       };
       reader.readAsDataURL(file[0]);
-  }
+    }
   }
 
   onImageChange(e) {
@@ -116,15 +108,15 @@ class index extends Component {
 
   handleUploadImage = (e) => {
     e.preventDefault()
-    this.setState({
-      loading: true,
-    })
+    this.setState({ loading: true, })
 
     const token = localStorage.getItem('token')
+    const { url, avatar } = this.state
     const data = new FormData()
-    data.append('avatar', this.state.avatar)
+    data.append('avatar', avatar)
 
-    axios.post(`https://api-simplewallet-v1.herokuapp.com/api/v1/user/upload?token=${token}`, data).then(res => {
+    axios.post(`${url}/user/upload?token=${token}`, data)
+    .then(res => {
       console.log(res)
       this.setState({
         loading: false,
@@ -132,7 +124,8 @@ class index extends Component {
         fail: false,
       })
       window.location.reload()
-    }).catch(err => {
+    })
+    .catch(err => {
       console.log(err)
       this.setState({
         loading: false,
@@ -144,24 +137,24 @@ class index extends Component {
 
   handleUpdateProfile = (e) => {
     e.preventDefault()
-    
-    const { name, email, phone_number } = this.state
+    const { name, email, phone_number, url } = this.state
 
-    // const url = 'http://192.168.1.21:8000/api/v1/update'
-
-    axios.put(`https://api-simplewallet-v1.herokuapp.com/api/v1/user/update?token=${localStorage.getItem('token')}`, {
-      name: name,
-      email: email,
-      phone_number: phone_number,
-    }).then(res => {
+    axios.put(`${url}/user/update?token=${localStorage.getItem('token')}`, 
+      {
+        name: name,
+        email: email,
+        phone_number: phone_number,
+      }
+    )
+    .then(res => {
       console.log(res)
       this.setState({
         loading: false,
         success: true,
       })
-      // window.location.reload()
       this.getData()
-    }).catch(err => {
+    })
+    .catch(err => {
       console.log(err)
       this.setState({
         loading: false,
@@ -172,38 +165,28 @@ class index extends Component {
   }
 
   handlePreload = () => {
-    this.setState({
-      loading: true,
-    })
+    this.setState({ loading: true, })
   }
 
   handleCloseSuccess = () => {
-    this.setState({
-      success: false,
-    })
+    this.setState({ success: false, })
   }
 
   handleCloseFail = () => {
-    this.setState({
-      fail: false,
-    })
+    this.setState({ fail: false, })
   }
 
   handleCloseLarge = () => {
-    this.setState({
-      large: false,
-    })
+    this.setState({ large: false, })
   }
 
   handleCloseFormat = () => {
-    this.setState({
-      format: false,
-    })
+    this.setState({ format: false, })
   }
 
   render() {
-    const { id, image, name, email, phone_number, loading, success, fail, large, format, disabled } = this.state
     console.log(this.state)
+    const { id, image, name, email, phone_number, loading, success, fail, large, format, disabled } = this.state
     if(id === '') {
       return(
         <div className="preload">

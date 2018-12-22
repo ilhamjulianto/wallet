@@ -2,14 +2,23 @@ import React, { Component } from 'react'
 import './forgot.css'
 import lock from '../../assets/img/icons/open-lock.svg'
 import axios from 'axios'
-import { FormControl, Input, InputLabel, InputAdornment } from '@material-ui/core'
+import { Redirect } from 'react-router-dom'
+import { FormControl, Input, InputLabel, InputAdornment, Slide, Dialog, DialogTitle, DialogContent, DialogActions, Button, LinearProgress } from '@material-ui/core'
+import Done from '@material-ui/icons/Done'
 import Mail from '@material-ui/icons/Mail'
 import Ink from 'react-ink'
 import WOW from 'wowjs'
 
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
+
 export default class index extends Component {
     state = {
         email: '',
+        loading: false,
+        openSuc: false,
+        url: 'https://api-simplewallet-v1.herokuapp.com/api',
     }
 
     componentDidMount = () => {
@@ -17,24 +26,36 @@ export default class index extends Component {
     }
 
     handleChange = prop => (e) => {
-        this.setState({
-            [prop] : e.target.value,
-        })
+        this.setState({ [prop] : e.target.value, })
     }
 
     handleSend = (e) => {
         e.preventDefault()
 
+        const { url, email } = this.state
         let data = new FormData()
-        data.append('email', this.state.email)
-        axios.post('https://api-simplewallet-v1.herokuapp.com/api/password/create', data).then(res => {
+
+        this.setState({ loading: true, })
+
+        data.append('email', email)
+        axios.post(`${url}/password/create`, data)
+        .then(res => {
             console.log(res)
-        }).catch(err => {
-            console.log(err)
+            this.setState({ loading: false, })
         })
+        .catch(err => {
+            console.log(err)
+            this.setState({ loading: false, })
+        })
+    }
+
+    closeSuc = () => {
+        this.setState({ openSuc: false, })
     }
   render() {
       console.log(this.state)
+      const { email, loading, openSuc } = this.state
+    if(localStorage.getItem('token') === null) {
     return (
       <div className="forgot-password">
         <div className="wow fadeInUp forgot-form p-5">
@@ -47,6 +68,7 @@ export default class index extends Component {
                 <InputLabel htmlFor="email">Email</InputLabel>
                 <Input
                 id="email"
+                value={email}
                 onChange={this.handleChange('email')}
                 required={true}
                 startAdornment={
@@ -61,7 +83,41 @@ export default class index extends Component {
                 <Ink/>
             </button>
         </div>
+
+        {/* Preload */}
+        <div className={loading === true ? 'display' : 'd-none'}>
+          <LinearProgress />
+        </div>
+        {/* Preload */}
+
+        {/* If Success */}
+        <Dialog
+            open={openSuc}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="Go To Loginalert-dialog-slide-description"
+            >
+            <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
+                {"We've email your account"}
+            </DialogTitle>
+            <DialogContent className="mx-auto mt-2">
+                <div className="mx-auto">
+                    <Done className="wow flipInX" style={{fontSize: '100px', color:'#1eb8fb'}}/>
+                </div>
+            </DialogContent>
+            <DialogActions className="mx-auto">
+                <Button onClick={this.closeSuc}>
+                Close
+                </Button>
+            </DialogActions>
+            </Dialog>
+        {/* /If Success */}
+
       </div>
-    )
+    )} else {
+        return <Redirect to="/dashboard/home" />
+    }
   }
 }

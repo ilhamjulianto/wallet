@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import './transaction.css'
+import typeListData from './type.json'
+import categoryListData from './category.json'
 import WOW from 'wowjs'
 import Ink from 'react-ink'
-import { Dialog, DialogTitle, DialogContent, Slide, InputAdornment, MenuItem, TextField, Snackbar } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, InputAdornment, MenuItem, TextField, Snackbar, LinearProgress, List, ListItem, ListItemText } from '@material-ui/core'
 import 'react-infinite-calendar/styles.css'
 import TypeIcon from '@material-ui/icons/MonetizationOn'
 import CategoryIcon from '@material-ui/icons/Apps'
@@ -10,7 +12,18 @@ import AmountIcon from '@material-ui/icons/AttachMoney'
 import NoteIcon from '@material-ui/icons/Create'
 import DateIcon from '@material-ui/icons/DateRange'
 import Account from '@material-ui/icons/AccountCircle'
+import Close from '@material-ui/icons/Close'
 import axios from 'axios'
+import { css } from 'react-emotion'
+import { HashLoader } from 'react-spinners'
+
+
+const override = css`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
@@ -18,32 +31,7 @@ function Transition(props) {
 
 export default class index extends Component {
     state = {
-        data: [
-            {
-                type: 'Expense',
-                category: 'Family',
-                amount: 50000,
-                note: 'Mineral Water',
-                date: '2018-18-12',
-                user: 'John',
-            },
-            {
-                type: 'Income',
-                category: 'Gift',
-                amount: 80000,
-                note: 'Gift',
-                date: '2018-18-12',
-                user: 'Mareth',
-            },
-            {
-                type: 'Expense',
-                category: 'Sport',
-                amount: 400000,
-                note: 'Basketball',
-                date: '2018-18-12',
-                user: 'Dhine',
-            },
-        ],
+        data: '',
         type: '',
         category: '',
         amount: '',
@@ -56,38 +44,50 @@ export default class index extends Component {
         noteUpdate: '',
         dateUpdate: '',
         userUpdate: '',
+        typeList: typeListData,
+        categoryList: categoryListData,
+        loading: false,
         open: false,
+        openType: false,
+        openCategory: false,
         openDetail: false,
         openSuc: false,
+        openFail: false,
         index: '',
         token: '',
+        url: 'http://api-simplewallet-v1.herokuapp.com/api/v1',
+    }
+
+    getData = () => {
+        const { url } = this.state
+        axios.get(`${url}/transactions`)
+        .then(res => {
+            console.log(res)
+            this.setState({ data: res.data.Transactions })
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     componentDidMount() {
         new WOW.WOW().init()
-        this.setState({
-            token: localStorage.getItem('token')
-        })
+        this.setState({ token: localStorage.getItem('token') })
+        this.getData()
     }
 
     today = () => {
         var today = new Date()
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        return(
-            months[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear()
-        )
+        return months[today.getMonth()] + ' ' + today.getDate() + ', ' + today.getFullYear()
     }
 
     handleClose = () => {
-        this.setState({
-            open: false,
-        })
+        this.setState({ open: false, })
     }
 
     handleOpen = () => {
-        this.setState({
-            open: true,
-        })
+        this.setState({ open: true, })
     }
 
     handleChange = prop => event => {
@@ -95,15 +95,11 @@ export default class index extends Component {
       };
 
     handleDateChange = (date) => {
-        this.setState({
-            date
-        })
+        this.setState({ date })
     }
 
     handleCloseDetail = () => {
-        this.setState({
-            openDetail: false,
-        })
+        this.setState({ openDetail: false, })
     }
 
     handleCloseSuc = () => {
@@ -124,32 +120,96 @@ export default class index extends Component {
         })
     }
 
-    handleAddTrans = (e) => {
+    handleAdd = (e) => {
         e.preventDefault()
 
-        const { type, category, amount, note, date, user, token } = this.state
-        var datas = {
-            'type': type,
-            'category': category,
-            'amount': type === 'Expense' ? '-' + amount : '+' + amount,
-            'note': note,
-            'date': date,
-            'user': user,
-        }
+        this.setState({ loading: true })
 
-        axios.post(`https://api-v1-superwallet.herokuapp.com/api/v1/transactions?token=${token}`, datas).then(res => {
+        const { token, url } = this.state
+        let data = new FormData()
+        data.append('type', this.state.type.toLowerCase())
+        data.append('category', this.state.category.toLowerCase())
+        data.append('amount', this.state.amount === 'Expense' ? '-' + this.state.amount : this.state.amount)
+        data.append('note', this.state.note)
+        data.append('date', this.state.date)
+        data.append('user', this.state.user)
+
+        axios.post(`${url}/transactions?token=${token}`, data).then(res => {
             console.log(res)
             this.setState({
-                // data,
+                type: '',
+                category: '',
+                amount: '',
+                note: '',
+                date: '',
+                user: '',
                 open: false,
                 openSuc: true,
+                loading: false,
+            })
+            this.getData()
+        }).catch(err => {
+            console.log(err)
+            this.setState({
+                open: false,
+                loading: false,
+                openFail: true,
             })
         })
     }
 
+    closeFail = () => {
+        this.setState({ openFail: false, })
+    }
+
+    showType = () => {
+        this.setState({ openType: true })
+    }
+
+    handleTypeListClick = (e) => {
+        this.setState({
+            typeUpdate: e.target.innerHTML,
+            openType: false,
+        })
+    }
+
+    handleCloseType = () => {
+        this.setState({ openType: false })
+    }
+
+    showCategory = () => {
+        this.setState({ openCategory: true })
+    }
+
+    handleCategoryListClick = (e) => {
+        this.setState({
+            categoryUpdate: e.target.innerHTML,
+            openCategory: false,
+        })
+    }
+
+    handleCloseCategory = () => {
+        this.setState({ openCategory: false })
+    }
+
   render() {
-      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, openDetail, openSuc, index } = this.state
+      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openCategory, openType, openDetail, openSuc, index, loading, openFail } = this.state
       console.log(this.state)
+    if(data === '') {
+    return(
+        <div className="preload">
+            <div className="sweet-loading mx-auto">
+                <HashLoader
+                    className={override}
+                    sizeUnit={"px"}
+                    size={75}
+                    color={"#1eb8fb"}
+                    loading={true}
+                />
+            </div>
+        </div>
+    )
+    }
     return (
       <div className="dashboard-transaction text-center">
         <div className="pt-5">
@@ -159,7 +219,7 @@ export default class index extends Component {
                 <h6 className="text-left text-dark-smooth roboto-medium">{this.today()}</h6>
 
                 {data.map((datas, i) => {
-                        var bilangan = datas.amount;
+                        var bilangan = eval(datas.amount);
                     
                         var	number_string = bilangan.toString()
                         var sisa 	= number_string.length % 3
@@ -174,13 +234,13 @@ export default class index extends Component {
                     <div className="card p-4 my-2 rounded-md" onClick={() => this.handleOpenDetail(i)}>
                         <div className="row">
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-disable">
-                                {datas.category}
+                                {datas.note}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-dark-smooth">
                                 IDR {rupiah}
                             </div>
-                            <div className={datas.type === 'Income' ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
-                                {datas.type}
+                            <div className={datas.type === 'income' ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
+                                {datas.type.toUpperCase()}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-right text-sm-center text-disable">
                                 {datas.date}
@@ -194,10 +254,46 @@ export default class index extends Component {
         </div>
 
         {/* Add */}
-                <button className="btn-add btn-rounded" onClick={this.handleOpen}>
-                      + Add
-                </button>
+            <button className="btn-add btn-rounded" onClick={this.handleOpen}>
+                    + Add
+            </button>
         {/* Add */}
+
+        {/* Preload */}
+        <div className={loading === true ? 'display' : 'd-none'}>
+          <LinearProgress />
+        </div>
+        {/* Preload */}
+
+        {/* Type */}
+        <Dialog open={openType} onClose={this.handleCloseType} aria-labelledby="simple-dialog-title">
+            <DialogTitle id="simple-dialog-title">Transaction Type</DialogTitle>
+            <div>
+            <List>
+                {typeList.map(datas => (
+                    <ListItem button>
+                <ListItemText primary={datas.type} onClick={this.handleTypeListClick}/>
+                </ListItem>
+                ))}
+            </List>
+            </div>
+        </Dialog>
+        {/* Type */}
+
+        {/* Category */}
+        <Dialog open={openCategory} onClose={this.handleCloseCategory} aria-labelledby="simple-dialog-title">
+            <DialogTitle id="simple-dialog-title">Transaction Type</DialogTitle>
+            <div>
+            <List>
+                {categoryList.map(datas => (
+                    <ListItem button>
+                <ListItemText primary={datas.category} onClick={this.handleCategoryListClick}/>
+                </ListItem>
+                ))}
+            </List>
+            </div>
+        </Dialog>
+        {/* Category */}
 
         {/* Add Transaction */}
         <Dialog
@@ -214,8 +310,7 @@ export default class index extends Component {
             </DialogTitle>
             <DialogContent>
                 <div>
-                    {/* <form className="py-2"> */}
-
+                    <form onSubmit={this.handleAdd}>
                         <TextField
                             select
                             className="w-100"
@@ -305,14 +400,14 @@ export default class index extends Component {
                         </TextField>
 
                         <div className="mx-auto mt-4 d-flex justify-content-center">
-                            <button className="btn-rounded mx-1 btn-send" type="button" onClick={this.handleAddTrans}>
+                            <button className="btn-rounded mx-1 btn-send" type="submit">
                             Add
                             </button>
-                            <button className="btn-rounded mx-1 btn-cancel" onClick={this.handleClose}>
+                            <button className="btn-rounded mx-1 btn-cancel" type="button" onClick={this.handleClose}>
                             Cancel
                             </button>
                         </div>
-                    {/* </form> */}
+                    </form>
                 </div>
             </DialogContent>
         </Dialog>
@@ -336,29 +431,24 @@ export default class index extends Component {
                     {/* <form className="py-2"> */}
 
                         <TextField
-                            select
                             className="w-100"
                             label="Type"
                             value={index === '' ? type : typeUpdate}
                             onChange={this.handleChange('typeUpdate')}
+                            onClick={this.showType}
                             id="typeUpdate"
                             InputProps={{
                             startAdornment: <InputAdornment position="start"><TypeIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                            <MenuItem value="">
-                            <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={'Income'}>Income</MenuItem>
-                            <MenuItem value={'Expense'}>Expense</MenuItem>
                         </TextField>
 
                         <TextField
-                            select
                             className="w-100 mt-2"
                             label="Category"
                             value={index === '' ? type : categoryUpdate}
                             onChange={this.handleChange('categoryUpdate')}
+                            onClick={this.showCategory}
                             id="categoryUpdate"
                             InputProps={{
                             startAdornment: <InputAdornment position="start"><CategoryIcon className="text-blue"/></InputAdornment>
@@ -448,6 +538,32 @@ export default class index extends Component {
             }}
             message={ <p id='message-id'>Transaction Added</p> }
         />
+        {/* OnSuccess Push */}
+
+        {/* If Failed */}
+        <Dialog
+            open={openFail}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.closeFail}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            >
+            <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
+                Failed to add<br/>
+            </DialogTitle>
+            <DialogContent className="mx-auto mt-2 text-center">
+                <div className="mx-auto">
+                    <Close className="wow bounceIn text-danger" style={{fontSize: '100px'}}/>
+                </div>
+            </DialogContent>
+            <DialogActions>
+                <Button className="mx-auto" onClick={this.closeFail}>
+                Close
+                </Button>
+            </DialogActions>
+            </Dialog>
+        {/* /If Failed */}
       </div>
     )
   }

@@ -1,7 +1,6 @@
 .create-password {
     position: relative;
-    height: 130vh;
-    padding: 0 50px;
+    height: 180vh;
     background-color: #ebf3f9;
 }
 
@@ -20,7 +19,7 @@
 
 .create-password .btn-primary-rounded {
     color: #1eb8fb;
-    background-color: rgba(30, 184, 251, 0.1);
+    background-color: transparent;
     border-radius: 50px !important;
     width: 50%;
     border: none;
@@ -31,6 +30,35 @@
 }
 
 .create-password .btn-primary-rounded:hover {
+    background-color: rgba(30, 184, 251, 0.1);
     transform: translateY(-5%);
     box-shadow: 0px 10px 50px 0px rgba(30,184,251,0.3);
+}
+
+.display {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+@media(max-width:768px) {
+    .create-password {
+        position: relative;
+        height: 100%;
+        padding: 0;
+        background-color: #ebf3f9;
+    }
+
+    .create-password .forgot-form {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        width: 100%;
+        padding: 25px !important;
+        height: auto;
+        text-align: center;
+        background-color: #FFFFFF;
+    }
 }

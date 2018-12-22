@@ -32,23 +32,22 @@ class index extends Component {
         openNew: false,
         wallet: '',
         idArray: '',
+        url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
       };
 
 
       getData = () => {
+        const { url } = this.state
         const token  = localStorage.getItem('token')
-        axios.get(`https://api-simplewallet-v1.herokuapp.com/api/v1/user?token=${token}`).then(res => {
+        axios.get(`${url}/user?token=${token}`)
+        .then(res => {
           console.log(res)
-          this.setState({
-            data: res.data.data
-          })
+          this.setState({ data: res.data.data })
         })
       }
 
       componentDidMount() {
-        this.setState({
-          token: localStorage.getItem('token')
-        })
+        this.setState({ token: localStorage.getItem('token') })
         this.getData()
       }
      
@@ -74,40 +73,30 @@ class index extends Component {
       }
 
       handleChange = prop => (e) => {
-        this.setState({
-          [prop]: e.target.value
-        })
+        this.setState({ [prop]: e.target.value })
       }
 
       handleCloseNew = () => {
-        this.setState({
-          openNew: false,
-        })
+        this.setState({ openNew: false, })
       }
 
       handleOpenNew = () => {
-        this.setState({
-          openNew: true,
-        })
+        this.setState({ openNew: true, })
       }
 
       handleAddWallet = () => {
         const { walletList } = this.state
-        walletList.push({
-          name: this.state.wallet
-        })
-        this.setState({
-          openNew: false,
-        })
+        
+        walletList.push({ name: this.state.wallet })
+        this.setState({ openNew: false, })
       }
 
       handleDeleteWallet = (i) => {
         const { walletList } = this.state
         let wallet = walletList
+
         wallet.splice(i, 1)
-        this.setState({
-          wallet
-        })
+        this.setState({ wallet })
       }
   render() {
     console.log(this.state)

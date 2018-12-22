@@ -47,6 +47,7 @@ export default class index extends Component {
         passwordAlert: 'Password at least must be 6 characters',
         openSnackErr: false,
         confirmPass: '',
+        url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
       };
 
       componentDidMount() {
@@ -62,9 +63,7 @@ export default class index extends Component {
       };
 
       handleOnChangeRegister = (e) => {    
-          this.setState({
-              [e.target.id] : e.target.value
-          })
+          this.setState({ [e.target.id] : e.target.value })
 
           var form = document.forms['myForm']
           var password = form['password']
@@ -72,54 +71,54 @@ export default class index extends Component {
           var email = form['email']
           var name = form['name']
 
-          if(password.value !== password_confirmation.value) {
-                this.setState({
-                    confirmPass: 'Check your password again',
-                    disabled: true,
-                })
-            } else {
-                this.setState({
-                    confirmPass: '',
-                    disabled: false,
-                })
-            }
+        if(password.value !== password_confirmation.value) {
+            this.setState({
+                confirmPass: 'Check your password again',
+                disabled: true,
+            })
+        } 
+        else {
+            this.setState({
+                confirmPass: '',
+                disabled: false,
+            })
+        }
 
-          if(name.value !== '') {
-                if(!email.value.match(/^[A-Z]/) || !email.value.match(/\s/g) || email.value.length < 6) {
-                    if(password.value.length >= 5 || !password.value.match(/\s/g)) {
-                        this.setState({
-                            disabled: false
-                        })
-                    } else {
-                        this.setState({
-                            disabled: true
-                        })
-                    }
-                } else {
-                    this.setState({
-                        disabled: true
-                    })
+        if(name.value !== '') {
+            if(!email.value.match(/^[A-Z]/) || !email.value.match(/\s/g) || email.value.length < 6) {
+                if(password.value.length >= 5 || !password.value.match(/\s/g)) {
+                    this.setState({ disabled: false })
+                } 
+                else {
+                    this.setState({ disabled: true })
                 }
+            } 
+            else {
+                this.setState({ disabled: true })
+            }
         }
       }
 
       handleSubmit = (e) => {
         e.preventDefault()
 
+        const { name, email, password, password_confirmation, url } = this.state
         const data = new FormData()
-        data.append('name', this.state.name)
-        data.append('email', this.state.email)
-        data.append('password', this.state.password)
-        data.append('password_confirmation', this.state.password_confirmation)
+        data.append('name', name)
+        data.append('email', email)
+        data.append('password', password)
+        data.append('password_confirmation', password_confirmation)
 
-        axios.post('https://api-simplewallet-v1.herokuapp.com/api/v1/auth/register', data).then((res) => {
+        axios.post(`${url}/auth/register`, data)
+        .then((res) => {
             this.setState({
                 openSuc: true,
                 openFail: false,
                 open: false,
             })
             console.log(res)
-        }).catch((err) => {
+        })
+        .catch((err) => {
             console.log(err)
             this.setState({
                 openSuc: false,
@@ -130,33 +129,23 @@ export default class index extends Component {
       }
 
       closeModal = () => {
-          this.setState({
-              open: false,
-          })
+          this.setState({ open: false, })
       }
 
       closeFail = () => {
-          this.setState({
-              openFail: false,
-          })
+          this.setState({ openFail: false, })
       }
 
       closeSuc = () => {
-          this.setState({
-              openSuc: false,
-          })
+          this.setState({ openSuc: false, })
       }
 
       open = () => {
-          this.setState({
-              open: true
-          })
+          this.setState({ open: true })
       }
 
       handleCloseSnackErr = () => {
-          this.setState({
-              openSnackErr: false
-          })
+          this.setState({ openSnackErr: false })
       }
   render() {
       console.log(this.state)
