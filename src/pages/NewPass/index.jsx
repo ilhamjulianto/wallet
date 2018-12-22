@@ -55,6 +55,7 @@ export default class index extends Component {
         const { url } = this.state
         let data = new FormData()
         data.append('email', this.state.email)
+        data.append('current_password', this.state.current_password)
         data.append('password', this.state.password)
         data.append('password_confirmation', this.state.password_confirmation)
         data.append('token', this.state.token)
