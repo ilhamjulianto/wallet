@@ -85,7 +85,7 @@ class index extends Component {
           let form = document.forms['myForm']
           let password = form['password']
 
-            if(password.value.length <= 6) {
+            if(password.value.length <= 5) {
                 this.setState({ disabled: true, })
             } else {
                 this.setState({ disabled: false, })
