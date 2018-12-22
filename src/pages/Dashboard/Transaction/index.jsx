@@ -55,7 +55,7 @@ export default class index extends Component {
         openFail: false,
         index: '',
         token: '',
-        url: 'http://api-simplewallet-v1.herokuapp.com/api/v1',
+        url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
     }
 
     getData = () => {
