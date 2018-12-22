@@ -14,7 +14,7 @@ import axios from 'axios'
 export default class index extends Component {
     state = {
         email: '',
-        password: '',
+        new_password: '',
         password_confirmation: '',
         token: '',
         showPassword: false,
@@ -24,26 +24,20 @@ export default class index extends Component {
         url: 'https://api-simplewallet-v1.herokuapp.com/api/password',
     }
 
-    getUrlVars() {
-        var vars = {};
-        var parts = window.location.href.replace(/[?&]+([^&*])=([^&]*)/gi, function(m, key, value) {
-            vars[key] = value
-        })
-        return vars
-    }
+    getUrlParam() {
+        let urlParams = new URLSearchParams(window.location.search)
+        let token = urlParams.get('token')
+        let email = urlParams.get('email')
 
-    getUrlParam(parameter, defaultvalue) {
-        var urlparameter = defaultvalue
-        if(window.location.href.indexOf(parameter) > -1) {
-            urlparameter = this.getUrlVars()[parameter]
-        }
-        console.log(urlparameter)
+        this.setState({
+            token,
+            email
+        })
     }
 
     componentDidMount = () => {
         new WOW.WOW().init()
-        var token = this.getUrlParam('token', 'Empty')
-        console.log(token)
+        this.getUrlParam()
     }
 
     handleSend = () => {
@@ -68,12 +62,12 @@ export default class index extends Component {
 
     handleChange = prop => (e) => {
         let form = document.forms['myForm']
-        let password = form['password']
+        let new_password = form['new_password']
         let password_confirmation = form['password_confirmation']
 
         this.setState({ [prop] : e.target.value })
 
-        if(password.value !== password_confirmation.value) {
+        if(new_password.value !== password_confirmation.value) {
             this.setState({ confirmPass: 'Please check your password again' })
         } else {
             this.setState({ confirmPass: '', })
@@ -92,7 +86,8 @@ export default class index extends Component {
         this.setState({ loading: true, })
     }
   render() {
-      const { email, password, password_confirmation, showPassword, showPasswordTwo, token, loading, confirmPass } = this.state
+      const { email, new_password, password_confirmation, showPassword, showPasswordTwo, token, loading, confirmPass } = this.state
+      console.log(this.state)
     if(localStorage.getItem('token') === null) {
     return (
       <div className="create-password">
@@ -103,29 +98,15 @@ export default class index extends Component {
                 Send your email and create your Password
             </p>
             <form id="myForm" onSubmit={this.handleSend}>
-                <FormControl className="w-100 mt-2">
-                    <InputLabel htmlFor="email">Email</InputLabel>
-                    <Input
-                    id="email"
-                    value={email}
-                    onChange={this.handleChange('email')}
-                    required={true}
-                    startAdornment={
-                        <InputAdornment position="start">
-                        <Mail className="text-blue" />
-                        </InputAdornment>
-                    }
-                    />
-                </FormControl>
                 <Tooltip title="Password at least must be 6 character">
                     <FormControl className="w-100 mt-3">
-                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <InputLabel htmlFor="new_password">New Password</InputLabel>
                         <Input
-                            value={password}
-                            id="password"
+                            value={new_password}
+                            id="new_password"
                             type={showPassword ? 'text' : 'password'}
                             required={true}
-                            onChange={this.handleChange('password')}
+                            onChange={this.handleChange('new_password')}
                             startAdornment={
                                 <InputAdornment position="start">
                                     <Lock className="text-blue" />
@@ -172,20 +153,6 @@ export default class index extends Component {
                     </FormControl>
                 </Tooltip>
                 <p className="text-danger small mt-2">{confirmPass}</p>
-                <FormControl className="w-100 mt-2">
-                    <InputLabel htmlFor="token">Token</InputLabel>
-                    <Input
-                    id="token"
-                    value={token}
-                    onChange={this.handleChange('token')}
-                    required={true}
-                    startAdornment={
-                        <InputAdornment position="start">
-                        <Mail className="text-blue" />
-                        </InputAdornment>
-                    }
-                    />
-                </FormControl>
                 <button className="btn btn-primary-rounded mt-4" type="submit" onClick={this.handleSend}>
                     SEND
                     <Ink/>
