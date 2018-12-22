@@ -2,13 +2,20 @@ import React, { Component } from 'react'
 import './newpass.css'
 import newLock from '../../assets/img/icons/create-lock.svg'
 import { Redirect } from 'react-router-dom'
-import { FormControl, Input, InputLabel, InputAdornment, Tooltip, IconButton, LinearProgress } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { FormControl, Input, InputLabel, InputAdornment, Tooltip, IconButton, LinearProgress, Dialog, DialogContent, DialogTitle, DialogActions, Button, Slide } from '@material-ui/core'
+import Done from '@material-ui/icons/Done'
 import Lock from '@material-ui/icons/Lock'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import WOW from 'wowjs'
 import Ink from 'react-ink'
 import axios from 'axios'
+
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
+
 
 export default class index extends Component {
     state = {
@@ -90,7 +97,7 @@ export default class index extends Component {
         this.setState({ openSuc: false, })
     }
   render() {
-      const { new_password, password_confirmation, showPassword, showPasswordTwo, loading, confirmPass } = this.state
+      const { new_password, password_confirmation, showPassword, showPasswordTwo, loading, openSuc, confirmPass } = this.state
       console.log(this.state)
     if(localStorage.getItem('token') === null) {
     return (
