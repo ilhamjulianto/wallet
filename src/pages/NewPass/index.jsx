@@ -20,10 +20,12 @@ function Transition(props) {
 export default class index extends Component {
     state = {
         email: '',
-        new_password: '',
+        current_password: '',
+        password: '',
         password_confirmation: '',
         token: '',
         showPassword: false,
+        show_passwordOne: false,
         showPasswordTwo: false,
         loading: false,
         openSuc: false,
@@ -69,12 +71,12 @@ export default class index extends Component {
 
     handleChange = prop => (e) => {
         let form = document.forms['myForm']
-        let new_password = form['new_password']
+        let password = form['password']
         let password_confirmation = form['password_confirmation']
 
         this.setState({ [prop] : e.target.value })
 
-        if(new_password.value !== password_confirmation.value) {
+        if(password.value !== password_confirmation.value) {
             this.setState({ confirmPass: 'Please check your password again' })
         } else {
             this.setState({ confirmPass: '', })
@@ -83,6 +85,10 @@ export default class index extends Component {
 
     handleClickShowPassword = () => {
         this.setState(state => ({ showPassword: !state.showPassword }))
+    }
+
+    handleClickShowPasswordOne = () => {
+        this.setState(state => ({ showPassword: !state.showPasswordOne }))
     }
 
     handleClickShowPasswordTwo = () => {
@@ -97,7 +103,7 @@ export default class index extends Component {
         this.setState({ openSuc: false, })
     }
   render() {
-      const { new_password, password_confirmation, showPassword, showPasswordTwo, loading, openSuc, confirmPass } = this.state
+      const { current_password, password, password_confirmation, showPassword, showPasswordOne, showPasswordTwo, loading, openSuc, confirmPass } = this.state
       console.log(this.state)
     if(localStorage.getItem('token') === null) {
     return (
@@ -111,13 +117,40 @@ export default class index extends Component {
             <form id="myForm" onSubmit={this.handleSend}>
                 <Tooltip title="Password at least must be 6 character">
                     <FormControl className="w-100 mt-3">
-                        <InputLabel htmlFor="new_password">New Password</InputLabel>
+                        <InputLabel htmlFor="current_password">New Password</InputLabel>
                         <Input
-                            value={new_password}
-                            id="new_password"
+                            value={current_password}
+                            id="current_password"
+                            type={showPasswordOne ? 'text' : 'password'}
+                            required={true}
+                            onChange={this.handleChange('current_password')}
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <Lock className="text-blue" />
+                                </InputAdornment>
+                            }
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="Toggle password visibility"
+                                onClick={this.handleClickShowPasswordOne}
+                                >
+                                {showPasswordOne ? <Visibility className="text-blue" /> : <VisibilityOff className="text-blue" />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                        />
+                    </FormControl>
+                </Tooltip>
+                <Tooltip title="Password at least must be 6 character">
+                    <FormControl className="w-100 mt-3">
+                        <InputLabel htmlFor="password">New Password</InputLabel>
+                        <Input
+                            value={password}
+                            id="password"
                             type={showPassword ? 'text' : 'password'}
                             required={true}
-                            onChange={this.handleChange('new_password')}
+                            onChange={this.handleChange('password')}
                             startAdornment={
                                 <InputAdornment position="start">
                                     <Lock className="text-blue" />
