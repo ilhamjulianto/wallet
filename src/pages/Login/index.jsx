@@ -62,7 +62,7 @@ class index extends Component {
                   data: res.data,
                   openFail: false,
               })
-              this.props.logIn(res.data.token)
+              this.props.logIn(res.data.access_token)
           })
           .catch((err) => {
               this.setState({

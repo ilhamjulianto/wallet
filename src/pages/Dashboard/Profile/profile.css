@@ -79,6 +79,12 @@
     color: #FFFFFF !important;
 }
 
+.btn-change-pass {
+    bottom: -45px;
+    background-color: #fb1e29 !important;
+    color: #FFFFFF !important;
+}
+
 .preload {
     position: absolute;
     top: 50%;

@@ -20,7 +20,6 @@ function Transition(props) {
 export default class index extends Component {
     state = {
         email: '',
-        current_password: '',
         password: '',
         password_confirmation: '',
         token: '',
@@ -57,7 +56,6 @@ export default class index extends Component {
         const { url } = this.state
         let data = new FormData()
         data.append('email', this.state.email)
-        data.append('current_password', this.state.current_password)
         data.append('password', this.state.password)
         data.append('password_confirmation', this.state.password_confirmation)
         data.append('token', this.state.token)
@@ -90,10 +88,6 @@ export default class index extends Component {
         this.setState(state => ({ showPassword: !state.showPassword }))
     }
 
-    handleClickShowPasswordOne = () => {
-        this.setState(state => ({ showPassword: !state.showPasswordOne }))
-    }
-
     handleClickShowPasswordTwo = () => {
         this.setState(state => ({ showPasswordTwo: !state.showPasswordTwo }))
     }
@@ -106,7 +100,7 @@ export default class index extends Component {
         this.setState({ openSuc: false, })
     }
   render() {
-      const { current_password, password, password_confirmation, showPassword, showPasswordOne, showPasswordTwo, loading, openSuc, confirmPass } = this.state
+      const { current_password, password, password_confirmation, showPassword, showPasswordTwo, loading, openSuc, confirmPass } = this.state
       console.log(this.state)
     if(localStorage.getItem('token') === null) {
     return (
@@ -118,33 +112,6 @@ export default class index extends Component {
                 Send your email and create your Password
             </p>
             <form id="myForm" onSubmit={this.handleSend}>
-                <Tooltip title="Password at least must be 6 character">
-                    <FormControl className="w-100 mt-3">
-                        <InputLabel htmlFor="current_password">Current Password</InputLabel>
-                        <Input
-                            value={current_password}
-                            id="current_password"
-                            type={showPasswordOne ? 'text' : 'password'}
-                            required={true}
-                            onChange={this.handleChange('current_password')}
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <Lock className="text-blue" />
-                                </InputAdornment>
-                            }
-                            endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                aria-label="Toggle password visibility"
-                                onClick={this.handleClickShowPasswordOne}
-                                >
-                                {showPasswordOne ? <Visibility className="text-blue" /> : <VisibilityOff className="text-blue" />}
-                                </IconButton>
-                            </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </Tooltip>
                 <Tooltip title="Password at least must be 6 character">
                     <FormControl className="w-100 mt-3">
                         <InputLabel htmlFor="password">New Password</InputLabel>

@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import './profile.css'
 // import Footer from '../Footer'
 import Create from '@material-ui/icons/Create'
-import { TextField, Fab, LinearProgress, Snackbar, IconButton } from '@material-ui/core'
+import { TextField, Fab, LinearProgress, Snackbar, IconButton, Dialog, DialogTitle, DialogContent, Slide, Tooltip, FormControl, Input, InputLabel, InputAdornment } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import SaveIcon from '@material-ui/icons/Save'
 import Done from '@material-ui/icons/Done'
+import Visibility from '@material-ui/icons/Visibility'
+import VisibilityOff from '@material-ui/icons/VisibilityOff'
+import Lock from '@material-ui/icons/Lock'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { getData } from '../../_actions'
@@ -19,6 +22,9 @@ const override = css`
     top: 50%;
     transform: translate(-50%, -50%);
 `
+function Transition(props) {
+    return <Slide direction="up" {...props} />;
+}
 
 class index extends Component {
   state = {
@@ -28,12 +34,19 @@ class index extends Component {
     name: '',
     email: '',
     phone_number: '',
+    current_password: '',
+    password: '',
+    password_confirmation: '',
+    open: false,
     loading: false,
     success: false,
     fail: false,
     large: false,
     format: false,
     disabled: false,
+    showPassword: false,
+    showPasswordOne: false,
+    showPasswordTwo: false,
     url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
   }
 
@@ -59,10 +72,10 @@ class index extends Component {
     this.getData()
   }
 
-  handleChange = (e) => {
+  handleChange = prop => (e) => {
     let { phone_number } = this.state
 
-    this.setState({ [e.target.id]: e.target.value, })
+    this.setState({ [prop]: e.target.value, })
 
     if(toString(phone_number).length <= 8) {
       this.setState({ disabled: true, })
@@ -164,6 +177,33 @@ class index extends Component {
     })
   }
 
+  handleChangePassword = (e) => {
+    e.preventDefault()
+    const { url } = this.state
+    let token = localStorage.getItem('token')
+    this.setState({ loading: true, })
+
+    let datas = new FormData()
+    datas.append('current_password', this.state.current_password)
+    datas.append('password', this.state.password)
+    datas.append('password_confirmation', this.state.password_confirmation)
+    axios.post(`${url}/changepassword?token=${token}`, datas)
+    .then(res => {
+      console.log(res)
+      this.setState({ 
+        loading: false,
+        success: true,
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      this.setState({
+        loading: false,
+        fail: true,
+      })
+    })
+  }
+
   handlePreload = () => {
     this.setState({ loading: true, })
   }
@@ -184,9 +224,29 @@ class index extends Component {
     this.setState({ format: false, })
   }
 
+  handleClickShowPassword = () => {
+        this.setState(state => ({ showPassword: !state.showPassword }))
+    }
+
+    handleClickShowPasswordOne = () => {
+        this.setState(state => ({ showPasswordOne: !state.showPasswordOne }))
+    }
+
+    handleClickShowPasswordTwo = () => {
+        this.setState(state => ({ showPasswordTwo: !state.showPasswordTwo }))
+    }
+
+    openChangePass = () => {
+      this.setState({ open: true, })
+    }
+
+    handleClose = () => {
+      this.setState({ open: false, })
+    }
+
   render() {
     console.log(this.state)
-    const { id, image, name, email, phone_number, loading, success, fail, large, format, disabled } = this.state
+    const { id, image, name, email, phone_number, password, current_password, password_confirmation, loading, open, success, fail, large, format, disabled, showPassword, showPasswordOne, showPasswordTwo } = this.state
     if(id === '') {
       return(
         <div className="preload">
@@ -222,7 +282,7 @@ class index extends Component {
                       label="Full Name"
                       className="mt-5"
                       value={name}
-                      onChange={this.handleChange}
+                      onChange={this.handleChange('name')}
                       margin="normal"
                       fullWidth
                     />
@@ -231,7 +291,7 @@ class index extends Component {
                       label="Email"
                       className="mt-5"
                       value={email}
-                      onChange={this.handleChange}
+                      onChange={this.handleChange('email')}
                       margin="normal"
                       fullWidth
                       disabled
@@ -242,13 +302,17 @@ class index extends Component {
                       label="Phone"
                       className="mt-5"
                       value={phone_number}
-                      onChange={this.handleChange}
+                      onChange={this.handleChange('number')}
                       margin="normal"
                       fullWidth
                     />
 
-                    <Fab size="small" disabled={disabled} className="mx-auto btn-save" type="submit" onClick={this.handlePreload}>
+                    <Fab size="small" disabled={disabled} className="mx-3 btn-save" type="submit" onClick={this.handlePreload}>
                       <SaveIcon/>
+                    </Fab>
+
+                    <Fab size="small" disabled={disabled} className="mx-3 btn-change-pass" type="button" onClick={this.openChangePass}>
+                      <Lock/>
                     </Fab>
                   </form>
 
@@ -375,6 +439,118 @@ class index extends Component {
           />
         </div>
         {/* OnImageFormat */}
+
+      {/* Change Password */}
+        <Dialog
+            maxWidth="xs"
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            >
+            <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
+                Change Password
+            </DialogTitle>
+            <DialogContent>
+                <div>
+                    <form onSubmit={this.handleChangePassword}>
+                        <Tooltip title="Password at least must be 6 character">
+                          <FormControl className="w-100 mt-3">
+                              <InputLabel htmlFor="current_password">Current Password</InputLabel>
+                              <Input
+                                  value={current_password}
+                                  id="current_password"
+                                  type={showPasswordOne ? 'text' : 'password'}
+                                  required={true}
+                                  onChange={this.handleChange('current_password')}
+                                  startAdornment={
+                                      <InputAdornment position="start">
+                                          <Lock className="text-blue" />
+                                      </InputAdornment>
+                                  }
+                                  endAdornment={
+                                  <InputAdornment position="end">
+                                      <IconButton
+                                      aria-label="Toggle password visibility"
+                                      onClick={this.handleClickShowPasswordOne}
+                                      >
+                                      {showPasswordOne ? <Visibility className="text-blue" /> : <VisibilityOff className="text-blue" />}
+                                      </IconButton>
+                                  </InputAdornment>
+                                  }
+                              />
+                          </FormControl>
+                      </Tooltip>
+                      <Tooltip title="Password at least must be 6 character">
+                          <FormControl className="w-100 mt-3">
+                              <InputLabel htmlFor="password">New Password</InputLabel>
+                              <Input
+                                  value={password}
+                                  id="password"
+                                  type={showPassword ? 'text' : 'password'}
+                                  required={true}
+                                  onChange={this.handleChange('password')}
+                                  startAdornment={
+                                      <InputAdornment position="start">
+                                          <Lock className="text-blue" />
+                                      </InputAdornment>
+                                  }
+                                  endAdornment={
+                                  <InputAdornment position="end">
+                                      <IconButton
+                                      aria-label="Toggle password visibility"
+                                      onClick={this.handleClickShowPassword}
+                                      >
+                                      {showPassword ? <Visibility className="text-blue" /> : <VisibilityOff className="text-blue" />}
+                                      </IconButton>
+                                  </InputAdornment>
+                                  }
+                              />
+                          </FormControl>
+                      </Tooltip>
+                      <Tooltip title="Password at least must be 6 character">
+                          <FormControl className="w-100 mt-3">
+                                  <InputLabel htmlFor="password_confirmation">Confirm Password</InputLabel>
+                                  <Input
+                                      value={password_confirmation}
+                                      id="password_confirmation"
+                                      type={showPasswordTwo ? 'text' : 'password'}
+                                      required={true}
+                                      onChange={this.handleChange('password_confirmation')}
+                                      startAdornment={
+                                          <InputAdornment position="start">
+                                              <Lock className="text-blue" />
+                                          </InputAdornment>
+                                      }
+                                      endAdornment={
+                                      <InputAdornment position="end">
+                                          <IconButton
+                                          aria-label="Toggle password visibility"
+                                          onClick={this.handleClickShowPasswordTwo}
+                                          >
+                                          {showPasswordTwo ? <Visibility className="text-blue" /> : <VisibilityOff className="text-blue" />}
+                                          </IconButton>
+                                      </InputAdornment>
+                                      }
+                                  />
+                          </FormControl>
+                      </Tooltip>
+
+                        <div className="mx-auto mt-4 d-flex justify-content-center">
+                            <button className="btn-rounded mx-1 btn-send" type="submit">
+                            Change
+                            </button>
+                            <button className="btn-rounded mx-1 btn-cancel" type="button" onClick={this.handleClose}>
+                            Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </DialogContent>
+        </Dialog>
+        {/* Change Password */}
 
       </div>
     )
