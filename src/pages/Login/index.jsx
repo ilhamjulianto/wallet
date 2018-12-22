@@ -57,7 +57,7 @@ class index extends Component {
           axios.post(`${url}/auth/login`, data)
           .then(res => {
               console.log(res.data)
-              localStorage.setItem('token', res.data.token)
+              localStorage.setItem('token', res.data.access_token)
               this.setState({
                   data: res.data,
                   openFail: false,
