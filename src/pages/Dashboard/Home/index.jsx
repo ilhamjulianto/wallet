@@ -20,7 +20,7 @@ export default class index extends Component {
         data: '',
         income: 5000000,
         expense: 3000000,
-        url: 'http://api-simplewallet-v1.herokuapp.com/api/v1',
+        url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
     }
 
     getData = () => {

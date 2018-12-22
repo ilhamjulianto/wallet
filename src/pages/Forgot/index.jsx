@@ -41,7 +41,7 @@ export default class index extends Component {
         axios.post(`${url}/password/create`, data)
         .then(res => {
             console.log(res)
-            this.setState({ loading: false, })
+            this.setState({ loading: false, openSuc: true })
         })
         .catch(err => {
             console.log(err)

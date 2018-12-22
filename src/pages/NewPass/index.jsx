@@ -3,7 +3,6 @@ import './newpass.css'
 import newLock from '../../assets/img/icons/create-lock.svg'
 import { Redirect } from 'react-router-dom'
 import { FormControl, Input, InputLabel, InputAdornment, Tooltip, IconButton, LinearProgress } from '@material-ui/core'
-import Mail from '@material-ui/icons/Mail'
 import Lock from '@material-ui/icons/Lock'
 import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
@@ -20,6 +19,7 @@ export default class index extends Component {
         showPassword: false,
         showPasswordTwo: false,
         loading: false,
+        openSuc: false,
         confirmPass: '',
         url: 'https://api-simplewallet-v1.herokuapp.com/api/password',
     }
@@ -53,7 +53,7 @@ export default class index extends Component {
         axios.post(`${url}/reset`, data)
         .then(res => {
             console.log(res)
-            this.setState({ loading: false, })
+            this.setState({ loading: false, openSuc: true, })
         })
         .catch(err => {
             console.log(err)
@@ -85,8 +85,12 @@ export default class index extends Component {
     handlePreload = () => {
         this.setState({ loading: true, })
     }
+
+    handleClose = () => {
+        this.setState({ openSuc: false, })
+    }
   render() {
-      const { email, new_password, password_confirmation, showPassword, showPasswordTwo, token, loading, confirmPass } = this.state
+      const { new_password, password_confirmation, showPassword, showPasswordTwo, loading, confirmPass } = this.state
       console.log(this.state)
     if(localStorage.getItem('token') === null) {
     return (
@@ -165,6 +169,33 @@ export default class index extends Component {
           <LinearProgress />
         </div>
         {/* Preload */}
+
+        {/* If Success */}
+        <Dialog
+            open={openSuc}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            >
+            <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
+                {"Success"}
+            </DialogTitle>
+            <DialogContent className="mx-auto mt-2">
+                <div className="mx-auto">
+                    <Done className="wow flipInX" style={{fontSize: '100px', color:'#1eb8fb'}}/>
+                </div>
+            </DialogContent>
+            <DialogActions className="mx-auto">
+                <Link to="/login">
+                    <Button onClick={this.closeSuc}>
+                    LOGIN
+                    </Button>
+                </Link>
+            </DialogActions>
+            </Dialog>
+        {/* /If Success */}
 
       </div>
     )} else {
