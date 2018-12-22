@@ -49,7 +49,9 @@ export default class index extends Component {
         this.getUrlParam()
     }
 
-    handleSend = () => {
+    handleSend = (e) => {
+        e.preventDefault()
+
         this.setState({ loading: true, })
 
         const { url } = this.state
@@ -118,7 +120,7 @@ export default class index extends Component {
             <form id="myForm" onSubmit={this.handleSend}>
                 <Tooltip title="Password at least must be 6 character">
                     <FormControl className="w-100 mt-3">
-                        <InputLabel htmlFor="current_password">New Password</InputLabel>
+                        <InputLabel htmlFor="current_password">Current Password</InputLabel>
                         <Input
                             value={current_password}
                             id="current_password"
