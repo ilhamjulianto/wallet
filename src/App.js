@@ -23,7 +23,7 @@ class App extends Component {
         <Switch>
           <Route path="/" component={Landing} exact />
           <Route path="/login" component={Login} />
-          <Route path="/signup" component={SignUp} />
+          <Route path="/register" component={SignUp} />
           <Route path="/dashboard/" component={Dashboard} />
           <Route path="/forgot" component={Forgot} />
           <Route path="/newpassword" component={NewPass} />

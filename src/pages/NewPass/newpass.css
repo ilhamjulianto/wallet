@@ -1,7 +1,17 @@
 .create-password {
     position: relative;
-    height: 180vh;
+    height: 100%;
+    width: 100%;
     background-color: #ebf3f9;
+}
+
+@media(max-width: 1366px) {
+    .create-password {
+        position: relative;
+        height: 130%;
+        width: 100%;
+        background-color: #ebf3f9;
+    }
 }
 
 .create-password .forgot-form {
@@ -9,7 +19,7 @@
     left: 50%;
     top: 50%;
     margin-left: -200px;
-    margin-top: -337px;
+    margin-top: -362px;
     width: 400px;
     text-align: center;
     background-color: #FFFFFF;

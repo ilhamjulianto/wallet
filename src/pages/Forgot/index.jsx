@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './forgot.css'
 import lock from '../../assets/img/icons/open-lock.svg'
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { FormControl, Input, InputLabel, InputAdornment, Slide, Dialog, DialogTitle, DialogContent, DialogActions, Button, LinearProgress } from '@material-ui/core'
 import Done from '@material-ui/icons/Done'
 import Mail from '@material-ui/icons/Mail'
@@ -41,7 +41,7 @@ export default class index extends Component {
         axios.post(`${url}/password/create`, data)
         .then(res => {
             console.log(res)
-            this.setState({ loading: false, openSuc: true })
+            this.setState({ loading: false, openSuc: true,  email: '', })
         })
         .catch(err => {
             console.log(err)
@@ -97,7 +97,7 @@ export default class index extends Component {
             keepMounted
             onClose={this.handleClose}
             aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="Go To Loginalert-dialog-slide-description"
+            aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
                 {"We've email your account"}
@@ -108,9 +108,11 @@ export default class index extends Component {
                 </div>
             </DialogContent>
             <DialogActions className="mx-auto">
-                <Button onClick={this.closeSuc}>
-                Close
-                </Button>
+                <a href="https://gmail.com" target="_blank">
+                    <Button onClick={this.closeSuc}>
+                    Check Email
+                    </Button>
+                </a>
             </DialogActions>
             </Dialog>
         {/* /If Success */}

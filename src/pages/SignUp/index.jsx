@@ -50,7 +50,7 @@ export default class index extends Component {
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
       };
 
-      componentDidMount() {
+    componentDidMount() {
         new WOW.WOW().init()
       }
 
@@ -63,44 +63,63 @@ export default class index extends Component {
       };
 
       handleOnChangeRegister = (e) => {    
-          this.setState({ [e.target.id] : e.target.value })
+        this.setState({ [e.target.id] : e.target.value })
 
-          var form = document.forms['myForm']
-          var password = form['password']
-          var password_confirmation = form['password_confirmation']
-          var email = form['email']
-          var name = form['name']
+        var form = document.forms['myForm']
+        var name = form['name']
+        var email = form['email']
+        var password = form['password']
+        var password_confirmation = form['password_confirmation']
+
+        if(email.value.length <= 5) {
+                this.setState({ disabled: true, })
+            } else {
+                this.setState({ disabled: false, })
+            }
+        console.log(name.value)
+
+        if(password.value.length <= 5) {
+            this.setState({ disabled: true, })
+        } else {
+            this.setState({ disabled: false, })
+        }
+
+        // if(name.value.length <= 5) {
+        //       this.setState({ disabled: true })
+        // } else {
+        //   this.setState({ disabled: false })
+        // }
+
+        // if(email.value.match(/^[A-Z]/) || email.value.match(/\s/g) || email.value.length < 6) {
+        //     this.setState({ disabled: true })
+        // } else {
+        //     this.setState({ disabled: false })
+        // }
+
+        // if(password.value.length <= 5 || password.value.match(/\s/g)) {
+        //     this.setState({ disabled: true })
+        // } else {
+        //     this.setState({ disabled: false })
+        // }
 
         if(password.value !== password_confirmation.value) {
             this.setState({
                 confirmPass: 'Check your password again',
                 disabled: true,
             })
-        } 
+        }
         else {
             this.setState({
                 confirmPass: '',
                 disabled: false,
             })
         }
-
-        if(name.value !== '') {
-            if(!email.value.match(/^[A-Z]/) || !email.value.match(/\s/g) || email.value.length < 6) {
-                if(password.value.length >= 5 || !password.value.match(/\s/g)) {
-                    this.setState({ disabled: false })
-                } 
-                else {
-                    this.setState({ disabled: true })
-                }
-            } 
-            else {
-                this.setState({ disabled: true })
-            }
-        }
-      }
+    }
 
       handleSubmit = (e) => {
         e.preventDefault()
+
+        this.setState({ open: true })
 
         const { name, email, password, password_confirmation, url } = this.state
         const data = new FormData()
@@ -118,14 +137,6 @@ export default class index extends Component {
             })
             console.log(res)
         })
-        .catch((err) => {
-            console.log(err)
-            this.setState({
-                openSuc: false,
-                openFail: true,
-                open: false,
-            })
-        })
       }
 
       closeModal = () => {
@@ -140,10 +151,6 @@ export default class index extends Component {
           this.setState({ openSuc: false, })
       }
 
-      open = () => {
-          this.setState({ open: true })
-      }
-
       handleCloseSnackErr = () => {
           this.setState({ openSnackErr: false })
       }
@@ -152,10 +159,10 @@ export default class index extends Component {
     if(localStorage.getItem('token') === null){
     return (
       <div className="signup-session">
-        <img src={signupTop} className="wow slideInDown signup-top" alt="signup-top"/>
+        <img src={signupTop} className="wow slideInDown signup-top" alt="signup-top" data-wow-delay="0.3s"/>
         <img src={signupBottom} className="wow slideInUp signup-bottom" alt="signup-bottom" data-wow-delay="0.3s"/>
-        <div className="wow fadeInUp signup-form text-center p-5">
-            <h2 className="roboto-bold text-light">Sign Up</h2>
+        <div className="wow fadeIn slow signup-form text-center p-5">
+            <h2 className="roboto-bold text-light">Register</h2>
             <p className="roboto-light text-light mt-4 mx-3">Here you can fill the form and create your own
             account. If you have account, Click the
             Sign In button.</p>
@@ -248,12 +255,12 @@ export default class index extends Component {
                 <label className="text-danger">{this.state.confirmPass}</label>
                 <br/>
                 <Tooltip title={ this.state.disabled === true ? "You must fill all Form first" : ''}>
-                    <button id="btn-signup" disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-5" onClick={this.open}>
-                        Sign Up
+                    <button id="btn-signup" disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-5">
+                        Register
                         <Ink/>
                     </button>
                 </Tooltip>
-                <Link to="/login"><button className="btn btn-secondary-rounded mt-3">
+                <Link to="/login"><button className="btn btn-secondary-rounded mt-3" type="button">
                     Login
                     <Ink/>
                 </button></Link>
@@ -306,11 +313,11 @@ export default class index extends Component {
                 </div>
             </DialogContent>
             <DialogActions className="mx-auto">
-                <Link to="/login">
+                <a href="https://gmail.com" target="_blank">
                     <Button onClick={this.closeSuc}>
-                    Go To Login
+                    Verify Email
                     </Button>
-                </Link>
+                </a>
             </DialogActions>
             </Dialog>
         {/* /If Success */}

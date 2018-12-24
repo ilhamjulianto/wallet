@@ -64,12 +64,6 @@ class index extends Component {
               })
               this.props.logIn(res.data.access_token)
           })
-          .catch((err) => {
-              this.setState({
-                  openFail: true,
-                  open: false,
-              })
-          })
       }
 
       handleChange = prop => event => {
@@ -109,9 +103,9 @@ class index extends Component {
     if(localStorage.getItem('token') === null) {
     return (
       <div className="login-session">
-        <img src={loginTop} className="wow slideInDown login-top" alt="login-top"/>
-        <img src={loginBottom} className="wow slideInUp login-bottom" alt="login-top"/>
-        <div className="wow slideInUp login-form text-center p-md-5 p-xs-3">
+        <img src={loginTop} className="wow slideInDown login-top" alt="login-top" data-wow-delay="0.3s"/>
+        <img src={loginBottom} className="wow slideInUp login-bottom" alt="login-top" data-wow-delay="0.3s"/>
+        <div className="wow fadeIn slow login-form text-center p-md-5 p-xs-3" data-wow-delay="0.3s">
             <h2 className="roboto-bold text-light">Login</h2>
             <p className="roboto-light text-light mt-4 mx-3">Sign In with your account, if you don't have account,
             please Sign Up first.</p>
@@ -164,8 +158,8 @@ class index extends Component {
                     <Ink/>
                 </button>
                 {/* </Link> */}
-                <Link to="/signup"><button className="btn btn-secondary-rounded mt-3">
-                    Sign Up
+                <Link to="/register"><button className="btn btn-secondary-rounded mt-3">
+                    Register
                     <Ink/>
                 </button></Link>
             </form>
@@ -207,7 +201,7 @@ class index extends Component {
             aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
-                Error!<br/>Check your email and username
+                Error!<br/>Check your email and password
             </DialogTitle>
             <DialogContent>
                 <div className="sweet-loading">

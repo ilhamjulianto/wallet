@@ -1,9 +1,17 @@
 .login-session {
     position: relative;
-    height: auto;
-    height: 120vh;
+    height: 100vh;
     background-color: #ebf3f9;
     width: 100%;
+}
+
+@media(max-width: 1366px) {
+    .login-session {
+        position: relative;
+        height: 120vh;
+        background-color: #ebf3f9;
+        width: 100%;
+    }    
 }
 
 .login-top {

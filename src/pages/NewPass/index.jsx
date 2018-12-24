@@ -29,7 +29,7 @@ export default class index extends Component {
         loading: false,
         openSuc: false,
         confirmPass: '',
-        url: 'https://api-simplewallet-v1.herokuapp.com/api/password',
+        url: 'https://api-simplewallet-v1.herokuapp.com/api',
     }
 
     getUrlParam() {
@@ -60,7 +60,7 @@ export default class index extends Component {
         data.append('password_confirmation', this.state.password_confirmation)
         data.append('token', this.state.token)
 
-        axios.post(`${url}/reset`, data)
+        axios.post(`${url}/password/reset`, data)
         .then(res => {
             console.log(res)
             this.setState({ loading: false, openSuc: true, })
