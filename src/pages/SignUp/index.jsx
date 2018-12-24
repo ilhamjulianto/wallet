@@ -305,7 +305,7 @@ export default class index extends Component {
             aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
-                Your account has been created!<br/>Please verify your account in your email
+                Well done! Account created.<br/>Please, check your email to activate it.
             </DialogTitle>
             <DialogContent className="mx-auto mt-2">
                 <div className="mx-auto">

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './transaction.css'
 import typeListData from './type.json'
-import categoryListData from './category.json'
 import WOW from 'wowjs'
 import Ink from 'react-ink'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, InputAdornment, MenuItem, TextField, Snackbar, LinearProgress, List, ListItem, ListItemText } from '@material-ui/core'
@@ -45,11 +44,10 @@ export default class index extends Component {
         dateUpdate: '',
         userUpdate: '',
         typeList: typeListData,
-        categoryList: categoryListData,
+        categoryList: '',
         loading: false,
         open: false,
         openType: false,
-        openCategory: false,
         openDetail: false,
         openSuc: false,
         openFail: false,
@@ -70,10 +68,22 @@ export default class index extends Component {
         })
     }
 
+    getCategory = () => {
+        const { url } = this.state
+        axios.get(`${url}/category`)
+        .then(res => {
+            console.log(res)
+            this.setState({
+                categoryList: res.data
+            })
+        })
+    }
+
     componentDidMount() {
         new WOW.WOW().init()
         this.setState({ token: localStorage.getItem('token') })
         this.getData()
+        this.getCategory()
     }
 
     today = () => {
@@ -112,7 +122,7 @@ export default class index extends Component {
             index: i,
             openDetail: true,
             typeUpdate: datas[i].type,
-            categoryUpdate: datas[i].category,
+            categoryUpdate: datas[i].category_id,
             amountUpdate: datas[i].amount,
             noteUpdate: datas[i].note,
             dateUpdate: datas[i].date,
@@ -128,7 +138,7 @@ export default class index extends Component {
         const { token, url } = this.state
         let data = new FormData()
         data.append('type', this.state.type.toLowerCase())
-        data.append('category', this.state.category.toLowerCase())
+        data.append('category_id', this.state.category)
         data.append('amount', this.state.amount === 'Expense' ? '-' + this.state.amount : this.state.amount)
         data.append('note', this.state.note)
         data.append('date', this.state.date)
@@ -177,23 +187,8 @@ export default class index extends Component {
         this.setState({ openType: false })
     }
 
-    showCategory = () => {
-        this.setState({ openCategory: true })
-    }
-
-    handleCategoryListClick = (e) => {
-        this.setState({
-            categoryUpdate: e.target.innerHTML,
-            openCategory: false,
-        })
-    }
-
-    handleCloseCategory = () => {
-        this.setState({ openCategory: false })
-    }
-
   render() {
-      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openCategory, openType, openDetail, openSuc, index, loading, openFail } = this.state
+      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openType, openDetail, openSuc, index, loading, openFail } = this.state
       console.log(this.state)
     if(data === '') {
     return(
@@ -218,7 +213,7 @@ export default class index extends Component {
             <div className="container mt-5">
                 <h6 className="text-left text-dark-smooth roboto-medium">{this.today()}</h6>
 
-                {data.map((datas, i) => {
+                {categoryList == '' ? categoryList : data.map((datas, i) => {
                         var bilangan = eval(datas.amount);
                     
                         var	number_string = bilangan.toString()
@@ -280,21 +275,6 @@ export default class index extends Component {
         </Dialog>
         {/* Type */}
 
-        {/* Category */}
-        <Dialog open={openCategory} onClose={this.handleCloseCategory} aria-labelledby="simple-dialog-title">
-            <DialogTitle id="simple-dialog-title">Transaction Type</DialogTitle>
-            <div>
-            <List>
-                {categoryList.map(datas => (
-                    <ListItem button>
-                <ListItemText primary={datas.category} onClick={this.handleCategoryListClick}/>
-                </ListItem>
-                ))}
-            </List>
-            </div>
-        </Dialog>
-        {/* Category */}
-
         {/* Add Transaction */}
         <Dialog
             maxWidth="xs"
@@ -340,12 +320,12 @@ export default class index extends Component {
                             startAdornment: <InputAdornment position="start"><CategoryIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                            <MenuItem value="">
-                            <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={'Family'}>Family</MenuItem>
-                            <MenuItem value={'Sport'}>Sport</MenuItem>
-                            <MenuItem value={'Loan'}>Loan</MenuItem>
+                        {categoryList === '' ? categoryList : categoryList.map(datas => {
+                            return (
+                                <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                )
+                            })
+                        }
                         </TextField>
 
                         <TextField
@@ -444,23 +424,21 @@ export default class index extends Component {
                         </TextField>
 
                         <TextField
+                            select
                             className="w-100 mt-2"
                             label="Category"
-                            value={index === '' ? type : categoryUpdate}
+                            value={index === '' ? 'none' : categoryUpdate}
                             onChange={this.handleChange('categoryUpdate')}
-                            onClick={this.showCategory}
                             id="categoryUpdate"
                             InputProps={{
                             startAdornment: <InputAdornment position="start"><CategoryIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                            <MenuItem value="">
-                            <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={'Family'}>Family</MenuItem>
-                            <MenuItem value={'Sport'}>Sport</MenuItem>
-                            <MenuItem value={'Gift'}>Gift</MenuItem>
-                            <MenuItem value={'Loan'}>Loan</MenuItem>
+                        {categoryList === '' ? categoryList : categoryList.map(datas => (
+                                <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                )
+                            )
+                        }
                         </TextField>
 
                         <TextField
