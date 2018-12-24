@@ -57,7 +57,7 @@ export default class index extends Component {
     sumTotal = (arr) => {
         var sum = 0;
         for (var i = 0; i < arr.length; i++) {
-                  var total = eval(sum += arr[i])
+                  var total = eval(sum += `${arr[i]}`)
         }
         return total
     }
@@ -81,12 +81,13 @@ export default class index extends Component {
     )
     }
 
-    let totalIn = data.map((datas) => { return `${datas.amount}` })
-    totalIn = totalIn.filter(x => x.includes('+'))
+    let totalIn = data.map((datas) => (`${datas.amount}`))
+    totalIn = totalIn.filter(x => x.includes('-'))
 
     var totalOut = totalIn.filter(x => (x.includes('-')))
+    
     console.log(totalIn)
-
+    console.log(totalOut)
     var saldo
     totalIn.toString() === '' ? saldo = 0 : saldo = this.sumTotal(totalIn)
     var inc = saldo

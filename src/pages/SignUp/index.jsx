@@ -8,6 +8,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Lock from '@material-ui/icons/Lock'
 import Mail from '@material-ui/icons/Mail'
+import Close from '@material-ui/icons/Close'
 import Ink from 'react-ink'
 import WOW from 'wowjs'
 import axios from 'axios'
@@ -76,31 +77,12 @@ export default class index extends Component {
             } else {
                 this.setState({ disabled: false, })
             }
-        console.log(name.value)
 
         if(password.value.length <= 5) {
             this.setState({ disabled: true, })
         } else {
             this.setState({ disabled: false, })
         }
-
-        // if(name.value.length <= 5) {
-        //       this.setState({ disabled: true })
-        // } else {
-        //   this.setState({ disabled: false })
-        // }
-
-        // if(email.value.match(/^[A-Z]/) || email.value.match(/\s/g) || email.value.length < 6) {
-        //     this.setState({ disabled: true })
-        // } else {
-        //     this.setState({ disabled: false })
-        // }
-
-        // if(password.value.length <= 5 || password.value.match(/\s/g)) {
-        //     this.setState({ disabled: true })
-        // } else {
-        //     this.setState({ disabled: false })
-        // }
 
         if(password.value !== password_confirmation.value) {
             this.setState({
@@ -137,6 +119,11 @@ export default class index extends Component {
             })
             console.log(res)
         })
+        .catch(err => {
+            this.setState({
+                error: err.response.data.msg,
+            })
+        })
       }
 
       closeModal = () => {
@@ -156,6 +143,7 @@ export default class index extends Component {
       }
   render() {
       console.log(this.state)
+      const { data, amount, showPassword, showPasswordTwo, name, email, password, password_confirmation, open, openFail, openSuc, openSnackErr, disabled, passwordAlert, confirmPass, url, loading, error } = this.state
     if(localStorage.getItem('token') === null){
     return (
       <div className="signup-session">
@@ -172,7 +160,7 @@ export default class index extends Component {
                 <FormControl className="w-75 mt-5">
                         <InputLabel htmlFor="name">Full Name</InputLabel>
                         <Input
-                        value={this.state.name}
+                        value={name}
                         id="name"
                         required={true}
                         startAdornment={
@@ -186,7 +174,7 @@ export default class index extends Component {
                 <FormControl className="w-75 mt-4">
                         <InputLabel htmlFor="email">Email</InputLabel>
                         <Input
-                        value={this.state.email}
+                        value={email}
                         id="email"
                         required={true}
                         startAdornment={
@@ -197,13 +185,13 @@ export default class index extends Component {
                         onChange={this.handleOnChangeRegister}
                         />
                 </FormControl>
-                <Tooltip title={this.state.passwordAlert}>
+                <Tooltip title={passwordAlert}>
                 <FormControl className="w-75 mt-4">
                         <InputLabel htmlFor="password">Password</InputLabel>
                         <Input
-                            value={this.state.password}
+                            value={password}
                             id="password"
-                            type={this.state.showPassword ? 'text' : 'password'}
+                            type={showPassword ? 'text' : 'password'}
                             required={true}
                             onChange={this.handleOnChangeRegister}
                             startAdornment={
@@ -217,7 +205,7 @@ export default class index extends Component {
                                 aria-label="Toggle password visibility"
                                 onClick={this.handleClickShowPassword}
                                 >
-                                {this.state.showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+                                {showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
                                 </IconButton>
                             </InputAdornment>
                             }
@@ -225,13 +213,13 @@ export default class index extends Component {
                 </FormControl>
                 </Tooltip>
                 <br/>
-                <Tooltip title={this.state.passwordAlert}>
+                <Tooltip title={passwordAlert}>
                 <FormControl className="w-75 mt-4">
                         <InputLabel htmlFor="password_confirmation">Confirm Password</InputLabel>
                         <Input
-                            value={this.state.password_confirmation}
+                            value={password_confirmation}
                             id="password_confirmation"
-                            type={this.state.showPasswordTwo ? 'text' : 'password'}
+                            type={showPasswordTwo ? 'text' : 'password'}
                             required={true}
                             onChange={this.handleOnChangeRegister}
                             startAdornment={
@@ -245,17 +233,17 @@ export default class index extends Component {
                                 aria-label="Toggle password visibility"
                                 onClick={this.handleClickShowPasswordTwo}
                                 >
-                                {this.state.showPasswordTwo ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+                                {showPasswordTwo ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
                                 </IconButton>
                             </InputAdornment>
                             }
                         />
                 </FormControl>
                 </Tooltip>
-                <label className="text-danger">{this.state.confirmPass}</label>
+                <label className="text-danger small">{confirmPass}</label>
                 <br/>
-                <Tooltip title={ this.state.disabled === true ? "You must fill all Form first" : ''}>
-                    <button id="btn-signup" disabled={this.state.disabled} type="submit" className="btn btn-primary-rounded mt-5">
+                <Tooltip title={ disabled === true ? "You must fill all Form first" : ''}>
+                    <button id="btn-signup" disabled={disabled} type="submit" className="btn btn-primary-rounded mt-5">
                         Register
                         <Ink/>
                     </button>
@@ -271,7 +259,7 @@ export default class index extends Component {
 
         {/* On Submit */}
         <Dialog
-            open={this.state.open}
+            open={open}
             TransitionComponent={Transition}
             keepMounted
             onClose={this.handleClose}
@@ -288,7 +276,7 @@ export default class index extends Component {
                         sizeUnit={"px"}
                         size={100}
                         color={"#1eb8fb"}
-                        loading={this.state.loading}
+                        loading={loading}
                     />
                 </div>
             </DialogContent>
@@ -297,7 +285,7 @@ export default class index extends Component {
         
         {/* If Success */}
             <Dialog
-            open={this.state.openSuc}
+            open={openSuc}
             TransitionComponent={Transition}
             keepMounted
             onClose={this.handleClose}
@@ -324,7 +312,7 @@ export default class index extends Component {
 
         {/* If Failed */}
         <Dialog
-            open={this.state.openFail}
+            open={openFail}
             TransitionComponent={Transition}
             keepMounted
             onClose={this.handleClose}
@@ -332,17 +320,11 @@ export default class index extends Component {
             aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
-                Error!<br/>Your email has been taken or check your connections
+                <div dangerouslySetInnerHTML={{__html: error}}/>
             </DialogTitle>
             <DialogContent>
-                <div className="sweet-loading">
-                    <HashLoader
-                        className={override}
-                        sizeUnit={"px"}
-                        size={100}
-                        color={"#1eb8fb"}
-                        loading={this.state.loading}
-                    />
+                <div className="mx-auto text-center">
+                    <Close className="wow bounceIn text-danger" style={{fontSize: '100px'}}/>
                 </div>
             </DialogContent>
             <DialogActions>
@@ -359,7 +341,7 @@ export default class index extends Component {
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={this.state.openSnackErr}
+          open={openSnackErr}
           onClose={this.handleCloseSnackErr}
           ContentProps={{
             'aria-describedby': 'message-id',

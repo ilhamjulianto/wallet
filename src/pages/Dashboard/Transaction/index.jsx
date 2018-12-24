@@ -139,7 +139,7 @@ export default class index extends Component {
         let data = new FormData()
         data.append('type', this.state.type.toLowerCase())
         data.append('category_id', this.state.category)
-        data.append('amount', this.state.amount === 'Expense' ? '-' + this.state.amount : this.state.amount)
+        data.append('amount', this.state.type === 'Expense' ? '-' + this.state.amount : this.state.amount)
         data.append('note', this.state.note)
         data.append('date', this.state.date)
         data.append('user', this.state.user)

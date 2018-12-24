@@ -31,7 +31,7 @@ export default class Home extends Component {
                 </button></a>
                 </div>
                 <div className="col-md-6 col-sm-12">
-                    <a href="/signup"><button className="wow bounceIn btn btn-rounded-light" data-wow-delay="1.2s">
+                    <a href="/register"><button className="wow bounceIn btn btn-rounded-light" data-wow-delay="1.2s">
                     SIGN UP
                     <Ink/>
                 </button></a>

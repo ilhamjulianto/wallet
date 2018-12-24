@@ -47,6 +47,7 @@ class index extends Component {
     showPassword: false,
     showPasswordOne: false,
     showPasswordTwo: false,
+    error: '',
     url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
   }
 
@@ -151,6 +152,7 @@ class index extends Component {
   handleUpdateProfile = (e) => {
     e.preventDefault()
     const { name, email, phone_number, url } = this.state
+    this.setState({ loading: true, })
 
     axios.put(`${url}/user/update?token=${localStorage.getItem('token')}`, 
       {
@@ -168,11 +170,12 @@ class index extends Component {
       this.getData()
     })
     .catch(err => {
-      console.log(err)
+      console.log(err.response.data.message)
       this.setState({
         loading: false,
         success: false,
         fail: true,
+        error: err.response.data.message,
       })
     })
   }
@@ -204,10 +207,6 @@ class index extends Component {
     })
   }
 
-  handlePreload = () => {
-    this.setState({ loading: true, })
-  }
-
   handleCloseSuccess = () => {
     this.setState({ success: false, })
   }
@@ -225,28 +224,28 @@ class index extends Component {
   }
 
   handleClickShowPassword = () => {
-        this.setState(state => ({ showPassword: !state.showPassword }))
-    }
+      this.setState(state => ({ showPassword: !state.showPassword }))
+  }
 
-    handleClickShowPasswordOne = () => {
-        this.setState(state => ({ showPasswordOne: !state.showPasswordOne }))
-    }
+  handleClickShowPasswordOne = () => {
+      this.setState(state => ({ showPasswordOne: !state.showPasswordOne }))
+  }
 
-    handleClickShowPasswordTwo = () => {
-        this.setState(state => ({ showPasswordTwo: !state.showPasswordTwo }))
-    }
+  handleClickShowPasswordTwo = () => {
+      this.setState(state => ({ showPasswordTwo: !state.showPasswordTwo }))
+  }
 
-    openChangePass = () => {
-      this.setState({ open: true, })
-    }
+  openChangePass = () => {
+    this.setState({ open: true, })
+  }
 
-    handleClose = () => {
-      this.setState({ open: false, })
-    }
+  handleClose = () => {
+    this.setState({ open: false, })
+  }
 
   render() {
     console.log(this.state)
-    const { id, image, name, email, phone_number, password, current_password, password_confirmation, loading, open, success, fail, large, format, disabled, showPassword, showPasswordOne, showPasswordTwo } = this.state
+    const { id, image, name, email, phone_number, password, current_password, password_confirmation, loading, open, success, fail, large, format, disabled, showPassword, showPasswordOne, showPasswordTwo, error } = this.state
     if(id === '') {
       return(
         <div className="preload">
@@ -278,6 +277,7 @@ class index extends Component {
                   </div>
                   <form onSubmit={this.handleUpdateProfile}>
                     <TextField
+                      required
                       id="name"
                       label="Full Name"
                       className="mt-5"
@@ -297,6 +297,7 @@ class index extends Component {
                       disabled
                     />
                     <TextField
+                      required
                       type="number"
                       id="phone_number"
                       label="Phone"
@@ -307,7 +308,7 @@ class index extends Component {
                       fullWidth
                     />
 
-                    <Fab size="small" disabled={disabled} className="mx-3 btn-save" type="submit" onClick={this.handlePreload}>
+                    <Fab size="small" disabled={disabled} className="mx-3 btn-save" type="submit">
                       <SaveIcon/>
                     </Fab>
 
@@ -369,7 +370,7 @@ class index extends Component {
             ContentProps={{
               'aria-describedby': 'message-id',
             }}
-            message={<span id="message-id">Update Failed</span>}
+            message={<span id="message-id">{error}</span>}
             action={[
               <IconButton
                 key="close"
@@ -460,6 +461,7 @@ class index extends Component {
                           <FormControl className="w-100 mt-3">
                               <InputLabel htmlFor="current_password">Current Password</InputLabel>
                               <Input
+                                  required
                                   value={current_password}
                                   id="current_password"
                                   type={showPasswordOne ? 'text' : 'password'}
@@ -487,6 +489,7 @@ class index extends Component {
                           <FormControl className="w-100 mt-3">
                               <InputLabel htmlFor="password">New Password</InputLabel>
                               <Input
+                                  required
                                   value={password}
                                   id="password"
                                   type={showPassword ? 'text' : 'password'}
@@ -514,6 +517,7 @@ class index extends Component {
                           <FormControl className="w-100 mt-3">
                                   <InputLabel htmlFor="password_confirmation">Confirm Password</InputLabel>
                                   <Input
+                                      required
                                       value={password_confirmation}
                                       id="password_confirmation"
                                       type={showPasswordTwo ? 'text' : 'password'}

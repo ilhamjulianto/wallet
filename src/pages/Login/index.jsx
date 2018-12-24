@@ -8,6 +8,7 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Lock from '@material-ui/icons/Lock'
 import Mail from '@material-ui/icons/Mail'
+import Close from '@material-ui/icons/Close'
 import Ink from 'react-ink'
 import WOW from 'wowjs'
 import { Link , Redirect} from 'react-router-dom'
@@ -39,6 +40,7 @@ class index extends Component {
         openFail: false,
         loading: true,
         disabled: true,
+        error: 'Error!<br />Check your email and password',
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
       };
 
@@ -48,6 +50,8 @@ class index extends Component {
 
       handleLogin = (e) => {
           e.preventDefault()
+
+          this.setState({ open: true })
 
           const { email, password, url } = this.state
           const data = new FormData()
@@ -60,9 +64,21 @@ class index extends Component {
               localStorage.setItem('token', res.data.access_token)
               this.setState({
                   data: res.data,
+                  open: false,
                   openFail: false,
               })
               this.props.logIn(res.data.access_token)
+          })
+          .catch(error => {
+            console.log(error.response)
+            // if(error.response.status === 404) {
+            //   this.setState({ error: 'Error!<br/>Your Account is not registered' })
+            // }
+            this.setState({
+              error: error.response.data.msg,
+              open: false,
+              openFail: true,
+            })
           })
       }
 
@@ -90,16 +106,13 @@ class index extends Component {
         this.setState({ open: false, })
       }
 
-      open = () => {
-        this.setState({ open: true })
-      }
-
       closeFail = () => {
         this.setState({ openFail: false, })
       }
+
   render() {
       console.log(this.state)
-      const { email, password, disabled, showPassword, open, openFail, loading } = this.state
+      const { email, password, disabled, showPassword, open, openFail, loading, error } = this.state
     if(localStorage.getItem('token') === null) {
     return (
       <div className="login-session">
@@ -153,12 +166,12 @@ class index extends Component {
                 
                 <br/>
                 {/* <Link to="/dashboard"> */}
-                <button disabled={disabled} type="submit" className="btn btn-primary-rounded mt-1" onClick={this.open}>
+                <button disabled={disabled} type="submit" className="btn btn-primary-rounded mt-1">
                     Login
                     <Ink/>
                 </button>
                 {/* </Link> */}
-                <Link to="/register"><button className="btn btn-secondary-rounded mt-3">
+                <Link to="/register"><button className="btn btn-secondary-rounded mt-3" type="button">
                     Register
                     <Ink/>
                 </button></Link>
@@ -201,17 +214,11 @@ class index extends Component {
             aria-describedby="alert-dialog-slide-description"
             >
             <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
-                Error!<br/>Check your email and password
+            <div dangerouslySetInnerHTML={{__html: error}}/>
             </DialogTitle>
             <DialogContent>
-                <div className="sweet-loading">
-                    <HashLoader
-                        className={override}
-                        sizeUnit={"px"}
-                        size={100}
-                        color={"#1eb8fb"}
-                        loading={loading}
-                    />
+                <div className="mx-auto text-center">
+                    <Close className="wow bounceIn text-danger" style={{fontSize: '100px'}}/>
                 </div>
             </DialogContent>
             <DialogActions>
