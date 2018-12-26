@@ -28,7 +28,7 @@ export default class index extends Component {
         axios.get(`${url}/transactions`)
         .then(res => {
             console.log(res)
-            this.setState({ data: res.data.Transactions })
+            this.setState({ data: res.data.data })
         })
         console.log(this.state)
     }
@@ -57,7 +57,7 @@ export default class index extends Component {
     sumTotal = (arr) => {
         var sum = 0;
         for (var i = 0; i < arr.length; i++) {
-                  var total = eval(sum += `${arr[i]}`)
+                  var total = sum += arr[i]
         }
         return total
     }
@@ -65,7 +65,7 @@ export default class index extends Component {
       const { data } = this.state
       console.log(this.state)
 
-    if(data === '') {
+    if(data === '' || data === undefined) {
     return(
         <div className="preload">
             <div className="sweet-loading mx-auto">
@@ -81,16 +81,20 @@ export default class index extends Component {
     )
     }
 
-    let totalIn = data.map((datas) => (`${datas.amount}`))
-    totalIn = totalIn.filter(x => x.includes('-'))
+    let totalIn = data.map((datas) => (parseInt(datas.amount)))
+    totalIn = totalIn.filter(x => {if(x > 0) {
+        return x
+    }})
 
-    var totalOut = totalIn.filter(x => (x.includes('-')))
+    var totalOut = totalIn.filter(x => {if(x < 0) {
+        return x
+    }})
     
-    console.log(totalIn)
-    console.log(totalOut)
-    var saldo
-    totalIn.toString() === '' ? saldo = 0 : saldo = this.sumTotal(totalIn)
-    var inc = saldo
+    console.log(this.sumTotal(totalOut))
+    // console.log(totalOut)
+    // var saldo
+    // totalIn === undefined ? saldo = 0 : saldo = this.sumTotal(totalIn)
+    // var inc = saldo
     return (
       <div className="dashboard-home text-center">
         <div className="pt-5">
@@ -126,7 +130,7 @@ export default class index extends Component {
                         <div className="d-flex align-items-center">
                             <i className="fas fa-dollar-sign fa-2x"></i>
                             &nbsp;&nbsp;&nbsp;
-                            <p className="income-value roboto-bold m-0">IDR {totalIn - totalOut !== null ? inc : '000'}</p>
+                            <p className="income-value roboto-bold m-0">IDR {totalIn - totalOut !== null ? 'ada' : '000'}</p>
                         </div>
                         <Ink/>
                     </div>

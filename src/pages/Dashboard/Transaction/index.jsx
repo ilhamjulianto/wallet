@@ -3,7 +3,7 @@ import './transaction.css'
 import typeListData from './type.json'
 import WOW from 'wowjs'
 import Ink from 'react-ink'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, InputAdornment, MenuItem, TextField, Snackbar, LinearProgress, List, ListItem, ListItemText } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, InputAdornment, MenuItem, TextField, Snackbar, LinearProgress, List, ListItem, ListItemText, Typography, Tabs, Tab, AppBar } from '@material-ui/core'
 import 'react-infinite-calendar/styles.css'
 import TypeIcon from '@material-ui/icons/MonetizationOn'
 import CategoryIcon from '@material-ui/icons/Apps'
@@ -26,6 +26,14 @@ const override = css`
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
+}
+
+function TabContainer(props) {
+  return (
+    <Typography component="div">
+      {props.children}
+    </Typography>
+  )
 }
 
 export default class index extends Component {
@@ -53,6 +61,7 @@ export default class index extends Component {
         openFail: false,
         index: '',
         token: '',
+        value: 0,
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
     }
 
@@ -61,10 +70,10 @@ export default class index extends Component {
         axios.get(`${url}/transactions`)
         .then(res => {
             console.log(res)
-            this.setState({ data: res.data.Transactions })
+            this.setState({ data: res.data.data })
         })
         .catch(err => {
-            console.log(err)
+            console.log(err.response.data)
         })
     }
 
@@ -101,8 +110,8 @@ export default class index extends Component {
     }
 
     handleChange = prop => event => {
-        this.setState({ [prop]: event.target.value });
-      };
+        this.setState({ [prop]: event.target.value })
+      }
 
     handleDateChange = (date) => {
         this.setState({ date })
@@ -139,7 +148,7 @@ export default class index extends Component {
         let data = new FormData()
         data.append('type', this.state.type.toLowerCase())
         data.append('category_id', this.state.category)
-        data.append('amount', this.state.type === 'Expense' ? '-' + this.state.amount : this.state.amount)
+        data.append('amount', this.state.type === 'Expense' ? '-' + parseInt(this.state.amount) : parseInt(this.state.amount))
         data.append('note', this.state.note)
         data.append('date', this.state.date)
         data.append('user', this.state.user)
@@ -187,10 +196,14 @@ export default class index extends Component {
         this.setState({ openType: false })
     }
 
+    handleSwipe = (e, value) => {
+        this.setState({ value })
+    }
+
   render() {
-      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openType, openDetail, openSuc, index, loading, openFail } = this.state
+      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openType, openDetail, openSuc, index, loading, openFail, value } = this.state
       console.log(this.state)
-    if(data === '') {
+    if(data === '' || data === undefined) {
     return(
         <div className="preload">
             <div className="sweet-loading mx-auto">
@@ -213,7 +226,7 @@ export default class index extends Component {
             <div className="container mt-5">
                 <h6 className="text-left text-dark-smooth roboto-medium">{this.today()}</h6>
 
-                {categoryList == '' ? categoryList : data.map((datas, i) => {
+                {categoryList === '' || categoryList === undefined ? categoryList : data.map((datas, i) => {
                         var bilangan = eval(datas.amount);
                     
                         var	number_string = bilangan.toString()
@@ -320,12 +333,33 @@ export default class index extends Component {
                             startAdornment: <InputAdornment position="start"><CategoryIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                        {categoryList === '' ? categoryList : categoryList.map(datas => {
-                            return (
-                                <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
-                                )
-                            })
-                        }
+
+                        <AppBar position="static">
+                        <Tabs value={value} onChange={this.handleSwipe}>
+                            <Tab label="Expense" />
+                            <Tab label="Income" />
+                        </Tabs>
+                        </AppBar>
+                        {value === 0 && 
+                            <TabContainer>
+                                {categoryList === '' || categoryList === undefined ? categoryList : categoryList.map((datas, i) => {
+                                    if(i < 25) {
+                                    return (
+                                        <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                        )}
+                                    })
+                                }
+                            </TabContainer>}
+                        {value === 1 && 
+                            <TabContainer>
+                                {categoryList === '' || categoryList === undefined ? categoryList : categoryList.map((datas, i) => {
+                                    if(i > 24) {
+                                    return (
+                                        <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                        )}
+                                    })
+                                }
+                            </TabContainer>}
                         </TextField>
 
                         <TextField
