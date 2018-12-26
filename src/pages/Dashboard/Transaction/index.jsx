@@ -30,7 +30,7 @@ function Transition(props) {
 
 function TabContainer(props) {
   return (
-    <Typography component="div">
+    <Typography component="div" style={{ padding: 8 * 3 }}>
       {props.children}
     </Typography>
   )
@@ -336,30 +336,22 @@ export default class index extends Component {
 
                         <AppBar position="static">
                         <Tabs value={value} onChange={this.handleSwipe}>
-                            <Tab label="Expense" />
-                            <Tab label="Income" />
+                            <Tab label="Item One" />
+                            <Tab label="Item Two" />
                         </Tabs>
                         </AppBar>
-                        {value === 0 && 
-                            <TabContainer>
-                                {categoryList === '' || categoryList === undefined ? categoryList : categoryList.map((datas, i) => {
-                                    if(i < 25) {
-                                    return (
-                                        <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
-                                        )}
-                                    })
-                                }
-                            </TabContainer>}
-                        {value === 1 && 
-                            <TabContainer>
-                                {categoryList === '' || categoryList === undefined ? categoryList : categoryList.map((datas, i) => {
-                                    if(i > 24) {
-                                    return (
-                                        <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
-                                        )}
-                                    })
-                                }
-                            </TabContainer>}
+                        {value === 0 && categoryList.map((datas, i) => {
+                            if(i < 25) {
+                            return (
+                                <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                )}
+                            })}
+                        {value === 1 && categoryList.map((datas, i) => {
+                            if(i > 25) {
+                            return (
+                                <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                )}
+                            })}
                         </TextField>
 
                         <TextField
