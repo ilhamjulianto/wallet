@@ -73,7 +73,7 @@ export default class index extends Component {
             this.setState({ data: res.data.data })
         })
         .catch(err => {
-            console.log(err.response.data)
+            console.log(err.response)
         })
     }
 
@@ -203,7 +203,7 @@ export default class index extends Component {
   render() {
       const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openType, openDetail, openSuc, index, loading, openFail, value } = this.state
       console.log(this.state)
-    if(data === '' || data === undefined) {
+    if(data === '' || data === undefined || categoryList === '' || categoryList === undefined) {
     return(
         <div className="preload">
             <div className="sweet-loading mx-auto">
@@ -336,8 +336,8 @@ export default class index extends Component {
 
                         <AppBar position="static">
                         <Tabs value={value} onChange={this.handleSwipe}>
-                            <Tab label="Item One" />
-                            <Tab label="Item Two" />
+                            <Tab label="Expense" />
+                            <Tab label="Income" />
                         </Tabs>
                         </AppBar>
                         {value === 0 && categoryList.map((datas, i) => {

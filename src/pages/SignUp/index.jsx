@@ -116,12 +116,19 @@ export default class index extends Component {
                 openSuc: true,
                 openFail: false,
                 open: false,
+                name: '',
+                email: '',
+                password: '',
+                password_confirmation: '',
             })
             console.log(res)
         })
         .catch(err => {
+            console.log(err.response)
             this.setState({
-                error: err.response.data.msg,
+                error: err.response,
+                openFail: true,
+                open: false,
             })
         })
       }
