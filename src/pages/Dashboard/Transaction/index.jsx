@@ -211,7 +211,7 @@ export default class index extends Component {
             'user': this.state.userUpdate,
         }
 
-        axios.patch(`${url}/transactions/${parseInt(index)+1}`, data).then(res => {
+        axios.patch(`${url}/transactions/${parseInt(index)+1}?token=${token}`, data).then(res => {
             console.log(res)
             this.setState({
                 open: false,
