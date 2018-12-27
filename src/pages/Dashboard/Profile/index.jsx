@@ -243,6 +243,16 @@ class index extends Component {
     this.setState({ open: false, })
   }
 
+  isInputNumber(e){
+        
+      var ch = String.fromCharCode(e.which);
+      
+      if(!(/[0-9]/.test(ch))){
+          e.preventDefault();
+      }
+      
+  }
+
   render() {
     console.log(this.state)
     const { id, image, name, email, phone_number, password, current_password, password_confirmation, loading, open, success, fail, large, format, disabled, showPassword, showPasswordOne, showPasswordTwo, error } = this.state
@@ -298,11 +308,11 @@ class index extends Component {
                     />
                     <TextField
                       required
-                      type="number"
                       id="phone_number"
                       label="Phone"
                       className="mt-5"
                       value={phone_number}
+                      onKeyPress={this.isInputNumber}
                       onChange={this.handleChange('phone_number')}
                       margin="normal"
                       fullWidth
