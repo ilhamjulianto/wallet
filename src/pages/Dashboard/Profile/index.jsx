@@ -158,7 +158,7 @@ class index extends Component {
       {
         name: name,
         email: email,
-        phone_number: phone_number,
+        phone_number: parseInt(phone_number),
       }
     )
     .then(res => {
@@ -303,7 +303,7 @@ class index extends Component {
                       label="Phone"
                       className="mt-5"
                       value={phone_number}
-                      onChange={this.handleChange('number')}
+                      onChange={this.handleChange('phone_number')}
                       margin="normal"
                       fullWidth
                     />

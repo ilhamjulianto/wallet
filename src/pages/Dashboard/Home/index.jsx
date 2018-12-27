@@ -82,19 +82,16 @@ export default class index extends Component {
     }
 
     let totalIn = data.map((datas) => (parseInt(datas.amount)))
-    totalIn = totalIn.filter(x => {if(x > 0) {
-        return x
-    }})
+    var totalInc = totalIn.filter(x => x > 1)
+    var totalOut = totalIn.filter(x => x < 0)
 
-    var totalOut = totalIn.filter(x => {if(x < 0) {
-        return x
-    }})
-    
-    console.log(this.sumTotal(totalOut))
-    // console.log(totalOut)
-    // var saldo
-    // totalIn === undefined ? saldo = 0 : saldo = this.sumTotal(totalIn)
-    // var inc = saldo
+    console.log(totalInc)
+    console.log(totalOut)
+
+    var saldo
+    totalIn === undefined ? saldo = 0 : saldo = this.sumTotal(totalIn)
+    var inc = saldo
+    console.log(inc)
     return (
       <div className="dashboard-home text-center">
         <div className="pt-5">
@@ -108,7 +105,7 @@ export default class index extends Component {
                         <div className="d-flex align-items-center">
                             <i className="fas fa-donate fa-2x"></i>
                             &nbsp;&nbsp;&nbsp;
-                            <p id="income" className="income-value roboto-bold m-0">IDR {totalIn.toString() !== '' ? this.toIdr(this.sumTotal(totalIn)) : '0'}</p>
+                            <p id="income" className="income-value roboto-bold m-0">IDR {totalInc.toString() !== '' ? this.toIdr(this.sumTotal(totalInc)) : '0'}</p>
                         </div>
                         <Ink/>
                     </div>
@@ -119,7 +116,7 @@ export default class index extends Component {
                         <div className="d-flex align-items-center">
                             <i className="fas fa-dolly text-blue fa-2x"></i>
                             &nbsp;&nbsp;&nbsp;
-                            <p id="expense" className="expense-value roboto-bold m-0">IDR {totalOut.toString() !== '' ? this.toIdr(this.sumTotal(totalOut)) : '0'}</p>
+                            <p id="expense" className="expense-value roboto-bold m-0">IDR {totalOut.toString() !== '' ? this.toIdr(this.sumTotal(totalOut)).replace('-.','') : '0'}</p>
                         </div>
                         <Ink/>
                     </div>
@@ -130,7 +127,7 @@ export default class index extends Component {
                         <div className="d-flex align-items-center">
                             <i className="fas fa-dollar-sign fa-2x"></i>
                             &nbsp;&nbsp;&nbsp;
-                            <p className="income-value roboto-bold m-0">IDR {totalIn - totalOut !== null ? 'ada' : '000'}</p>
+                            <p className="income-value roboto-bold m-0">IDR {this.toIdr(inc).replace('-.', '-')}</p>
                         </div>
                         <Ink/>
                     </div>

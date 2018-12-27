@@ -39,6 +39,7 @@ function TabContainer(props) {
 export default class index extends Component {
     state = {
         data: '',
+        id: '',
         type: '',
         category: '',
         amount: '',
@@ -55,9 +56,9 @@ export default class index extends Component {
         categoryList: '',
         loading: false,
         open: false,
-        openType: false,
         openDetail: false,
         openSuc: false,
+        openSucUpdate: false,
         openFail: false,
         index: '',
         token: '',
@@ -73,7 +74,7 @@ export default class index extends Component {
             this.setState({ data: res.data.data })
         })
         .catch(err => {
-            console.log(err.response)
+            console.log(err)
         })
     }
 
@@ -88,9 +89,22 @@ export default class index extends Component {
         })
     }
 
+    getUser = () => {
+        const { url } = this.state
+        const token = localStorage.getItem('token')
+        axios.get(`${url}/user?token=${token}`)
+        .then(res => {
+            this.setState({ id: res.data.data.id })
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
     componentDidMount() {
         new WOW.WOW().init()
         this.setState({ token: localStorage.getItem('token') })
+        this.getUser()
         this.getData()
         this.getCategory()
     }
@@ -123,6 +137,10 @@ export default class index extends Component {
 
     handleCloseSuc = () => {
         this.setState({ openSuc : false })
+    }
+
+    handleCloseSucUpdate = () => {
+        this.setState({ openSucUpdate: false, })
     }
 
     handleOpenDetail = (i) => {
@@ -177,23 +195,41 @@ export default class index extends Component {
         })
     }
 
-    closeFail = () => {
-        this.setState({ openFail: false, })
-    }
+    handleUpdate = (e) => {
+        e.preventDefault()
 
-    showType = () => {
-        this.setState({ openType: true })
-    }
+        this.setState({ loading: true })
 
-    handleTypeListClick = (e) => {
-        this.setState({
-            typeUpdate: e.target.innerHTML,
-            openType: false,
+        const { token, url, index } = this.state
+        let data = {
+            'type': this.state.typeUpdate.toLowerCase(),
+            'category_id': this.state.categoryUpdate,
+            'amount': this.state.typeUpdate === 'Expense' ? '-' + this.state.amountUpdate : this.state.amountUpdate.replace('-',''),
+            'note': this.state.noteUpdate,
+            'date': this.state.dateUpdate,
+            'user': this.state.userUpdate,
+        }
+
+        axios.patch(`${url}/transactions/${parseInt(index)+1}`, data).then(res => {
+            console.log(res)
+            this.setState({
+                open: false,
+                openSucUpdate: true,
+                loading: false,
+            })
+            this.getData()
+        }).catch(err => {
+            console.log(err.response)
+            this.setState({
+                open: false,
+                loading: false,
+                openFail: true,
+            })
         })
     }
 
-    handleCloseType = () => {
-        this.setState({ openType: false })
+    closeFail = () => {
+        this.setState({ openFail: false, })
     }
 
     handleSwipe = (e, value) => {
@@ -201,7 +237,7 @@ export default class index extends Component {
     }
 
   render() {
-      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openType, openDetail, openSuc, index, loading, openFail, value } = this.state
+      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openDetail, openSuc, openSucUpdate, index, loading, openFail, value } = this.state
       console.log(this.state)
     if(data === '' || data === undefined || categoryList === '' || categoryList === undefined) {
     return(
@@ -227,7 +263,7 @@ export default class index extends Component {
                 <h6 className="text-left text-dark-smooth roboto-medium">{this.today()}</h6>
 
                 {categoryList === '' || categoryList === undefined ? categoryList : data.map((datas, i) => {
-                        var bilangan = eval(datas.amount);
+                        var bilangan = eval(datas.amount)
                     
                         var	number_string = bilangan.toString()
                         var sisa 	= number_string.length % 3
@@ -235,8 +271,8 @@ export default class index extends Component {
                         var ribuan 	= number_string.substr(sisa).match(/\d{3}/g)
                                 
                         if (ribuan) {
-                            let separator = sisa ? '.' : '';
-                            rupiah += separator + ribuan.join('.');
+                            let separator = sisa ? '.' : ''
+                            rupiah += separator + ribuan.join('.')
                         }
                     return(
                     <div className="card p-4 my-2 rounded-md" onClick={() => this.handleOpenDetail(i)}>
@@ -245,7 +281,7 @@ export default class index extends Component {
                                 {datas.note}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-dark-smooth">
-                                IDR {rupiah}
+                                IDR {rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
                             </div>
                             <div className={datas.type === 'income' ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
                                 {datas.type.toUpperCase()}
@@ -272,21 +308,6 @@ export default class index extends Component {
           <LinearProgress />
         </div>
         {/* Preload */}
-
-        {/* Type */}
-        <Dialog open={openType} onClose={this.handleCloseType} aria-labelledby="simple-dialog-title">
-            <DialogTitle id="simple-dialog-title">Transaction Type</DialogTitle>
-            <div>
-            <List>
-                {typeList.map(datas => (
-                    <ListItem button>
-                <ListItemText primary={datas.type} onClick={this.handleTypeListClick}/>
-                </ListItem>
-                ))}
-            </List>
-            </div>
-        </Dialog>
-        {/* Type */}
 
         {/* Add Transaction */}
         <Dialog
@@ -434,19 +455,24 @@ export default class index extends Component {
             </DialogTitle>
             <DialogContent>
                 <div>
-                    {/* <form className="py-2"> */}
+                    <form className="py-2" onSubmit={this.handleUpdate}>
 
                         <TextField
+                            select
                             className="w-100"
                             label="Type"
                             value={index === '' ? type : typeUpdate}
                             onChange={this.handleChange('typeUpdate')}
-                            onClick={this.showType}
                             id="typeUpdate"
                             InputProps={{
                             startAdornment: <InputAdornment position="start"><TypeIcon className="text-blue"/></InputAdornment>
                             }}
                         >
+                            <MenuItem value="">
+                            <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={'Income'}>Income</MenuItem>
+                            <MenuItem value={'Expense'}>Expense</MenuItem>
                         </TextField>
 
                         <TextField
@@ -460,18 +486,39 @@ export default class index extends Component {
                             startAdornment: <InputAdornment position="start"><CategoryIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                        {categoryList === '' ? categoryList : categoryList.map(datas => (
+                        <AppBar position="static">
+                        <Tabs value={value} onChange={this.handleSwipe}>
+                            <Tab label="Expense" />
+                            <Tab label="Income" />
+                        </Tabs>
+                        </AppBar>
+                        {value === 0 && categoryList.map((datas, i) => {
+                            if(i < 25) {
+                            return (
                                 <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                )} else {
+                                return(
+                                <MenuItem className="d-none" value={datas.category_id}>{datas.name}</MenuItem>
                                 )
-                            )
-                        }
+                            }
+                            })}
+                        {value === 1 && categoryList.map((datas, i) => {
+                            if(i > 25) {
+                            return (
+                                <MenuItem value={datas.category_id}>{datas.name}</MenuItem>
+                                )} else {
+                                return (
+                                <MenuItem className="d-none" value={datas.category_id}>{datas.name}</MenuItem>
+                                )
+                            }
+                            })}
                         </TextField>
 
                         <TextField
                             number
                             className="w-100 mt-2"
                             label="How Much?"
-                            value={index === '' ? type : amountUpdate}
+                            value={parseInt(amountUpdate) < 0 ? amountUpdate.substr(1,amountUpdate.length-4) : amountUpdate}
                             onChange={this.handleChange('amountUpdate')}
                             id="amountUpdate"
                             InputProps={{
@@ -519,14 +566,14 @@ export default class index extends Component {
                         </TextField>
 
                         <div className="mx-auto mt-4 d-flex justify-content-center">
-                            <button className="btn-rounded mx-1 btn-send" type="button" onClick={this.handleCloseDetail}>
+                            <button className="btn-rounded mx-1 btn-send" type="submit">
                             Save
                             </button>
-                            <button className="btn-rounded mx-1 btn-cancel" onClick={this.handleCloseDetail}>
+                            <button className="btn-rounded mx-1 btn-cancel" type="button" onClick={this.handleCloseDetail}>
                             Cancel
                             </button>
                         </div>
-                    {/* </form> */}
+                    </form>
                 </div>
             </DialogContent>
         </Dialog>
@@ -543,6 +590,18 @@ export default class index extends Component {
             message={ <p id='message-id'>Transaction Added</p> }
         />
         {/* OnSuccess Push */}
+
+        {/* OnSuccess Update */}
+        <Snackbar
+            anchorOrigin={{vertical:'bottom', horizontal:'center'}}
+            open={openSucUpdate}
+            onClose={this.handleCloseSucUpdate}
+            ContentProps={{
+                'aria-describedby': 'message-id',
+            }}
+            message={ <p id='message-id'>Transaction Updated</p> }
+        />
+        {/* OnSuccess Update */}
 
         {/* If Failed */}
         <Dialog
