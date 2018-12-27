@@ -15,6 +15,7 @@ import Close from '@material-ui/icons/Close'
 import axios from 'axios'
 import { css } from 'react-emotion'
 import { HashLoader } from 'react-spinners'
+import _ from 'lodash'
 
 
 const override = css`
@@ -236,8 +237,18 @@ export default class index extends Component {
         this.setState({ value })
     }
 
+    isInputNumber(e){
+        
+        var ch = String.fromCharCode(e.which);
+        
+        if(!(/[0-9]/.test(ch))){
+            e.preventDefault();
+        }
+        
+    }
+
   render() {
-      const { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openDetail, openSuc, openSucUpdate, index, loading, openFail, value } = this.state
+      let { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openDetail, openSuc, openSucUpdate, index, loading, openFail, value } = this.state
       console.log(this.state)
     if(data === '' || data === undefined || categoryList === '' || categoryList === undefined) {
     return(
@@ -254,15 +265,17 @@ export default class index extends Component {
         </div>
     )
     }
+    data = _.sortBy(data, ['date']).reverse()
     return (
       <div className="dashboard-transaction text-center">
-        <div className="pt-5">
+        <div className="py-5">
             <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold">Transaction</h2>
             <hr className="wow zoomIn slow dashboard-header-line"/>
             <div className="container mt-5">
                 <h6 className="text-left text-dark-smooth roboto-medium">{this.today()}</h6>
 
                 {categoryList === '' || categoryList === undefined ? categoryList : data.map((datas, i) => {
+
                         var bilangan = eval(datas.amount)
                     
                         var	number_string = bilangan.toString()
@@ -380,6 +393,7 @@ export default class index extends Component {
                             className="w-100 mt-2"
                             label="How Much?"
                             value={amount}
+                            onKeyPress={this.isInputNumber}
                             onChange={this.handleChange('amount')}
                             id="amount"
                             InputProps={{
@@ -519,6 +533,7 @@ export default class index extends Component {
                             className="w-100 mt-2"
                             label="How Much?"
                             value={parseInt(amountUpdate) < 0 ? amountUpdate.substr(1,amountUpdate.length-4) : amountUpdate}
+                            onKeyPress={this.isInputNumber}
                             onChange={this.handleChange('amountUpdate')}
                             id="amountUpdate"
                             InputProps={{
