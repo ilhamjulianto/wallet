@@ -78,9 +78,9 @@ class index extends Component {
 
     this.setState({ [prop]: e.target.value, })
 
-    if(toString(phone_number).length <= 8) {
+    if(phone_number.toString().length <= 8) {
       this.setState({ disabled: true, })
-    } else if(toString(phone_number).length >= 8) {
+    } else if(phone_number.toString().length >= 8) {
       this.setState({ disabled: false, })
     }
   }
@@ -158,7 +158,7 @@ class index extends Component {
       {
         name: name,
         email: email,
-        phone_number: parseInt(phone_number),
+        phone_number: phone_number,
       }
     )
     .then(res => {
