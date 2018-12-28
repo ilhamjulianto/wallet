@@ -67,18 +67,6 @@ export default class index extends Component {
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
     }
 
-    getData = () => {
-        const { url } = this.state
-        axios.get(`${url}/transactions`)
-        .then(res => {
-            console.log(res)
-            this.setState({ data: res.data.data })
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
     getCategory = () => {
         const { url } = this.state
         axios.get(`${url}/category`)
@@ -95,7 +83,10 @@ export default class index extends Component {
         const token = localStorage.getItem('token')
         axios.get(`${url}/user?token=${token}`)
         .then(res => {
-            this.setState({ id: res.data.data.id })
+            this.setState({ 
+                id: res.data.data.id,
+                data: res.data.data.transactions.data,
+            })
         })
         .catch(err => {
             console.log(err)
@@ -106,7 +97,6 @@ export default class index extends Component {
         new WOW.WOW().init()
         this.setState({ token: localStorage.getItem('token') })
         this.getUser()
-        this.getData()
         this.getCategory()
     }
 
@@ -185,7 +175,7 @@ export default class index extends Component {
                 openSuc: true,
                 loading: false,
             })
-            this.getData()
+            this.getUser()
         }).catch(err => {
             console.log(err)
             this.setState({
@@ -475,7 +465,7 @@ export default class index extends Component {
                             select
                             className="w-100"
                             label="Type"
-                            value={index === '' ? type : typeUpdate}
+                            value={typeUpdate}
                             onChange={this.handleChange('typeUpdate')}
                             id="typeUpdate"
                             InputProps={{

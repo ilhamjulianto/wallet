@@ -78,9 +78,9 @@ class index extends Component {
 
     this.setState({ [prop]: e.target.value, })
 
-    if(phone_number.toString().length <= 8) {
+    if(toString(phone_number).length <= 8) {
       this.setState({ disabled: true, })
-    } else if(phone_number.toString().length >= 8) {
+    } else if(toString(phone_number).length >= 8) {
       this.setState({ disabled: false, })
     }
   }

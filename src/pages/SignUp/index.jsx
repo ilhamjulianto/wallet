@@ -126,7 +126,7 @@ export default class index extends Component {
         .catch(err => {
             console.log(err.response)
             this.setState({
-                error: err.response,
+                error: err.response.data.message,
                 openFail: true,
                 open: false,
             })

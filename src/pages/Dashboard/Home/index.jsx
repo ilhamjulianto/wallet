@@ -25,10 +25,11 @@ export default class index extends Component {
 
     getData = () => {
         const { url } = this.state
-        axios.get(`${url}/transactions`)
+        const token  = localStorage.getItem('token')
+        axios.get(`${url}/user?token=${token}`)
         .then(res => {
             console.log(res)
-            this.setState({ data: res.data.data })
+            this.setState({ data: res.data.data.transactions.data })
         })
         console.log(this.state)
     }
