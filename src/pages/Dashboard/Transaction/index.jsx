@@ -67,14 +67,20 @@ export default class index extends Component {
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
     }
 
+    getType = () => {
+        const { url } = this.state
+        axios.get(`${url}/type`)
+        .then(res => {
+            this.setState({ typeList: res.data })
+        })
+    }
+
     getCategory = () => {
         const { url } = this.state
         axios.get(`${url}/category`)
         .then(res => {
             console.log(res)
-            this.setState({
-                categoryList: res.data
-            })
+            this.setState({ categoryList: res.data })
         })
     }
 
@@ -134,20 +140,6 @@ export default class index extends Component {
         this.setState({ openSucUpdate: false, })
     }
 
-    handleOpenDetail = (i) => {
-        var datas = this.state.data
-        this.setState({
-            index: i,
-            openDetail: true,
-            typeUpdate: datas[i].type,
-            categoryUpdate: datas[i].category_id,
-            amountUpdate: datas[i].amount,
-            noteUpdate: datas[i].note,
-            dateUpdate: datas[i].date,
-            userUpdate: datas[i].user,
-        })
-    }
-
     handleAdd = (e) => {
         e.preventDefault()
 
@@ -155,15 +147,14 @@ export default class index extends Component {
 
         const { token, url } = this.state
         let data = new FormData()
-        data.append('type', this.state.type.toLowerCase())
+        data.append('type_id', this.state.type)
         data.append('category_id', this.state.category)
-        data.append('amount', this.state.type === 'Expense' ? '-' + parseInt(this.state.amount) : parseInt(this.state.amount))
+        data.append('amount', this.state.type === 2 ? '-' + parseInt(this.state.amount) : parseInt(this.state.amount))
         data.append('note', this.state.note)
         data.append('date', this.state.date)
         data.append('user', this.state.user)
 
         axios.post(`${url}/transactions?token=${token}`, data).then(res => {
-            console.log(res)
             this.setState({
                 type: '',
                 category: '',
@@ -177,12 +168,25 @@ export default class index extends Component {
             })
             this.getUser()
         }).catch(err => {
-            console.log(err)
             this.setState({
                 open: false,
                 loading: false,
                 openFail: true,
             })
+        })
+    }
+
+    handleOpenDetail = (i) => {
+        var { data } = this.state
+        this.setState({
+            index: i,
+            openDetail: true,
+            typeUpdate: parseInt(data[i].type_id),
+            categoryUpdate: data[i].category.category_id,
+            amountUpdate: data[i].amount,
+            noteUpdate: data[i].note,
+            dateUpdate: data[i].date,
+            userUpdate: data[i].user,
         })
     }
 
@@ -193,16 +197,15 @@ export default class index extends Component {
 
         const { token, url, index } = this.state
         let data = {
-            'type': this.state.typeUpdate.toLowerCase(),
+            'type_id': this.state.typeUpdate,
             'category_id': this.state.categoryUpdate,
-            'amount': this.state.typeUpdate === 'Expense' ? '-' + this.state.amountUpdate : this.state.amountUpdate.replace('-',''),
+            'amount': this.state.typeUpdate === 2 ? '-' + this.state.amountUpdate : this.state.amountUpdate.replace('-',''),
             'note': this.state.noteUpdate,
             'date': this.state.dateUpdate,
             'user': this.state.userUpdate,
         }
 
-        axios.patch(`${url}/transactions/${parseInt(index)+1}?token=${token}`, data).then(res => {
-            console.log(res)
+        axios.put(`${url}/transactions/${parseInt(index)+1}?token=${token}`, data).then(res => {
             this.setState({
                 open: false,
                 openSucUpdate: true,
@@ -210,7 +213,6 @@ export default class index extends Component {
             })
             this.getData()
         }).catch(err => {
-            console.log(err.response)
             this.setState({
                 open: false,
                 loading: false,
@@ -286,8 +288,8 @@ export default class index extends Component {
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-dark-smooth">
                                 IDR {rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
                             </div>
-                            <div className={datas.type === 'income' ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
-                                {datas.type.toUpperCase()}
+                            <div className={datas.type_id === '1' ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
+                                {typeList[datas.type_id].type.toUpperCase()}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-right text-sm-center text-disable">
                                 {datas.date}
@@ -339,11 +341,11 @@ export default class index extends Component {
                             startAdornment: <InputAdornment position="start"><TypeIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                            <MenuItem value="">
-                            <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={'Income'}>Income</MenuItem>
-                            <MenuItem value={'Expense'}>Expense</MenuItem>
+                            {typeList.map((datas, i) => (
+                                <MenuItem value={datas.type_id}>
+                                {datas.type}
+                                </MenuItem>
+                            ))}
                         </TextField>
 
                         <TextField
@@ -465,18 +467,18 @@ export default class index extends Component {
                             select
                             className="w-100"
                             label="Type"
-                            value={typeUpdate}
+                            value={index === '' ? 'none' : typeUpdate}
                             onChange={this.handleChange('typeUpdate')}
                             id="typeUpdate"
                             InputProps={{
                             startAdornment: <InputAdornment position="start"><TypeIcon className="text-blue"/></InputAdornment>
                             }}
                         >
-                            <MenuItem value="">
-                            <em>None</em>
+                        {typeList.map((datas, i) => (
+                            <MenuItem value={datas.type_id}>
+                            {datas.type}
                             </MenuItem>
-                            <MenuItem value={'Income'}>Income</MenuItem>
-                            <MenuItem value={'Expense'}>Expense</MenuItem>
+                        ))}
                         </TextField>
 
                         <TextField

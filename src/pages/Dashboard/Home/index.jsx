@@ -6,6 +6,7 @@ import WOW from 'wowjs'
 import axios from 'axios'
 import { css } from 'react-emotion'
 import { HashLoader } from 'react-spinners'
+import { Redirect } from 'react-router-dom'
 
 
 const override = css`
@@ -37,6 +38,7 @@ export default class index extends Component {
     componentDidMount() {
         new WOW.WOW().init()
         this.getData()
+
     }
 
     toIdr = (total) => {

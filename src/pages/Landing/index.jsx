@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Home from './home'
 import About from './About'
+import OurTeam from './OurTeam'
 import WOW from 'wowjs'
 import { Redirect } from 'react-router-dom'
 
@@ -14,6 +15,7 @@ export default class index extends Component {
       <div>
         <Home/>
         <About/>
+        <OurTeam/>
       </div>
     )} else {
       return(

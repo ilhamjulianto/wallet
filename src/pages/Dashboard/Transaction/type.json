@@ -1,11 +1,14 @@
 [
     {
+    	"type_id" : 0,
         "type": "None"
     },
     {
+    	"type_id" : 1,
         "type": "Income"
     },
     {
+    	"type_id" : 2,
         "type": "Expense"
     }
 ]
