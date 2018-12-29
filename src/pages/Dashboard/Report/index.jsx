@@ -22,7 +22,7 @@ export default class index extends Component {
         })
     }
 
-    chart = (janIn, febIn, marIn, aprIn, mayIn, junIn, julIn, augIn, sepIn, octIn, novIn, decIn) => {
+    chart = (janIn, febIn, marIn, aprIn, mayIn, junIn, julIn, augIn, sepIn, octIn, novIn, decIn, janOut, febOut, marOut, aprOut, mayOut, junOut, julOut, augOut, sepOut, octOut, novOut, decOut) => {
         var myChart = document.getElementById('myChart').getContext('2d')
         var gradient = myChart.createLinearGradient(0,0,0,450)
             gradient.addColorStop(0, 'rgba(30, 184, 251, 1)')
@@ -41,6 +41,29 @@ export default class index extends Component {
                 datasets:[{
                     label: 'Expense',
                     data: [
+                        janOut,
+                        febOut,
+                        marOut,
+                        aprOut,
+                        mayOut,
+                        junOut,
+                        julOut,
+                        augOut,
+                        sepOut,
+                        octOut,
+                        novOut,
+                        decOut,
+                    ],
+                    backgroundColor: gradient,
+                    borderWidth: 2,
+                    borderColor: [
+                        'rgba(30, 154, 255, 1)',
+                    ],
+                    pointBackgroundColor: 'white',
+                },
+                {
+                    label: 'Income',
+                    data: [
                         janIn,
                         febIn,
                         marIn,
@@ -53,29 +76,6 @@ export default class index extends Component {
                         octIn,
                         novIn,
                         decIn,
-                    ],
-                    backgroundColor: gradient,
-                    borderWidth: 2,
-                    borderColor: [
-                        'rgba(30, 154, 255, 1)',
-                    ],
-                    pointBackgroundColor: 'white',
-                },
-                {
-                    label: 'Income',
-                    data: [
-                        30000000,
-                        40000000,
-                        20000000,
-                        70000000,
-                        25000000,
-                        40000000,
-                        60000000,
-                        38000000,
-                        28000000,
-                        39000000,
-                        20000000,
-                        52000000,
                     ],
                     backgroundColor: gradientTwo,
                     borderWidth: 2,
@@ -120,6 +120,17 @@ export default class index extends Component {
         return totalTran
     }
 
+    ambilBulanOut = (params) => {
+        const { data } = this.state
+        var month = data !== '' ? data.map(datas => datas) : ''
+
+        var ambilBulan = month !== '' ? month.filter(x => x.date.includes(`${new Date().getFullYear()}-${params}`) && parseInt(x.amount) < 0) : ''
+        let bulan = Array.isArray(ambilBulan) ? ambilBulan.map(dat => dat.amount) : '0'
+        let totalTran = Array.isArray(bulan) && bulan.length >= 1 ? this.sumTotal(bulan) : '0'
+        console.log(totalTran)
+        return totalTran
+    }
+
   render() {
     const { data } = this.state
     if(data === '' || data === undefined) {
@@ -147,7 +158,20 @@ export default class index extends Component {
     let totalMar = this.ambilBulanIn(`03`)
     let totalFeb = this.ambilBulanIn(`02`)
     let totalJan = this.ambilBulanIn(`01`)
-    this.chart(totalJan, totalFeb, totalMar, totalApr, totalMay, totalJun, totalJul, totalAug, totalSep, totalOct, totalNov, totalDec)
+
+    let totalDecOut = this.ambilBulanOut(`12`)
+    let totalNovOut = this.ambilBulanOut(`11`)
+    let totalOctOut = this.ambilBulanOut(`10`)
+    let totalSepOut = this.ambilBulanOut(`09`)
+    let totalAugOut = this.ambilBulanOut(`08`)
+    let totalJulOut = this.ambilBulanOut(`07`)
+    let totalJunOut = this.ambilBulanOut(`06`)
+    let totalMayOut = this.ambilBulanOut(`05`)
+    let totalAprOut = this.ambilBulanOut(`04`)
+    let totalMarOut = this.ambilBulanOut(`03`)
+    let totalFebOut = this.ambilBulanOut(`02`)
+    let totalJanOut = this.ambilBulanOut(`01`)
+    this.chart(totalJan, totalFeb, totalMar, totalApr, totalMay, totalJun, totalJul, totalAug, totalSep, totalOct, totalNov, totalDec, totalJanOut, totalFebOut, totalMarOut, totalAprOut, totalMayOut, totalJunOut, totalJulOut, totalAugOut, totalSepOut, totalOctOut, totalNovOut, totalDecOut)
     console.log(this.state)
 
     return (
