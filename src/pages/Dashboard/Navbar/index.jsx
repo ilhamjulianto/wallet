@@ -41,7 +41,6 @@ class index extends Component {
         const token  = localStorage.getItem('token')
         axios.get(`${url}/user?token=${token}`)
         .then(res => {
-          console.log(res)
           this.setState({ data: res.data.data })
         })
       }
@@ -99,7 +98,6 @@ class index extends Component {
         this.setState({ wallet })
       }
   render() {
-    console.log(this.state)
     const { data } = this.state
     return (
       <div className="dashboard-navbar">
@@ -109,14 +107,12 @@ class index extends Component {
                     <Dialog open={this.state.open} onClose={this.onCloseModal} center>
                         <DialogContent>
                             {this.state.walletList.map((datas, i)=>{
-                              console.log(datas)
                               return(
                                 <MenuItem className="d-flex flex-row justify-content-between" onClick={
                                   ()=>{
                                     this.setState({
                                       idArray: datas.name
                                     })
-                                    console.log(this.state)
                                   }
                                 }>
                                   <font className="mr-auto">{datas.name}</font>

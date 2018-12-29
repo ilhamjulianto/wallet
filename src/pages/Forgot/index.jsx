@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './forgot.css'
 import lock from '../../assets/img/icons/open-lock.svg'
 import axios from 'axios'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { FormControl, Input, InputLabel, InputAdornment, Slide, Dialog, DialogTitle, DialogContent, DialogActions, Button, LinearProgress } from '@material-ui/core'
 import Done from '@material-ui/icons/Done'
 import Mail from '@material-ui/icons/Mail'
@@ -108,7 +108,7 @@ export default class index extends Component {
                 </div>
             </DialogContent>
             <DialogActions className="mx-auto">
-                <a href="https://gmail.com" target="_blank">
+                <a href="https://gmail.com" target="_blank" rel="noopener noreferrer">
                     <Button onClick={this.closeSuc}>
                     Check Email
                     </Button>

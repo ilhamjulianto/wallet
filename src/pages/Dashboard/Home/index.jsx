@@ -131,6 +131,8 @@ export default class index extends Component {
         </div>
       </div>
         )
+    } else if(localStorage.getItem('token') === null) {
+        return (<Redirect to='/'/>)
     }
 
     let totalIn = data.map((datas) => (parseInt(datas.amount)))
@@ -168,7 +170,7 @@ export default class index extends Component {
                         <div className="d-flex align-items-center">
                             <i className="fas fa-dolly text-blue fa-2x"></i>
                             &nbsp;&nbsp;&nbsp;
-                            <p id="expense" className="expense-value roboto-bold m-0">IDR {totalOut.toString() !== '' ? this.toIdr(this.sumTotal(totalOut)).replace('-.','') : '0'}</p>
+                            <p id="expense" className="expense-value roboto-bold m-0">IDR {totalOut.toString() !== '' ? this.toIdr(this.sumTotal(totalOut).toString().replace('-','')) : '0'}</p>
                         </div>
                         <Ink/>
                     </div>

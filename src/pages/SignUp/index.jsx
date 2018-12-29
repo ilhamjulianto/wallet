@@ -67,7 +67,6 @@ export default class index extends Component {
         this.setState({ [e.target.id] : e.target.value })
 
         var form = document.forms['myForm']
-        var name = form['name']
         var email = form['email']
         var password = form['password']
         var password_confirmation = form['password_confirmation']
@@ -150,7 +149,7 @@ export default class index extends Component {
       }
   render() {
       console.log(this.state)
-      const { data, amount, showPassword, showPasswordTwo, name, email, password, password_confirmation, open, openFail, openSuc, openSnackErr, disabled, passwordAlert, confirmPass, url, loading, error } = this.state
+      const { showPassword, showPasswordTwo, name, email, password, password_confirmation, open, openFail, openSuc, openSnackErr, disabled, passwordAlert, confirmPass, loading, error } = this.state
     if(localStorage.getItem('token') === null){
     return (
       <div className="signup-session">
@@ -308,7 +307,7 @@ export default class index extends Component {
                 </div>
             </DialogContent>
             <DialogActions className="mx-auto">
-                <a href="https://gmail.com" target="_blank">
+                <a href="https://gmail.com" target="_blank" rel="noopener noreferrer">
                     <Button onClick={this.closeSuc}>
                     Verify Email
                     </Button>

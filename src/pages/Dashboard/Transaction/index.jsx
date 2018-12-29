@@ -3,7 +3,7 @@ import './transaction.css'
 import typeListData from './type.json'
 import WOW from 'wowjs'
 import Ink from 'react-ink'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, InputAdornment, MenuItem, TextField, Snackbar, LinearProgress, List, ListItem, ListItemText, Typography, Tabs, Tab, AppBar } from '@material-ui/core'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Slide, InputAdornment, MenuItem, TextField, Snackbar, LinearProgress, Tabs, Tab, AppBar } from '@material-ui/core'
 import 'react-infinite-calendar/styles.css'
 import TypeIcon from '@material-ui/icons/MonetizationOn'
 import CategoryIcon from '@material-ui/icons/Apps'
@@ -27,14 +27,6 @@ const override = css`
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
-}
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  )
 }
 
 export default class index extends Component {
@@ -199,7 +191,7 @@ export default class index extends Component {
         let datas = {
             'type_id': this.state.typeUpdate,
             'category_id': this.state.categoryUpdate,
-            'amount': this.type_id === 2 ? -this.state.amountUpdate : parseInt(this.state.amountUpdate),
+            'amount': this.type_id === 2 || this.state.typeUpdate === 2 ? -this.state.amountUpdate : parseInt(this.state.amountUpdate),
             'note': this.state.noteUpdate,
             'date': this.state.dateUpdate,
             'user': this.state.userUpdate,
@@ -230,6 +222,10 @@ export default class index extends Component {
         const { data, token, url, index } = this.state
         axios.delete(`${url}/transaction/${parseInt(data[index].transaction_id)}?token=${token}`)
         .then(res => {
+            this.setState({
+                open: false,
+                loading: false,
+            })
             this.getUser()
         })
     }
@@ -280,7 +276,7 @@ export default class index extends Component {
 
                 {categoryList === '' || categoryList === undefined ? categoryList : data.map((datas, i) => {
 
-                        var bilangan = eval(datas.amount)
+                        var bilangan = datas.amount.toString().replace('-','')
                     
                         var	number_string = bilangan.toString()
                         var sisa 	= number_string.length % 3
@@ -291,6 +287,7 @@ export default class index extends Component {
                             let separator = sisa ? '.' : ''
                             rupiah += separator + ribuan.join('.')
                         }
+                        console.log(bilangan, rupiah)
                     return(
                     <div className="card p-4 my-2 rounded-md" onClick={() => this.handleOpenDetail(i)}>
                         <div className="row">
@@ -298,7 +295,7 @@ export default class index extends Component {
                                 {datas.note}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-dark-smooth">
-                                IDR {rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
+                                IDR {datas.amount.toString().includes('-') ? '-'+rupiah.replace('-.','-') : '' && rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
                             </div>
                             <div className={datas.type_id === 1 ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
                                 {typeList[datas.type_id].type.toUpperCase()}
@@ -536,7 +533,7 @@ export default class index extends Component {
                             number
                             className="w-100 mt-2"
                             label="How Much?"
-                            value={parseInt(amountUpdate) < 0 ? amountUpdate.substr(1,amountUpdate.length-4) : amountUpdate.replace('.00','')}
+                            value={amountUpdate < 0 ? amountUpdate.toString().substr(1) : amountUpdate.toString().replace('.00','')}
                             onKeyPress={this.isInputNumber}
                             onChange={this.handleChange('amountUpdate')}
                             id="amountUpdate"
@@ -588,8 +585,11 @@ export default class index extends Component {
                             <button className="btn-rounded mx-1 btn-send" type="submit">
                             Save
                             </button>
-                            <button className="btn-rounded mx-1 btn-cancel" type="button" onClick={this.handleCloseDetail}>
+                            <button className="btn-rounded mx-1 btn-cancel" type="reset" onClick={this.handleCloseDetail}>
                             Cancel
+                            </button>
+                            <button type="reset" onClick={this.handleDelete}>
+                            D
                             </button>
                         </div>
                     </form>

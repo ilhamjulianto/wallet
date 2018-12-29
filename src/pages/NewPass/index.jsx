@@ -115,7 +115,7 @@ export default class index extends Component {
     }
 
   render() {
-      const { current_password, password, password_confirmation, showPassword, showPasswordTwo, loading, openSuc, openFail, confirmPass, success, error } = this.state
+      const { password, password_confirmation, showPassword, showPasswordTwo, loading, openSuc, openFail, confirmPass, success, error } = this.state
       console.log(this.state)
     if(localStorage.getItem('token') === null) {
     return (
@@ -135,7 +135,6 @@ export default class index extends Component {
                             value={password}
                             id="password"
                             type={showPassword ? 'text' : 'password'}
-                            required={true}
                             onChange={this.handleChange('password')}
                             startAdornment={
                                 <InputAdornment position="start">
@@ -163,7 +162,6 @@ export default class index extends Component {
                                 value={password_confirmation}
                                 id="password_confirmation"
                                 type={showPasswordTwo ? 'text' : 'password'}
-                                required={true}
                                 onChange={this.handleChange('password_confirmation')}
                                 startAdornment={
                                     <InputAdornment position="start">

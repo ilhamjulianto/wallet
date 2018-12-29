@@ -475,7 +475,6 @@ class index extends Component {
                                   value={current_password}
                                   id="current_password"
                                   type={showPasswordOne ? 'text' : 'password'}
-                                  required={true}
                                   onChange={this.handleChange('current_password')}
                                   startAdornment={
                                       <InputAdornment position="start">
@@ -503,7 +502,6 @@ class index extends Component {
                                   value={password}
                                   id="password"
                                   type={showPassword ? 'text' : 'password'}
-                                  required={true}
                                   onChange={this.handleChange('password')}
                                   startAdornment={
                                       <InputAdornment position="start">
@@ -531,7 +529,6 @@ class index extends Component {
                                       value={password_confirmation}
                                       id="password_confirmation"
                                       type={showPasswordTwo ? 'text' : 'password'}
-                                      required={true}
                                       onChange={this.handleChange('password_confirmation')}
                                       startAdornment={
                                           <InputAdornment position="start">
