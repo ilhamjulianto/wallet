@@ -20,7 +20,7 @@ export default class Nav extends Component {
                         <a className="nav-link" href="#about">ABOUT</a>
                     </li>
                     <li className="wow fadeInRight slow nav-item" data-wow-delay="0.9s">
-                        <a className="nav-link" href="/">OUR TEAM</a>
+                        <a className="nav-link" href="#ourTeam">OUR TEAM</a>
                     </li>
                 </ul>
             </div>

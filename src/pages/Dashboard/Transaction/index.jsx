@@ -91,7 +91,7 @@ export default class index extends Component {
         .then(res => {
             this.setState({ 
                 id: res.data.data.id,
-                data: res.data.data.transactions.data,
+                data: _.sortBy(res.data.data.transactions.data, ['date']).reverse(),
             })
         })
         .catch(err => {
@@ -181,7 +181,7 @@ export default class index extends Component {
         this.setState({
             index: i,
             openDetail: true,
-            typeUpdate: parseInt(data[i].type_id),
+            typeUpdate: data[i].type_id,
             categoryUpdate: data[i].category.category_id,
             amountUpdate: data[i].amount,
             noteUpdate: data[i].note,
@@ -195,29 +195,42 @@ export default class index extends Component {
 
         this.setState({ loading: true })
 
-        const { token, url, index } = this.state
-        let data = {
+        const { data, token, url, index } = this.state
+        let datas = {
             'type_id': this.state.typeUpdate,
             'category_id': this.state.categoryUpdate,
-            'amount': this.state.typeUpdate === 2 ? '-' + this.state.amountUpdate : this.state.amountUpdate.replace('-',''),
+            'amount': this.type_id === 2 ? -this.state.amountUpdate : parseInt(this.state.amountUpdate),
             'note': this.state.noteUpdate,
             'date': this.state.dateUpdate,
             'user': this.state.userUpdate,
         }
 
-        axios.put(`${url}/transactions/${parseInt(index)+1}?token=${token}`, data).then(res => {
+        axios.put(`${url}/transaction/${parseInt(data[index].transaction_id)}?token=${token}`, datas).then(res => {
             this.setState({
                 open: false,
                 openSucUpdate: true,
                 loading: false,
             })
-            this.getData()
+            this.getUser()
         }).catch(err => {
+            console.log(err)
+            console.log(err.response)
             this.setState({
                 open: false,
                 loading: false,
                 openFail: true,
             })
+        })
+    }
+
+    handleDelete = (e) => {
+        e.preventDefault()
+
+        this.setState({ loading: true })
+        const { data, token, url, index } = this.state
+        axios.delete(`${url}/transaction/${parseInt(data[index].transaction_id)}?token=${token}`)
+        .then(res => {
+            this.getUser()
         })
     }
 
@@ -257,7 +270,6 @@ export default class index extends Component {
         </div>
     )
     }
-    data = _.sortBy(data, ['date']).reverse()
     return (
       <div className="dashboard-transaction text-center">
         <div className="py-5">
@@ -288,7 +300,7 @@ export default class index extends Component {
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-dark-smooth">
                                 IDR {rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
                             </div>
-                            <div className={datas.type_id === '1' ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
+                            <div className={datas.type_id === 1 ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
                                 {typeList[datas.type_id].type.toUpperCase()}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-right text-sm-center text-disable">
@@ -524,7 +536,7 @@ export default class index extends Component {
                             number
                             className="w-100 mt-2"
                             label="How Much?"
-                            value={parseInt(amountUpdate) < 0 ? amountUpdate.substr(1,amountUpdate.length-4) : amountUpdate}
+                            value={parseInt(amountUpdate) < 0 ? amountUpdate.substr(1,amountUpdate.length-4) : amountUpdate.replace('.00','')}
                             onKeyPress={this.isInputNumber}
                             onChange={this.handleChange('amountUpdate')}
                             id="amountUpdate"
