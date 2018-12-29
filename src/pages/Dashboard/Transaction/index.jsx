@@ -12,6 +12,7 @@ import NoteIcon from '@material-ui/icons/Create'
 import DateIcon from '@material-ui/icons/DateRange'
 import Account from '@material-ui/icons/AccountCircle'
 import Close from '@material-ui/icons/Close'
+import Delete from '@material-ui/icons/Delete'
 import axios from 'axios'
 import { css } from 'react-emotion'
 import { HashLoader } from 'react-spinners'
@@ -223,7 +224,7 @@ export default class index extends Component {
         axios.delete(`${url}/transaction/${parseInt(data[index].transaction_id)}?token=${token}`)
         .then(res => {
             this.setState({
-                open: false,
+                openDetail: false,
                 loading: false,
             })
             this.getUser()
@@ -588,8 +589,8 @@ export default class index extends Component {
                             <button className="btn-rounded mx-1 btn-cancel" type="reset" onClick={this.handleCloseDetail}>
                             Cancel
                             </button>
-                            <button type="reset" onClick={this.handleDelete}>
-                            D
+                            <button className="btn-delete" type="reset" onClick={this.handleDelete}>
+                            <Delete/>
                             </button>
                         </div>
                     </form>

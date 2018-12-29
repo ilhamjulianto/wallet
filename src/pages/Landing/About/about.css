@@ -11,3 +11,9 @@
     width: 140px;
     height: 140px;
 }
+
+@media(min-width: 1366px) {
+	#about {
+		height: 100vh;
+	}
+}
