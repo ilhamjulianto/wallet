@@ -15,8 +15,14 @@ $ cd wallet
 4. Install node_module 
 
 ```
-$ sudo npm install
-$ sudo yarn install
+$ npm install
+$ yarn install
+```
+5. To run your project
+
+```
+$ npm start
+$ yarn start
 ```
 
 # Dependencies List
