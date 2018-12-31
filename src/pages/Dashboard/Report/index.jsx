@@ -260,7 +260,7 @@ export default class index extends Component {
                         <hr/>
                         <div className="d-flex flex-row justify-content-between">
                             <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-left">Balance</h5>
-                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR ${this.toIdr(dailyIn+dailyOut).toString()}` : '0'}</h5>
+                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR ${this.toIdr(parseInt(dailyIn)+parseInt(dailyOut)).toString()}` : '0'}</h5>
                         </div>
                     </div>
                 </div>
@@ -279,7 +279,7 @@ export default class index extends Component {
                         <hr/>
                         <div className="d-flex flex-row justify-content-between">
                             <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-left">Balance</h5>
-                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{monthlyOutTotal.toString() !== '' ? `IDR ${this.toIdr(monthlyInTotal+monthlyOutTotal).toString()}` : '0'}</h5>
+                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{monthlyOutTotal.toString() !== '' ? `IDR ${this.toIdr(parseInt(monthlyInTotal)+parseInt(monthlyOutTotal)).toString()}` : '0'}</h5>
                         </div>
                     </div>
                 </div>

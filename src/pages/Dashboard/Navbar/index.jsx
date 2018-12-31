@@ -102,7 +102,7 @@ class index extends Component {
         <div className="container-fluid  navbar text-light py-2">
                <Button color="inherit" className="mr-auto">
                     <font>Keuangan Pondok</font>
-                    {/*<Dialog open={this.state.open} onClose={this.onCloseModal} center>
+                    <Dialog open={this.state.open} onClose={this.onCloseModal} center>
                         <DialogContent>
                             {this.state.walletList.map((datas, i)=>{
                               return(
@@ -121,7 +121,7 @@ class index extends Component {
                               )
                             })}
                         </DialogContent>
-                    </Dialog>*/}
+                    </Dialog>
                </Button>
                 
                 <div>
