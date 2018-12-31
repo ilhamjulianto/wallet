@@ -15,7 +15,7 @@ import Close from '@material-ui/icons/Close'
 import Delete from '@material-ui/icons/Delete'
 import axios from 'axios'
 import { css } from 'react-emotion'
-import { HashLoader } from 'react-spinners'
+import { ClipLoader } from 'react-spinners'
 import _ from 'lodash'
 
 
@@ -23,7 +23,8 @@ const override = css`
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    margin-left: -33px;
+    margin-top: -33px;
 `
 
 function Transition(props) {
@@ -249,15 +250,17 @@ export default class index extends Component {
 
     if(data === '' || data === undefined || categoryList === '' || categoryList === undefined) {
     return(
-        <div className="preload">
-            <div className="sweet-loading mx-auto">
-                <HashLoader
-                    className={override}
-                    sizeUnit={"px"}
-                    size={75}
-                    color={"#1eb8fb"}
-                    loading={true}
-                />
+        <div className="dashboard-transaction text-center">
+            <div className="py-5">
+                <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold">Transaction</h2>
+                <hr className="wow zoomIn slow dashboard-header-line"/>
+                    <ClipLoader
+                        className={override}
+                        sizeUnit={"px"}
+                        size={80}
+                        color={"#1eb8fb"}
+                        loading={true}
+                    />
             </div>
         </div>
     )

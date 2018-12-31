@@ -116,7 +116,8 @@ export default class index extends Component {
 
   render() {
       const { password, password_confirmation, showPassword, showPasswordTwo, loading, openSuc, openFail, confirmPass, success, error } = this.state
-      console.log(this.state)
+      console.clear()
+
     if(localStorage.getItem('token') === null) {
     return (
       <div className="create-password">

@@ -13,7 +13,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { getData } from '../../_actions'
 import { css } from 'react-emotion'
-import { HashLoader } from 'react-spinners'
+import { ClipLoader } from 'react-spinners'
 
 
 const override = css`
@@ -170,7 +170,7 @@ class index extends Component {
         loading: false,
         success: false,
         fail: true,
-        error: err.response.data.message,
+        error: 'Failed update data',
       })
     })
   }
@@ -254,7 +254,7 @@ class index extends Component {
       return(
         <div className="preload">
             <div className="sweet-loading mx-auto">
-                  <HashLoader
+                  <ClipLoader
                       className={override}
                       sizeUnit={"px"}
                       size={75}
@@ -266,7 +266,7 @@ class index extends Component {
       )
     }
     console.clear()
-    
+
     return (
       <div className="dashboard-profile">
         <div className="container-fluid text-dark-smooth">

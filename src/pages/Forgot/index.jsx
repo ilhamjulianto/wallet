@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 import { FormControl, Input, InputLabel, InputAdornment, Slide, Dialog, DialogTitle, DialogContent, DialogActions, Button, LinearProgress } from '@material-ui/core'
 import Done from '@material-ui/icons/Done'
+import Close from '@material-ui/icons/Close'
 import Mail from '@material-ui/icons/Mail'
 import Ink from 'react-ink'
 import WOW from 'wowjs'
@@ -18,6 +19,7 @@ export default class index extends Component {
         email: '',
         loading: false,
         openSuc: false,
+        openFail: false,
         url: 'https://api-simplewallet-v1.herokuapp.com/api',
     }
 
@@ -40,21 +42,24 @@ export default class index extends Component {
         data.append('email', email)
         axios.post(`${url}/password/create`, data)
         .then(res => {
-            console.log(res)
             this.setState({ loading: false, openSuc: true,  email: '', })
         })
         .catch(err => {
             console.log(err)
-            this.setState({ loading: false, })
+            this.setState({ loading: false, openFail: true, fail: `Your email not Registered` })
         })
     }
 
     closeSuc = () => {
         this.setState({ openSuc: false, })
     }
+
+    closeFail = () => {
+        this.setState({ openFail: false, })
+    }
   render() {
-      console.log(this.state)
-      const { email, loading, openSuc } = this.state
+      const { email, loading, openSuc, openFail, fail } = this.state
+
     if(localStorage.getItem('token') === null) {
     return (
       <div className="forgot-password">
@@ -64,24 +69,27 @@ export default class index extends Component {
             <p className="roboto-regular small mt-1">
                 Don't worry, just enter your email address and we'll set you up with a new password. You can change it after this.
             </p>
-            <FormControl className="w-100 mt-2">
-                <InputLabel htmlFor="email">Email</InputLabel>
-                <Input
-                id="email"
-                value={email}
-                onChange={this.handleChange('email')}
-                required={true}
-                startAdornment={
-                    <InputAdornment position="start">
-                    <Mail className="text-blue" />
-                    </InputAdornment>
-                }
-                />
-            </FormControl>
-            <button className="btn btn-primary-rounded mt-4" onClick={this.handleSend}>
-                SEND
-                <Ink/>
-            </button>
+            <form onSubmit={this.handleSend}>
+                <FormControl className="w-100 mt-2">
+                    <InputLabel htmlFor="email">Email</InputLabel>
+                    <Input
+                    required
+                    id="email"
+                    value={email}
+                    onChange={this.handleChange('email')}
+                    required={true}
+                    startAdornment={
+                        <InputAdornment position="start">
+                        <Mail className="text-blue" />
+                        </InputAdornment>
+                    }
+                    />
+                </FormControl>
+                <button className="btn btn-primary-rounded mt-4" type="submit">
+                    SEND
+                    <Ink/>
+                </button>
+            </form>
         </div>
 
         {/* Preload */}
@@ -95,7 +103,7 @@ export default class index extends Component {
             open={openSuc}
             TransitionComponent={Transition}
             keepMounted
-            onClose={this.handleClose}
+            onClose={false}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
             >
@@ -116,6 +124,31 @@ export default class index extends Component {
             </DialogActions>
             </Dialog>
         {/* /If Success */}
+
+        {/* If Failed */}
+        <Dialog
+            open={openFail}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.closeFail}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+            >
+            <DialogTitle id="alert-dialog-slide-title" className="mx-auto text-center">
+                {fail}
+            </DialogTitle>
+            <DialogContent className="mx-auto mt-2">
+                <div className="mx-auto">
+                    <Close className="wow flipInX" style={{fontSize: '100px', color:'#ff4040'}}/>
+                </div>
+            </DialogContent>
+            <DialogActions className="mx-auto">
+                    <Button onClick={this.closeFail}>
+                    Close
+                    </Button>
+            </DialogActions>
+            </Dialog>
+        {/* /If Failed */}
 
       </div>
     )} else {

@@ -2,7 +2,18 @@ import React, { Component } from 'react'
 import './report.css'
 import Chart from 'chart.js'
 import axios from 'axios'
+import WOW from 'wowjs'
+import { css } from 'react-emotion'
+import { ClipLoader } from 'react-spinners'
 import _ from 'lodash'
+
+const override = css`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -33px;
+    margin-top: -33px;
+`
 
 export default class index extends Component {
     state = {
@@ -68,57 +79,8 @@ export default class index extends Component {
         })
     }
 
-    chartBar = (dailyIn, dailyOut) => {
-        var myChart = document.getElementById('daily').getContext('2d')
-
-        var gradient = myChart.createLinearGradient(0,0,0,450)
-            gradient.addColorStop(0, 'rgba(30, 184, 251, 1)')
-            gradient.addColorStop(0.7, 'rgba(30, 184, 251, 0.4)')
-            gradient.addColorStop(1, 'rgba(30, 184, 251, 0.1)')
-
-        var gradientTwo = myChart.createLinearGradient(0,0,0,450)
-            gradientTwo.addColorStop(0, 'rgba(255, 206, 116, 1)')
-            gradientTwo.addColorStop(0.7, 'rgba(255, 206,116, 0.4)')
-            gradientTwo.addColorStop(1, 'rgba(255, 206, 116, 0.1)')
-
-        var chart = new Chart(myChart, {
-            type: 'line',
-            data: {
-                labels: [`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`],
-                datasets:[{
-                    label: 'Expense',
-                    data: [`${dailyOut}`],
-                    backgroundColor: gradient,
-                    borderWidth: 2,
-                    borderColor: [
-                        'rgba(30, 154, 255, 1)',
-                    ],
-                    pointBackgroundColor: 'white',
-                },
-                {
-                    label: 'Income',
-                    data: [`${dailyIn}`],
-                    backgroundColor: gradientTwo,
-                    borderWidth: 2,
-                    borderColor: [
-                        'rgba(255, 206, 86, 1)',
-                    ],
-                    pointBackgroundColor: 'white',
-                }] 
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-            })        
-    }
-
     componentDidMount = () => {
+        new WOW.WOW().init()
         this.getData()
     }
 
@@ -208,14 +170,21 @@ export default class index extends Component {
     const { data } = this.state
     if(data === '' || data === undefined) {
         return (
-            <div className="dashboard-report text-center">
-                <div className="py-3">
-                    <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold">Report</h2>
-                    <hr className="wow zoomIn slow dashboard-header-line"/>
+            <div className="dashboard-report">
+                <div className="py-5">
+                    <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold text-center">Report</h2>
+                    <hr className="wow zoomIn slow dashboard-header-line text-center"/>
                     <div className="container mx-auto mt-4">
                         <canvas id="myChart"></canvas>
                     </div>
                 </div>
+                <ClipLoader
+                    className={override}
+                    sizeUnit={"px"}
+                    size={75}
+                    color={"#1eb8fb"}
+                    loading={true}
+                />
             </div>
         )
     } else {
@@ -265,10 +234,10 @@ export default class index extends Component {
 // all daily expense
     let dailyOut = this.ambilHariOut()
     console.clear()
-    
+
     return (
       <div className="dashboard-report">
-        <div className="py-3">
+        <div className="py-5">
             <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold text-center">Report</h2>
             <hr className="wow zoomIn slow dashboard-header-line text-center"/>
             <div className="container mx-auto mt-4">
@@ -276,28 +245,42 @@ export default class index extends Component {
             </div>
 
             <div className="container mx-auto row mt-5">
-                <div className="col-md-6 col-sm-12 px-5">
-                    <h4 className="wow fadeInUp slow text-dark-smooth roboto-bold p-0 m-0  text-center">Today</h4>
-                    <hr className="wow zoomIn slow dashboard-header-line text-md-left text-sm-center"/>
-                    <div className="d-flex flex-row justify-content-between">
-                        <h6 className="wow fadeInUp slow text-blue roboto-semibold text-left">Income</h6>
-                        <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{`IDR ${this.toIdr(dailyIn)}`}</h6>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between">
-                        <h6 className="wow fadeInUp slow text-red roboto-semibold text-left">Expense</h6>
-                        <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR -${this.toIdr(dailyOut).toString().replace('-.','-')}` : '0'}</h6>
+                <div className="col-md-6 col-sm-12 px-2">
+                    <div className="layer border-0 px-4 py-4">
+                        <h4 className="wow fadeInUp slow text-dark-smooth roboto-bold p-0 m-0  text-center">Today</h4>
+                        <hr className="wow zoomIn slow dashboard-header-line text-md-left text-sm-center"/>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h6 className="wow fadeInUp slow text-blue roboto-semibold text-left">Income</h6>
+                            <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{`IDR ${this.toIdr(dailyIn)}`}</h6>
+                        </div>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h6 className="wow fadeInUp slow text-red roboto-semibold text-left">Expense</h6>
+                            <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR -${this.toIdr(dailyOut).toString().replace('-.','-')}` : '0'}</h6>
+                        </div>
+                        <hr/>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-left">Balance</h5>
+                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR ${this.toIdr(dailyIn+dailyOut).toString()}` : '0'}</h5>
+                        </div>
                     </div>
                 </div>
-                <div className="col-md-6 col-sm-12 text-left px-5 mt-md-0 mt-sm-5">
-                    <h4 className="wow fadeInUp slow text-dark-smooth roboto-bold p-0 m-0  text-center">This Month</h4>
-                    <hr className="wow zoomIn slow dashboard-header-line text-md-left text-sm-center"/>
-                    <div className="d-flex flex-row justify-content-between">
-                        <h6 className="wow fadeInUp slow text-blue roboto-semibold text-left">Income</h6>
-                        <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{`IDR ${this.toIdr(monthlyInTotal)}`}</h6>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between">
-                        <h6 className="wow fadeInUp slow text-red roboto-semibold text-left">Expense</h6>
-                        <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR -${this.toIdr(monthlyOutTotal).toString().replace('-.','-')}` : '0'}</h6>
+                <div className="col-md-6 col-sm-12 text-left px-2 mt-md-0 mt-sm-5">
+                    <div className="layer border-0 px-4 py-4">
+                        <h4 className="wow fadeInUp slow text-dark-smooth roboto-bold p-0 m-0  text-center">This Month</h4>
+                        <hr className="wow zoomIn slow dashboard-header-line text-md-left text-sm-center"/>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h6 className="wow fadeInUp slow text-blue roboto-semibold text-left">Income</h6>
+                            <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{`IDR ${this.toIdr(monthlyInTotal)}`}</h6>
+                        </div>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h6 className="wow fadeInUp slow text-red roboto-semibold text-left">Expense</h6>
+                            <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{monthlyOutTotal.toString() !== '' ? `IDR -${this.toIdr(monthlyOutTotal).toString().replace('-.','-')}` : '0'}</h6>
+                        </div>
+                        <hr/>
+                        <div className="d-flex flex-row justify-content-between">
+                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-left">Balance</h5>
+                            <h5 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{monthlyOutTotal.toString() !== '' ? `IDR ${this.toIdr(monthlyInTotal+monthlyOutTotal).toString()}` : '0'}</h5>
+                        </div>
                     </div>
                 </div>
             </div>

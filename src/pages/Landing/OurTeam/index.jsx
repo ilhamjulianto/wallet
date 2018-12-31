@@ -3,6 +3,7 @@ import Swiper from 'react-id-swiper'
 import './ourTeam.css'
 import ilham from '../../../assets/img/profile/ilham.png'
 import fitra from '../../../assets/img/profile/fitra.jpg'
+import miko from '../../../assets/img/profile/miko.png'
 
 export default class index extends Component {
   render() {
@@ -61,7 +62,7 @@ export default class index extends Component {
                             <div className="swipper-slide">
                                 <div class="swiper-slide">
                                     <div className="imgBx">
-                                        <img className="img" src="http://lorempixel.com/600/600/nature/1" alt=""/>
+                                        <img className="img" src={miko} alt=""/>
                                     </div>
                                     <div className="details">
                                         <h3 className="h3">Win Temas Miko<br/><span className="span">Mobile Developer</span></h3>

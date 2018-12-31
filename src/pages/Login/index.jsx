@@ -60,7 +60,6 @@ class index extends Component {
 
           axios.post(`${url}/auth/login`, data)
           .then(res => {
-              console.log(res.data)
               localStorage.setItem('token', res.data.access_token)
               this.setState({
                   data: res.data,
@@ -70,10 +69,6 @@ class index extends Component {
               this.props.logIn(res.data.access_token)
           })
           .catch(error => {
-            console.log(error.response)
-            // if(error.response.status === 404) {
-            //   this.setState({ error: 'Error!<br/>Your Account is not registered' })
-            // }
             this.setState({
               error: error.response.data.msg,
               open: false,
@@ -111,8 +106,9 @@ class index extends Component {
       }
 
   render() {
-      console.log(this.state)
       const { email, password, disabled, showPassword, open, openFail, loading, error } = this.state
+        console.clear()
+        
     if(localStorage.getItem('token') === null) {
     return (
       <div className="login-session">
