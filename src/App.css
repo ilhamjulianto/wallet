@@ -63,6 +63,10 @@ html, body {
   color: #1eb8fb !important;
 }
 
+.text-red {
+  color: #ff4040 !important;
+}
+
 .App {
   text-align: center;
 }

@@ -296,7 +296,7 @@ export default class index extends Component {
                                 {datas.note}
                             </div>
                             <div className="col-md-3 col-sm-12 text-md-left text-sm-center text-dark-smooth">
-                                IDR {datas.amount.toString().includes('-') ? '-'+rupiah.replace('-.','-') : '' && rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
+                                IDR {datas.amount.toString().includes('-') ? rupiah.replace('-.','-') : '' && rupiah.includes('-.') ?rupiah.replace('-.','-') : rupiah}
                             </div>
                             <div className={datas.type_id === 1 ? "col-md-3 col-sm-12 text-md-left text-sm-center text-primary" : "col-md-3 col-sm-12 text-md-left text-sm-center text-danger" }>
                                 {typeList[datas.type_id].type.toUpperCase()}
