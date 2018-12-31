@@ -72,7 +72,6 @@ export default class index extends Component {
         const { url } = this.state
         axios.get(`${url}/category`)
         .then(res => {
-            console.log(res)
             this.setState({ categoryList: res.data })
         })
     }
@@ -86,9 +85,6 @@ export default class index extends Component {
                 id: res.data.data.id,
                 data: _.sortBy(res.data.data.transactions.data, ['date']).reverse(),
             })
-        })
-        .catch(err => {
-            console.log(err)
         })
     }
 
@@ -206,8 +202,6 @@ export default class index extends Component {
             })
             this.getUser()
         }).catch(err => {
-            console.log(err)
-            console.log(err.response)
             this.setState({
                 open: false,
                 loading: false,
@@ -251,7 +245,8 @@ export default class index extends Component {
 
   render() {
       let { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openDetail, openSuc, openSucUpdate, index, loading, openFail, value } = this.state
-      console.log(this.state)
+      console.clear()
+
     if(data === '' || data === undefined || categoryList === '' || categoryList === undefined) {
     return(
         <div className="preload">
@@ -267,6 +262,7 @@ export default class index extends Component {
         </div>
     )
     }
+    console.clear()
     return (
       <div className="dashboard-transaction text-center">
         <div className="py-5">
@@ -288,7 +284,7 @@ export default class index extends Component {
                             let separator = sisa ? '.' : ''
                             rupiah += separator + ribuan.join('.')
                         }
-                        console.log(bilangan, rupiah)
+                        
                     return(
                     <div className="card p-4 my-2 rounded-md" onClick={() => this.handleOpenDetail(i)}>
                         <div className="row">
@@ -391,7 +387,6 @@ export default class index extends Component {
                         </TextField>
 
                         <TextField
-                            number
                             className="w-100 mt-2"
                             label="How Much?"
                             value={amount}
@@ -405,7 +400,6 @@ export default class index extends Component {
                         </TextField>
 
                         <TextField
-                            number
                             className="w-100 mt-2"
                             label="Note"
                             value={note}
@@ -531,7 +525,6 @@ export default class index extends Component {
                         </TextField>
 
                         <TextField
-                            number
                             className="w-100 mt-2"
                             label="How Much?"
                             value={amountUpdate < 0 ? amountUpdate.toString().substr(1) : amountUpdate.toString().replace('.00','')}
@@ -545,7 +538,6 @@ export default class index extends Component {
                         </TextField>
 
                         <TextField
-                            number
                             className="w-100 mt-2"
                             label="note"
                             value={index === '' ? type : noteUpdate}

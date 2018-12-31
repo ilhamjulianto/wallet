@@ -1,7 +1,6 @@
 .dashboard-transaction {
     height: 100%;
     position: relative;
-    padding-bottom: 60px;
 }
 
 .dashboard-transaction .dashboard-header-line {
@@ -134,6 +133,7 @@
         height: 100%;
         position: relative;
         padding-top: 66px;
+        padding-bottom: 60px;
     }
 
     .dashboard-transaction .btn-add {

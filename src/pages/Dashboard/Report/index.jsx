@@ -163,7 +163,6 @@ export default class index extends Component {
         var all = data !== '' ? data.map(datas => datas) : ''
 
         var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${new Date().getMonth()+1}`) && parseInt(x.amount) > 0) : ''
-        console.log(ambilHari)
         let hari = Array.isArray(ambilHari) ? ambilHari.map(dat => dat.amount) : '0'
         let totalTran = Array.isArray(hari) && hari.length >= 1 ? this.sumTotal(hari) : '0'
         return totalTran
@@ -265,14 +264,8 @@ export default class index extends Component {
 
 // all daily expense
     let dailyOut = this.ambilHariOut()
-
-// daily chart
-    // this.chartBar(dailyIn, dailyOut)
-
-// debugger
-    console.log(this.state)
-    console.log(monthlyInTotal)
-
+    console.clear()
+    
     return (
       <div className="dashboard-report">
         <div className="py-3">
@@ -283,7 +276,7 @@ export default class index extends Component {
             </div>
 
             <div className="container mx-auto row mt-5">
-                <div className="col-md-6 col-sm-12">
+                <div className="col-md-6 col-sm-12 px-5">
                     <h4 className="wow fadeInUp slow text-dark-smooth roboto-bold p-0 m-0  text-center">Today</h4>
                     <hr className="wow zoomIn slow dashboard-header-line text-md-left text-sm-center"/>
                     <div className="d-flex flex-row justify-content-between">
@@ -295,7 +288,7 @@ export default class index extends Component {
                         <h6 className="wow fadeInUp slow text-dark-smooth roboto-semibold text-right">{dailyOut.toString() !== '' ? `IDR -${this.toIdr(dailyOut).toString().replace('-.','-')}` : '0'}</h6>
                     </div>
                 </div>
-                <div className="col-md-6 col-sm-12 text-left">
+                <div className="col-md-6 col-sm-12 text-left px-5 mt-md-0 mt-sm-5">
                     <h4 className="wow fadeInUp slow text-dark-smooth roboto-bold p-0 m-0  text-center">This Month</h4>
                     <hr className="wow zoomIn slow dashboard-header-line text-md-left text-sm-center"/>
                     <div className="d-flex flex-row justify-content-between">

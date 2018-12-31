@@ -50,8 +50,8 @@
 @media(max-width: 768px) {
     .dashboard-home {
         padding-top: 65px;
+        padding-bottom: 60px;
         margin-left: 0px;
-        margin-bottom: 60px;
         height: auto;
         position: relative;
     }

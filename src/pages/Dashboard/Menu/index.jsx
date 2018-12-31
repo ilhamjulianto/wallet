@@ -8,6 +8,7 @@ import {NavLink} from 'react-router-dom'
 
 export default class index extends Component {
   render() {
+    console.clear()
     return (
       <div className="dashboard-menu">
           <div className="menu py-3">

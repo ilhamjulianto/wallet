@@ -56,7 +56,6 @@ class index extends Component {
     const { url } = this.state
     axios.get(`${url}/user?token=${token}`)
     .then(res => {
-      console.log(res)
       this.setState({
         id: res.data.data.id,
         avatar: res.data.data.avatar,
@@ -131,7 +130,6 @@ class index extends Component {
 
     axios.post(`${url}/user/upload?token=${token}`, data)
     .then(res => {
-      console.log(res)
       this.setState({
         loading: false,
         success: true,
@@ -140,7 +138,6 @@ class index extends Component {
       window.location.reload()
     })
     .catch(err => {
-      console.log(err)
       this.setState({
         loading: false,
         success: false,
@@ -162,7 +159,6 @@ class index extends Component {
       }
     )
     .then(res => {
-      console.log(res)
       this.setState({
         loading: false,
         success: true,
@@ -170,7 +166,6 @@ class index extends Component {
       this.getData()
     })
     .catch(err => {
-      console.log(err.response.data.message)
       this.setState({
         loading: false,
         success: false,
@@ -192,14 +187,12 @@ class index extends Component {
     datas.append('password_confirmation', this.state.password_confirmation)
     axios.post(`${url}/changepassword?token=${token}`, datas)
     .then(res => {
-      console.log(res)
       this.setState({ 
         loading: false,
         success: true,
       })
     })
     .catch(err => {
-      console.log(err)
       this.setState({
         loading: false,
         fail: true,
@@ -254,8 +247,9 @@ class index extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { id, image, name, email, phone_number, password, current_password, password_confirmation, loading, open, success, fail, large, format, disabled, showPassword, showPasswordOne, showPasswordTwo, error } = this.state
+    console.clear()
+
     if(id === '') {
       return(
         <div className="preload">
@@ -271,6 +265,8 @@ class index extends Component {
         </div>
       )
     }
+    console.clear()
+    
     return (
       <div className="dashboard-profile">
         <div className="container-fluid text-dark-smooth">

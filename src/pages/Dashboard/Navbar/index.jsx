@@ -22,18 +22,14 @@ class index extends Component {
         walletList: [
           {
             name: 'Keuangan Pondok',
-          },
-          {
-            name: 'Keuangan Divisi',
-          }
-        ],
+          }],
         anchorEl: null,
         token: null,
         openNew: false,
         wallet: '',
         idArray: '',
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
-      };
+      }
 
 
       getData = () => {
@@ -51,20 +47,20 @@ class index extends Component {
       }
      
       onOpenModal = () => {
-        this.setState({ open: true });
-      };
+        this.setState({ open: true })
+      }
      
       onCloseModal = () => {
-        this.setState({ open: false });
-      };
+        this.setState({ open: false })
+      }
 
       handleClick = event => {
-        this.setState({ anchorEl: event.currentTarget });
-      };
+        this.setState({ anchorEl: event.currentTarget })
+      }
     
       handleClose = () => {
-        this.setState({ anchorEl: null });
-      };
+        this.setState({ anchorEl: null })
+      }
 
       handleLogout = () => {
         localStorage.clear()
@@ -97,14 +93,16 @@ class index extends Component {
         wallet.splice(i, 1)
         this.setState({ wallet })
       }
+
   render() {
     const { data } = this.state
+
     return (
       <div className="dashboard-navbar">
         <div className="container-fluid  navbar text-light py-2">
                <Button color="inherit" className="mr-auto">
-                    <font onClick={this.onOpenModal}>Keuangan Pondok</font>
-                    <Dialog open={this.state.open} onClose={this.onCloseModal} center>
+                    <font>Keuangan Pondok</font>
+                    {/*<Dialog open={this.state.open} onClose={this.onCloseModal} center>
                         <DialogContent>
                             {this.state.walletList.map((datas, i)=>{
                               return(
@@ -123,13 +121,13 @@ class index extends Component {
                               )
                             })}
                         </DialogContent>
-                    </Dialog>
+                    </Dialog>*/}
                </Button>
                 
                 <div>
-                    <IconButton color="inherit" className="mx-3 shadow" aria-label="Add Wallet" onClick={this.handleOpenNew}>
+                    {/*<IconButton color="inherit" className="mx-3 shadow" aria-label="Add Wallet" onClick={this.handleOpenNew}>
                         <AddCircleIcon/>
-                    </IconButton>
+                    </IconButton>*/}
                     <img src={data === null ? data : data.avatar} className="rounded-circle cursor-pointer" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : null} aria-haspopup="true" onClick={this.handleClick}/>
                     <Menu
                       className="p-0 mr-2"
@@ -138,7 +136,7 @@ class index extends Component {
                       open={Boolean(this.state.anchorEl)}
                       onClose={this.handleClose}
                     >
-                    {/* Social */}
+                    {/* Profile */}
                       <div className="col-12">
                       <div className="p-4 profile-card text-center">
                         <div className="img-profile text-center">
@@ -152,7 +150,7 @@ class index extends Component {
                         <p className="primary-text roboto-medium small">{data === null ? data : data.email}</p>
                       </div>
                       </div>
-                    {/* Social */}
+                    {/* Profile */}
 
                       <p className="text-center logout-link roboto-normal" onClick={this.handleLogout}>Log Out<Ink/></p>
                     </Menu>

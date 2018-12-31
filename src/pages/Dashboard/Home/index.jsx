@@ -19,8 +19,8 @@ const override = css`
 export default class index extends Component {
     state = {
         data: '',
-        income: 5000000,
-        expense: 3000000,
+        income: '',
+        expense: '',
         url: 'https://api-simplewallet-v1.herokuapp.com/api/v1',
     }
 
@@ -29,10 +29,8 @@ export default class index extends Component {
         const token  = localStorage.getItem('token')
         axios.get(`${url}/user?token=${token}`)
         .then(res => {
-            console.log(res)
             this.setState({ data: res.data.data.transactions.data })
         })
-        console.log(this.state)
     }
 
     componentDidMount() {
@@ -66,7 +64,6 @@ export default class index extends Component {
     }
   render() {
       const { data } = this.state
-      console.log(this.state)
 
     if(data === '' || data === undefined ) {
     return(
@@ -139,17 +136,15 @@ export default class index extends Component {
     var totalInc = totalIn.filter(x => x > 1)
     var totalOut = totalIn.filter(x => x < 0)
 
-    console.log(totalInc)
-    console.log(totalOut)
-
     var saldo
     totalIn === undefined ? saldo = 0 : saldo = this.sumTotal(totalIn)
     var inc = saldo
-    console.log(inc)
+    console.clear()
+    
     return (
       <div className="dashboard-home text-center">
         <div className="pt-5">
-            <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold">My Wallet</h2>
+            <h2 className="wow fadeInUp slow text-dark-smooth roboto-bold">All Transactions</h2>
             <hr className="wow zoomIn slow dashboard-header-line"/>
             <form id="myForm">
             <div className="row m-5 p-0">
@@ -188,9 +183,6 @@ export default class index extends Component {
                 </div>
             </div>
             </form>
-        </div>
-        <div className="pt-5 mt-5">
-            <Footer/>
         </div>
       </div>
     )
