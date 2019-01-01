@@ -243,7 +243,7 @@ export default class index extends Component {
 
 // all daily expense
     let dailyOut = this.ambilHariOut()
-    // console.clear()
+    console.clear()
 
     return (
       <div className="dashboard-report">

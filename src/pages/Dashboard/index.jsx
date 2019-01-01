@@ -9,6 +9,22 @@ import Transaction from './Transaction'
 import Report from './Report'
 
 export default class index extends Component {
+  componentDidMount = () => {
+
+      var lastclear = localStorage.getItem('lastclear'),
+          time_now  = (new Date()).getTime();
+
+      // .getTime() returns milliseconds so 1000 * 60 * 60 * 24 = 24 days
+      if ((time_now - lastclear) > 1000 * 40) {
+
+        localStorage.removeItem('token')
+
+        localStorage.setItem('lastclear', time_now)
+        
+        window.location.reload()
+      }
+  }
+  
   render() {
     if(localStorage.getItem('token') !== null){
     return (

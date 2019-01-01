@@ -302,17 +302,19 @@ class index extends Component {
                       fullWidth
                       disabled
                     />
-                    <TextField
-                      required
-                      id="phone_number"
-                      label="Phone"
-                      className="mt-5"
-                      value={phone_number}
-                      onKeyPress={this.isInputNumber}
-                      onChange={this.handleChange('phone_number')}
-                      margin="normal"
-                      fullWidth
-                    />
+                    <Tooltip title="Phone number at least must be 11 character">
+                      <TextField
+                        required
+                        id="phone_number"
+                        label="Phone"
+                        className="mt-5"
+                        value={phone_number}
+                        onKeyPress={this.isInputNumber}
+                        onChange={this.handleChange('phone_number')}
+                        margin="normal"
+                        fullWidth
+                      />
+                    </Tooltip>
 
                     <Fab size="small" disabled={disabled} className="mx-3 btn-save" type="submit">
                       <SaveIcon/>

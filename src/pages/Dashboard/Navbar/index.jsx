@@ -102,7 +102,7 @@ class index extends Component {
         <div className="container-fluid  navbar text-light py-2">
                <Button color="inherit" className="mr-auto">
                     <font>Keuangan Pondok</font>
-                    <Dialog open={this.state.open} onClose={this.onCloseModal} center>
+                    {/*<Dialog open={this.state.open} onClose={this.onCloseModal} center>
                         <DialogContent>
                             {this.state.walletList.map((datas, i)=>{
                               return(
@@ -121,14 +121,13 @@ class index extends Component {
                               )
                             })}
                         </DialogContent>
-                    </Dialog>
+                    </Dialog>*/}
                </Button>
                 
                 <div>
-                    {/*<IconButton color="inherit" className="mx-3 shadow" aria-label="Add Wallet" onClick={this.handleOpenNew}>
-                        <AddCircleIcon/>
-                    </IconButton>*/}
-                    <img src={data === null ? data : data.avatar} className="rounded-circle cursor-pointer" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : null} aria-haspopup="true" onClick={this.handleClick}/>
+                    <IconButton color="inherit" className="p-0 mx-3 shadow" aria-label="Add Wallet">
+                        <img src={data === null ? data : data.avatar} className="rounded-circle cursor-pointer" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : null} aria-haspopup="true" onClick={this.handleClick}/>
+                    </IconButton>
                     <Menu
                       className="p-0 mr-2"
                       id="menu-profile"
