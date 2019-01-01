@@ -114,7 +114,7 @@ export default class index extends Component {
         const { data } = this.state
         var all = data !== '' ? data.map(datas => datas) : ''
 
-        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${new Date().getMonth()+1}`) && parseInt(x.amount) < 0) : ''
+        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${this.month()}`) && parseInt(x.amount) < 0) : ''
         let hari = Array.isArray(ambilHari) ? ambilHari.map(dat => dat.amount) : '0'
         let totalTran = Array.isArray(hari) && hari.length >= 1 ? this.sumTotal(hari) : '0'
         return totalTran
@@ -124,7 +124,7 @@ export default class index extends Component {
         const { data } = this.state
         var all = data !== '' ? data.map(datas => datas) : ''
 
-        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${new Date().getMonth()+1}`) && parseInt(x.amount) > 0) : ''
+        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${this.month()}`) && parseInt(x.amount) > 0) : ''
         let hari = Array.isArray(ambilHari) ? ambilHari.map(dat => dat.amount) : '0'
         let totalTran = Array.isArray(hari) && hari.length >= 1 ? this.sumTotal(hari) : '0'
         return totalTran
@@ -155,8 +155,6 @@ export default class index extends Component {
         var all = data !== '' ? data.map(datas => datas) : ''
 
         var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${this.month()}-${this.date()}`) && parseInt(x.amount) > 0) : ''
-        console.log(`${new Date().getFullYear()}-${this.month()}-${this.date()}`)
-        console.log(ambilHari)
         let hari = Array.isArray(ambilHari) ? ambilHari.map(dat => dat.amount) : '0'
         let totalTran = Array.isArray(hari) && hari.length >= 1 ? this.sumTotal(hari) : '0'
         return totalTran
