@@ -2,11 +2,27 @@
 To get the build scripts running, you'll need to do the following:
 
 1. [Install NodeJS](https://nodejs.org/)
-2. Install node_module 
+2. Clone this repo
 
 ```
-$ sudo npm install
-$ sudo yarn install
+$ git clone https://github.com/ilhamjulianto/wallet.git
+```
+3. Get In to the folder
+
+```
+$ cd wallet
+```
+4. Install node_module 
+
+```
+$ npm install
+$ yarn install
+```
+5. To run your project
+
+```
+$ npm start
+$ yarn start
 ```
 
 # Dependencies List
