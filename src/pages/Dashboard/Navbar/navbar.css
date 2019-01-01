@@ -72,3 +72,8 @@
 ul {
     padding: 0px !important;
 }
+
+.btn-profile {
+    background: url('../../../assets/img/elements/load-img.gif');
+    background-size: cover;
+}

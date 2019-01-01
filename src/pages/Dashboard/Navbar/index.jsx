@@ -125,7 +125,7 @@ class index extends Component {
                </Button>
                 
                 <div>
-                    <IconButton color="inherit" className="p-0 mx-3 shadow" aria-label="Add Wallet">
+                    <IconButton color="inherit" className="p-0 mx-3 shadow btn-profile" aria-label="Add Wallet">
                         <img src={data === null ? data : data.avatar} className="rounded-circle cursor-pointer" height="50px" width="50px" alt="" aria-owns={this.state.anchorEl ? 'menu-profile' : null} aria-haspopup="true" onClick={this.handleClick}/>
                     </IconButton>
                     <Menu
