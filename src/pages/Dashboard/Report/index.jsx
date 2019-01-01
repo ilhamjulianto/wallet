@@ -130,11 +130,21 @@ export default class index extends Component {
         return totalTran
     }
 
+    month() {
+          var month = new Date().getMonth() + 1
+          return month < 10 ? '0' + month : '' + month
+    }
+
+    date() {
+          var date = new Date().getDate()
+          return date < 10 ? '0' + date : '' + date
+    }
+
     ambilHariOut = () => {
         const { data } = this.state
         var all = data !== '' ? data.map(datas => datas) : ''
 
-        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`) && parseInt(x.amount) < 0) : ''
+        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${this.month()}-${this.date()}`) && parseInt(x.amount) < 0) : ''
         let hari = Array.isArray(ambilHari) ? ambilHari.map(dat => dat.amount) : '0'
         let totalTran = Array.isArray(hari) && hari.length >= 1 ? this.sumTotal(hari) : '0'
         return totalTran
@@ -144,7 +154,9 @@ export default class index extends Component {
         const { data } = this.state
         var all = data !== '' ? data.map(datas => datas) : ''
 
-        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`) && parseInt(x.amount) > 0) : ''
+        var ambilHari = all !== '' ? all.filter(x => x.date.includes(`${new Date().getFullYear()}-${this.month()}-${this.date()}`) && parseInt(x.amount) > 0) : ''
+        console.log(`${new Date().getFullYear()}-${this.month()}-${this.date()}`)
+        console.log(ambilHari)
         let hari = Array.isArray(ambilHari) ? ambilHari.map(dat => dat.amount) : '0'
         let totalTran = Array.isArray(hari) && hari.length >= 1 ? this.sumTotal(hari) : '0'
         return totalTran
@@ -233,7 +245,7 @@ export default class index extends Component {
 
 // all daily expense
     let dailyOut = this.ambilHariOut()
-    console.clear()
+    // console.clear()
 
     return (
       <div className="dashboard-report">
