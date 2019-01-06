@@ -120,10 +120,8 @@ export default class index extends Component {
                 password: '',
                 password_confirmation: '',
             })
-            console.log(res)
         })
         .catch(err => {
-            console.log(err.response)
             this.setState({
                 error: err.response.data.message,
                 openFail: true,
@@ -148,7 +146,6 @@ export default class index extends Component {
           this.setState({ openSnackErr: false })
       }
   render() {
-      console.log(this.state)
       const { showPassword, showPasswordTwo, name, email, password, password_confirmation, open, openFail, openSuc, openSnackErr, disabled, passwordAlert, confirmPass, loading, error } = this.state
     if(localStorage.getItem('token') === null){
     return (

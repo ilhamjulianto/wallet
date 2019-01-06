@@ -5,7 +5,6 @@ import axios from 'axios'
 import WOW from 'wowjs'
 import { css } from 'react-emotion'
 import { ClipLoader } from 'react-spinners'
-import _ from 'lodash'
 
 const override = css`
     position: absolute;

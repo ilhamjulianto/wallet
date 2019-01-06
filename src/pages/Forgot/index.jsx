@@ -77,7 +77,6 @@ export default class index extends Component {
                     id="email"
                     value={email}
                     onChange={this.handleChange('email')}
-                    required={true}
                     startAdornment={
                         <InputAdornment position="start">
                         <Mail className="text-blue" />
