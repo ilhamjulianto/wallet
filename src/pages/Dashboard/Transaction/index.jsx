@@ -246,7 +246,8 @@ export default class index extends Component {
 
   render() {
       let { data, open, type, category, amount, note, date, user, typeUpdate, categoryUpdate, amountUpdate, noteUpdate, dateUpdate, userUpdate, typeList, categoryList, openDetail, openSuc, openSucUpdate, index, loading, openFail, value } = this.state
-      console.clear()
+      console.log(this.state)
+      // console.clear()
 
     if(data === '' || data === undefined || categoryList === '' || categoryList === undefined) {
     return(
@@ -265,7 +266,9 @@ export default class index extends Component {
         </div>
     )
     }
-    console.clear()
+    // console.clear()
+    console.log(this.state)
+    var newdate = dateUpdate.split("-").reverse().join("-");
     return (
       <div className="dashboard-transaction text-center">
         <div className="py-5">
@@ -556,7 +559,7 @@ export default class index extends Component {
                             type='date'
                             className="w-100 mt-2"
                             label="Date"
-                            value={index === '' ? type : dateUpdate}
+                            value={index === '' ? type : newdate}
                             onChange={this.handleChange('dateUpdate')}
                             id="dateUpdate"
                             InputProps={{
