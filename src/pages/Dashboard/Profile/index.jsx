@@ -142,7 +142,7 @@ class index extends Component {
         loading: false,
         success: false,
         fail: true,
-        error: 'Failed update data',
+        error: 'Failed update Photos',
       })
     })
   }
