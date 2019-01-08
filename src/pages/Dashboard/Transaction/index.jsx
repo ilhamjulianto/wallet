@@ -112,7 +112,11 @@ export default class index extends Component {
 
     handleChange = prop => event => {
         this.setState({ [prop]: event.target.value })
-      }
+    }
+
+    handleChangeDate = prop => event => {
+        this.setState({ [prop]: event.target.value.split("-").reverse().join("-") })
+    }
 
     handleDateChange = (date) => {
         this.setState({ date })
@@ -269,7 +273,7 @@ export default class index extends Component {
     }
     // console.clear()
     console.log(this.state)
-    var newdate = dateUpdate.split("-").reverse().join("-");
+    var newdate = dateUpdate.split("-").reverse().join("-")
     return (
       <div className="dashboard-transaction text-center">
         <div className="py-5">
@@ -561,7 +565,7 @@ export default class index extends Component {
                             className="w-100 mt-2"
                             label="Date"
                             value={index === '' ? type : newdate}
-                            onChange={this.handleChange('dateUpdate')}
+                            onChange={this.handleChangeDate('dateUpdate')}
                             id="dateUpdate"
                             InputProps={{
                             startAdornment: <InputAdornment position="start"><DateIcon className="text-blue"/></InputAdornment>
