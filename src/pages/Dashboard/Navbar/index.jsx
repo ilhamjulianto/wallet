@@ -100,7 +100,7 @@ class index extends Component {
       <div className="dashboard-navbar">
         <div className="container-fluid  navbar text-light py-2">
                <Button color="inherit" className="mr-auto">
-                    <font>Keuangan Pondok</font>
+                    <font>SUPER WALLET</font>
                     {/*<Dialog open={this.state.open} onClose={this.onCloseModal} center>
                         <DialogContent>
                             {this.state.walletList.map((datas, i)=>{
