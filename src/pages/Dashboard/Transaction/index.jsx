@@ -186,12 +186,13 @@ export default class index extends Component {
         this.setState({ loading: true })
 
         const { data, token, url, index } = this.state
+        var newdate = this.state.dateUpdate.split("-").reverse().join("-");
         let datas = {
             'type_id': this.state.typeUpdate,
             'category_id': this.state.categoryUpdate,
             'amount': this.type_id === 2 || this.state.typeUpdate === 2 ? -this.state.amountUpdate : parseInt(this.state.amountUpdate),
             'note': this.state.noteUpdate,
-            'date': this.state.dateUpdate,
+            'date': newdate,
             'user': this.state.userUpdate,
         }
 
