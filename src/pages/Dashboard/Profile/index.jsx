@@ -161,9 +161,9 @@ class index extends Component {
     .then(res => {
       this.setState({
         loading: false,
+        success: true,
       })
       this.getData()
-      this.handleUploadImage()
     })
     .catch(err => {
       this.setState({
@@ -173,6 +173,7 @@ class index extends Component {
         error: 'Failed update data',
       })
     })
+    this.handleUploadImage()
   }
 
   handleChangePassword = (e) => {
