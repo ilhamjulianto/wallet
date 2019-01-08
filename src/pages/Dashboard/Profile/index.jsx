@@ -163,8 +163,9 @@ class index extends Component {
       this.setState({
         loading: false,
         success: true,
+        fail: false,
       })
-      // this.handleUploadImage()
+      this.handleUploadImage()
       this.getData()
     })
     .catch(err => {
