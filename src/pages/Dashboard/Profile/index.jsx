@@ -164,6 +164,7 @@ class index extends Component {
         loading: false,
         success: true,
       })
+      // this.handleUploadImage()
       this.getData()
     })
     .catch(err => {
@@ -174,7 +175,6 @@ class index extends Component {
         error: 'Failed update data',
       })
     })
-    this.handleUploadImage()
   }
 
   handleChangePassword = (e) => {
