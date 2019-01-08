@@ -120,7 +120,7 @@ class index extends Component {
   }
 
   handleUploadImage = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     this.setState({ loading: true, })
 
     const token = localStorage.getItem('token')
@@ -161,9 +161,9 @@ class index extends Component {
     .then(res => {
       this.setState({
         loading: false,
-        success: true,
       })
       this.getData()
+      this.handleUploadImage()
     })
     .catch(err => {
       this.setState({
@@ -279,7 +279,6 @@ class index extends Component {
                     <img className="avatar rounded-circle" src={image} alt=""/>
                     <input className="d-none" type="file" id="avatar" onChange={this.handleImage}/>
                     <label htmlFor="avatar" className="change-photo"><Create/></label>
-                    <label className="send-photo" onClick={this.handleUploadImage}><Done/></label>
                   </div>
                   <form onSubmit={this.handleUpdateProfile}>
                     <TextField
